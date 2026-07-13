@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.2.0...v0.3.0) (2026-07-13)
+
+
+### Features
+
+* add API and Pydantic models documentation, enhance quickstart guide, and implement comprehensive tests ([0276c83](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/0276c8371fd70e80a44e67ac0bb858b9062629f5))
+* implement Applications and Statistics APIs, add Agent communication models ([5008ba6](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/5008ba622cf02db16de543039b1dcbeb3c7dffb1))
+* update README with advanced features examples and enhance API coverage description ([46bca04](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/46bca04a52d1f83d96ba8e154aeaccd61c0e9988))
+
 ## [0.2.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.1.0...v0.2.0) (2026-07-13)
 
 
