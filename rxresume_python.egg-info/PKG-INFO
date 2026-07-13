@@ -18,6 +18,7 @@ Requires-Dist: pytest-asyncio>=0.20.0; extra == "dev"
 Requires-Dist: respx>=0.20.0; extra == "dev"
 Requires-Dist: ruff>=0.1.0; extra == "dev"
 Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Requires-Dist: bandit>=1.7.0; extra == "dev"
 Dynamic: license-file
 
 # Reactive Resume Python SDK (`rxresume-python`)
