@@ -57,4 +57,6 @@ nav:
   - API Reference:
       - Synchronous Client: api-reference/client.md
       - Asynchronous Client: api-reference/async_client.md
+      - Endpoints: api-reference/api.md
+      - Models: api-reference/models.md
       - Exceptions: api-reference/exceptions.md

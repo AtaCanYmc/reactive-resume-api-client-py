@@ -6,13 +6,32 @@ Get up and running with the Reactive Resume Python SDK in under 3 minutes.
 
 ## 🔑 Authentication
 
-Before using the client, you need your Reactive Resume server's URL (e.g., `https://rxresu.me` or your self-hosted URL) and an API Key (obtained from your account settings under the settings page).
+Before using the client, you need:
+1. **Server URL**: (e.g., `https://rxresu.me` or your self-hosted URL instance).
+2. **API Key**: Obtained from the settings page under **Settings -> API Keys** in your Reactive Resume panel.
+
+### Production Environment Best Practices
+
+For security, **never hardcode your credentials**. Load them dynamically using environment variables or a `.env` file helper:
+
+```python
+import os
+from reactive_resume import AsyncRxResumeClient
+
+# Load securely from system environment
+RX_BASE_URL = os.getenv("RXRESUME_BASE_URL", "https://rxresu.me")
+RX_API_KEY = os.getenv("RXRESUME_API_KEY")
+
+if not RX_API_KEY:
+    raise ValueError("RXRESUME_API_KEY environment variable is not configured.")
+```
 
 ---
 
 ## ⚡ Asynchronous Example (FastAPI / Asyncio)
 
 We recommend using the asynchronous client (`AsyncRxResumeClient`) for modern asynchronous applications to prevent blocking operations:
+
 
 ```python
 import asyncio
