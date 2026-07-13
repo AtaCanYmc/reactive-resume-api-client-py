@@ -13,9 +13,11 @@ It supports both synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClie
 ## Features
 
 - **Dual client modes**: Support for both sync and async APIs.
-- **Type safety**: Fully typed models for Resumes, Sections, Basics, and Users using Pydantic V2.
+- **Full API coverage**: Integrated modules for Resume management, Auth, Job Tracker (Applications), AI Agent prompts, AI Providers configurations, Statistics, and Storage uploads.
+- **Type safety**: Fully typed models for all entities using Pydantic V2.
 - **Robust error handling**: Raw API status errors are automatically parsed into specific exceptions (`AuthenticationError`, `NotFoundError`, etc.).
 - **Developer Experience (DX)**: Code-completion ready with clear typing and docstrings.
+
 
 ---
 
@@ -82,7 +84,35 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
         print(f"Resume: {resume.name} (Slug: {resume.slug})")
 ```
 
+### 3. Advanced Features (AI Agent, Storage, Statistics, Applications)
+
+```python
+with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
+    # 1. Ask the AI agent to optimize a resume summary
+    ai_response = client.agent.chat("resume_id_here", "Suggest a professional summary for a software developer.")
+    print(f"AI Suggestion: {ai_response.response}")
+
+    # 2. Upload a profile image to storage
+    with open("avatar.png", "rb") as f:
+        file_metadata = client.storage.upload_file(f.read(), "avatar.png")
+    print(f"Uploaded Image URL: {file_metadata.url}")
+
+    # 3. Retrieve resume metrics
+    stats = client.statistics.get("resume_id_here")
+    print(f"Views: {stats.views}, Downloads: {stats.downloads}")
+
+    # 4. Log a new job application
+    from reactive_resume.models import ApplicationCreate
+    app = client.applications.create(ApplicationCreate(
+        company="Google",
+        position="Senior Backend Engineer",
+        stage="Interviewing"
+    ))
+    print(f"Logged Application ID: {app.id}")
+```
+
 ---
+
 
 ## Error Handling
 
