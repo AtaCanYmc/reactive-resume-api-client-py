@@ -1,0 +1,60 @@
+site_name: Reactive Resume Python SDK
+site_url: https://your-username.github.io/reactive-resume-api-client-py/
+site_author: Ata Can Yaymacı
+site_description: Unofficial type-safe Python API Client (SDK) for Reactive Resume v4
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [.]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+
+nav:
+  - Welcome: index.md
+  - Quickstart: quickstart.md
+  - Guides:
+      - Authentication: guides/auth.md
+      - Resume CRUD: guides/resumes.md
+  - Examples:
+      - FastAPI Integration: examples/fast_api_app.py
+      - Bulk CSV Import: examples/bulk_import.py
+  - API Reference:
+      - Synchronous Client: api-reference/client.md
+      - Asynchronous Client: api-reference/async_client.md
+      - Exceptions: api-reference/exceptions.md

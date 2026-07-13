@@ -21,6 +21,10 @@ Requires-Dist: pre-commit>=3.0.0; extra == "dev"
 Requires-Dist: bandit>=1.7.0; extra == "dev"
 Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
 Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs>=1.5.0; extra == "docs"
+Requires-Dist: mkdocs-material>=9.0.0; extra == "docs"
+Requires-Dist: mkdocstrings[python]>=0.20.0; extra == "docs"
 Dynamic: license-file
 
 # Reactive Resume Python SDK (`rxresume-python`)
