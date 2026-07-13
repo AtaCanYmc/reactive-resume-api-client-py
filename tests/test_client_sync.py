@@ -32,12 +32,12 @@ def test_list_resumes(client):
                 "website": "https://john.me",
                 "location": "Earth",
                 "picture": "",
-                "profiles": []
+                "profiles": [],
             },
-            "sections": {}
+            "sections": {},
         },
         "createdAt": "2026-07-13T12:00:00Z",
-        "updatedAt": "2026-07-13T12:00:00Z"
+        "updatedAt": "2026-07-13T12:00:00Z",
     }
 
     route = respx.get(f"{BASE_URL}/api/openapi/resumes").mock(
@@ -61,7 +61,7 @@ def test_get_resume(client):
         "userId": "user-123",
         "data": {"basics": {}, "sections": {}},
         "createdAt": "2026-07-13T12:00:00Z",
-        "updatedAt": "2026-07-13T12:00:00Z"
+        "updatedAt": "2026-07-13T12:00:00Z",
     }
     route = respx.get(f"{BASE_URL}/api/openapi/resume/resume-1").mock(
         return_value=Response(200, json=mock_resume)
@@ -81,7 +81,7 @@ def test_create_resume(client):
         "userId": "user-123",
         "data": {"basics": {}, "sections": {}},
         "createdAt": "2026-07-13T12:00:00Z",
-        "updatedAt": "2026-07-13T12:00:00Z"
+        "updatedAt": "2026-07-13T12:00:00Z",
     }
     route = respx.post(f"{BASE_URL}/api/openapi/resumes").mock(
         return_value=Response(201, json=mock_resume)

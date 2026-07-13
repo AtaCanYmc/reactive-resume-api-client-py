@@ -148,7 +148,9 @@ class AsyncResumesAPI:
 
     async def update(self, resume_id: str, data: Dict[str, Any]) -> Resume:
         """Update a resume asynchronously."""
-        response = await self._client._request("PATCH", f"/api/openapi/resume/{resume_id}", json=data)
+        response = await self._client._request(
+            "PATCH", f"/api/openapi/resume/{resume_id}", json=data
+        )
         return Resume.model_validate(response)
 
     async def delete(self, resume_id: str) -> None:

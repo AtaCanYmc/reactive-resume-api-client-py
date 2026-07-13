@@ -13,7 +13,12 @@ class User(BaseModel):
     name: str = Field(..., description="Full name of the user")
     username: str = Field(..., description="Username of the user")
     email: EmailStr = Field(..., description="Email address of the user")
-    provider: str = Field("email", description="Authentication provider (e.g., email, github, google)")
-    created_at: datetime = Field(..., alias="createdAt", description="Timestamp when the user was created")
-    updated_at: datetime = Field(..., alias="updatedAt", description="Timestamp when the user was last updated")
-
+    provider: str = Field(
+        "email", description="Authentication provider (e.g., email, github, google)"
+    )
+    created_at: datetime = Field(
+        ..., alias="createdAt", description="Timestamp when the user was created"
+    )
+    updated_at: datetime = Field(
+        ..., alias="updatedAt", description="Timestamp when the user was last updated"
+    )

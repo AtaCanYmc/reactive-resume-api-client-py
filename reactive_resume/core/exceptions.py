@@ -5,11 +5,13 @@ from typing import Optional, Any
 
 class ReactiveResumeError(Exception):
     """Base exception for all Reactive Resume client errors."""
+
     pass
 
 
 class ValidationError(ReactiveResumeError):
     """Raised when request data fails client-side validation."""
+
     pass
 
 
@@ -33,9 +35,11 @@ class ReactiveResumeAPIError(ReactiveResumeError):
 
 class AuthenticationError(ReactiveResumeAPIError):
     """Raised when authentication fails (401/403)."""
+
     pass
 
 
 class NotFoundError(ReactiveResumeAPIError):
     """Raised when a requested resource is not found (404)."""
+
     pass

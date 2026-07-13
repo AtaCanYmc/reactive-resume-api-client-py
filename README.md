@@ -53,16 +53,16 @@ async def main():
             ),
             sections={}
         )
-        
+
         try:
             # Import/Create a new resume
             new_resume = await client.resumes.import_resume(import_data)
             print(f"Created resume: {new_resume.name} (ID: {new_resume.id})")
-            
+
             # Fetch the generated PDF URL
             pdf_url = await client.resumes.get_pdf_url(new_resume.id)
             print(f"PDF URL: {pdf_url}")
-            
+
         except Exception as e:
             print(f"An error occurred: {e}")
 

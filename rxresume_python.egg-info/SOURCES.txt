@@ -1,3 +1,5 @@
+LICENSE
+README.md
 pyproject.toml
 reactive_resume/__init__.py
 reactive_resume/api/__init__.py

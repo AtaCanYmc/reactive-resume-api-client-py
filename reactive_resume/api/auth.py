@@ -22,7 +22,7 @@ class AuthAPI:
         """
         payload = {"identifier": email, "password": password}
         response = self._client._request("POST", "/api/auth/login", json=payload)
-        
+
         # Typically returns token in cookies or response body
         # Let's extract token and user
         token = response.get("token") or response.get("accessToken", "")
@@ -54,7 +54,7 @@ class AsyncAuthAPI:
         """
         payload = {"identifier": email, "password": password}
         response = await self._client._request("POST", "/api/auth/login", json=payload)
-        
+
         token = response.get("token") or response.get("accessToken", "")
         user_data = response.get("user") or response
         user = User.model_validate(user_data)
