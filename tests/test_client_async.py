@@ -266,3 +266,120 @@ async def test_list_resumes_pagination_async(async_client):
     assert len(resumes) == 1
     assert resumes[0].id == "paginated-resume-id"
     assert route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_applications_crud_async(async_client):
+    mock_app = {
+        "id": "app-123",
+        "userId": "user-123",
+        "company": "Google",
+        "position": "Staff Engineer",
+        "stage": "Interviewing",
+        "date": "2026-07-13T12:00:00Z",
+        "summary": "Interviews scheduled",
+        "url": "https://google.com/jobs",
+        "createdAt": "2026-07-13T12:00:00Z",
+        "updatedAt": "2026-07-13T12:00:00Z",
+    }
+
+    # 1. list
+    route_list = respx.get(f"{BASE_URL}/api/openapi/applications").mock(
+        return_value=Response(200, json=[mock_app])
+    )
+    apps = await async_client.applications.list()
+    assert len(apps) == 1
+    assert apps[0].company == "Google"
+    assert route_list.called
+
+    # 2. get
+    route_get = respx.get(f"{BASE_URL}/api/openapi/applications/app-123").mock(
+        return_value=Response(200, json=mock_app)
+    )
+    app = await async_client.applications.get("app-123")
+    assert app.id == "app-123"
+    assert route_get.called
+
+    # 3. create
+    from reactive_resume.models import ApplicationCreate
+
+    route_create = respx.post(f"{BASE_URL}/api/openapi/applications").mock(
+        return_value=Response(201, json=mock_app)
+    )
+    new_app = await async_client.applications.create(
+        ApplicationCreate(company="Google", position="Staff Engineer")
+    )
+    assert new_app.id == "app-123"
+    assert route_create.called
+
+    # 4. update
+    route_patch = respx.patch(f"{BASE_URL}/api/openapi/applications/app-123").mock(
+        return_value=Response(200, json=mock_app)
+    )
+    updated = await async_client.applications.update("app-123", {"stage": "Offered"})
+    assert updated.id == "app-123"
+    assert route_patch.called
+
+    # 5. delete
+    route_delete = respx.delete(f"{BASE_URL}/api/openapi/applications/app-123").mock(
+        return_value=Response(204)
+    )
+    await async_client.applications.delete("app-123")
+    assert route_delete.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_statistics_async(async_client):
+    mock_stats = {"views": 42, "downloads": 7, "history": {}}
+    route = respx.get(f"{BASE_URL}/api/openapi/statistics/resume-1").mock(
+        return_value=Response(200, json=mock_stats)
+    )
+    stats = await async_client.statistics.get("resume-1")
+    assert stats.views == 42
+    assert stats.downloads == 7
+    assert route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_storage_async(async_client):
+    mock_file = {
+        "filename": "cv.pdf",
+        "url": "https://rxresu.me/storage/cv.pdf",
+        "size": 1024,
+        "mimeType": "application/pdf",
+    }
+    route = respx.post(f"{BASE_URL}/api/openapi/storage/upload").mock(
+        return_value=Response(201, json=mock_file)
+    )
+    uploaded = await async_client.storage.upload_file(b"pdf-data", "cv.pdf")
+    assert uploaded.filename == "cv.pdf"
+    assert uploaded.mime_type == "application/pdf"
+    assert route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_agent_chat_async(async_client):
+    mock_response = {"response": "Here is an optimized resume draft."}
+    route = respx.post(f"{BASE_URL}/api/openapi/agent/resume-1/chat").mock(
+        return_value=Response(200, json=mock_response)
+    )
+    response = await async_client.agent.chat("resume-1", "Optimize my summary")
+    assert response.response == "Here is an optimized resume draft."
+    assert route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_ai_providers_async(async_client):
+    mock_providers = [{"name": "openai", "enabled": True}]
+    route = respx.get(f"{BASE_URL}/api/openapi/ai-providers").mock(
+        return_value=Response(200, json=mock_providers)
+    )
+    providers = await async_client.ai_providers.list()
+    assert len(providers) == 1
+    assert providers[0]["name"] == "openai"
+    assert route.called
