@@ -49,6 +49,29 @@ def test_sync_auth_endpoints(sync_client):
     assert me.id == "user-123"
     assert route_me.called
 
+    # providers
+    route_providers = respx.get(f"{BASE_URL}/api/openapi/auth/providers").mock(
+        return_value=Response(200, json=["email", "github"])
+    )
+    providers = sync_client.auth.list_providers()
+    assert "github" in providers
+    assert route_providers.called
+
+    # export
+    route_export = respx.get(f"{BASE_URL}/api/openapi/auth/account/export").mock(
+        return_value=Response(200, json={"user": mock_user})
+    )
+    export_data = sync_client.auth.export_account()
+    assert "user" in export_data
+    assert route_export.called
+
+    # delete
+    route_delete = respx.delete(f"{BASE_URL}/api/openapi/auth/account").mock(
+        return_value=Response(204)
+    )
+    sync_client.auth.delete_account()
+    assert route_delete.called
+
 
 @pytest.mark.asyncio
 @respx.mock
@@ -79,3 +102,26 @@ async def test_async_auth_endpoints(async_client):
     assert isinstance(me, User)
     assert me.id == "user-123"
     assert route_me.called
+
+    # providers
+    route_providers = respx.get(f"{BASE_URL}/api/openapi/auth/providers").mock(
+        return_value=Response(200, json=["email", "github"])
+    )
+    providers = await async_client.auth.list_providers()
+    assert "github" in providers
+    assert route_providers.called
+
+    # export
+    route_export = respx.get(f"{BASE_URL}/api/openapi/auth/account/export").mock(
+        return_value=Response(200, json={"user": mock_user})
+    )
+    export_data = await async_client.auth.export_account()
+    assert "user" in export_data
+    assert route_export.called
+
+    # delete
+    route_delete = respx.delete(f"{BASE_URL}/api/openapi/auth/account").mock(
+        return_value=Response(204)
+    )
+    await async_client.auth.delete_account()
+    assert route_delete.called
