@@ -18,32 +18,12 @@ client = RxResumeClient(base_url="https://rxresu.me", api_key="rx_api_key_xxx")
 ```
 
 ### 2. Bearer Token (JWT) Authentication
-If you are integrating authentication flows (e.g., login with email/password), you can initialize the client using a JWT token:
+If you already have a JWT token from your session, you can initialize the client using a JWT token:
 
 ```python
 from reactive_resume import RxResumeClient
 
 client = RxResumeClient(base_url="https://rxresu.me", token="eyJhbGciOi...")
-```
-
----
-
-## 🔒 Session Management (Login Flow)
-
-You can programmatically authenticate using email and password, retrieve the JWT, and dynamically configure the client session:
-
-```python
-from reactive_resume import RxResumeClient
-
-# 1. Initialize empty client
-client = RxResumeClient(base_url="https://rxresu.me")
-
-# 2. Login programmatically
-token, user = client.auth.login(email="user@example.com", password="password123")
-print(f"Logged in as: {user.name}")
-
-# 3. Dynamic header updating
-client.set_token(token)
 ```
 
 ---

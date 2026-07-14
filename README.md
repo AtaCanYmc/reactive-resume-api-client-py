@@ -13,7 +13,7 @@ It supports both synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClie
 ## Features
 
 - **Dual client modes**: Support for both sync and async APIs.
-- **Full API coverage**: Integrated modules for Resume management, Auth, AI Agent prompts, AI Providers configurations, Statistics, and Feature Flags.
+- **Full API coverage**: Integrated modules for Resume management, Job Applications tracking, AI Agent, AI Providers configurations, Global Statistics, and Feature Flags.
 - **Type safety**: Fully typed models for all entities using Pydantic V2.
 - **Robust error handling**: Raw API status errors are automatically parsed into specific exceptions (`AuthenticationError`, `NotFoundError`, etc.).
 - **Developer Experience (DX)**: Code-completion ready with clear typing and docstrings.
@@ -35,6 +35,7 @@ graph TD
         SyncClient --> AIProviders[ai_providers]
         SyncClient --> Flags[flags]
         SyncClient --> AI[ai]
+        SyncClient --> Applications[applications]
     end
 
     Auth -->|HTTP/REST Calls| Backend[Reactive Resume v4 API Backend]
@@ -44,6 +45,7 @@ graph TD
     AIProviders -->|HTTP/REST Calls| Backend
     Flags -->|HTTP/REST Calls| Backend
     AI -->|HTTP/REST Calls| Backend
+    Applications -->|HTTP/REST Calls| Backend
 ```
 
 ---
@@ -52,10 +54,11 @@ graph TD
 
 | Service Module | Sync | Async | Key Mapped Endpoints (Postman Collection) |
 | :--- | :---: | :---: | :--- |
-| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Set/Verify/Remove Password, Duplicate, Lock, Version History, Public Resume |
-| **Auth** (`client.auth`) | Yes | Yes | Login, Get Me, List Providers, Export Account, Delete Account |
-| **Statistics** (`client.statistics`) | Yes | Yes | Get Statistics, Get Daily Statistics |
-| **Agent** (`client.agent`) | Yes | Yes | Chat Context, List Threads, Get Thread Details |
+| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Download PDF, Set/Verify/Remove Password, Duplicate, Lock, Version History, Public Resume, Statistics |
+| **Applications** (`client.applications`) | Yes | Yes | List, Get, Create, Delete, List Tags, Pipeline Stats, Bulk Import |
+| **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
+| **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count (Global Stats) |
+| **Agent** (`client.agent`) | Yes | Yes | List Threads, Create/Get/Delete Threads, Send Message, Stop Active Run, Resume Message Stream, Create/Delete Attachment, Revert Action |
 | **AI Providers** (`client.ai_providers`) | Yes | Yes | List, Create, Update, Delete, Test saved AI providers |
 | **AI Functions** (`client.ai`) | Yes | Yes | Parse PDF, Parse DOCX, Chat, Analyze Resume |
 | **Feature Flags** (`client.flags`) | Yes | Yes | List Server-side Feature Flags |
@@ -101,9 +104,9 @@ async def main():
             new_resume = await client.resumes.import_resume(import_data)
             print(f"Created resume: {new_resume.name} (ID: {new_resume.id})")
 
-            # Fetch the generated PDF URL
-            pdf_url = await client.resumes.get_pdf_url(new_resume.id)
-            print(f"PDF URL: {pdf_url}")
+            # Download the compiled PDF bytes
+            pdf_bytes = await client.resumes.download_pdf(new_resume.id)
+            print(f"Downloaded PDF: {len(pdf_bytes)} bytes")
 
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -116,7 +119,6 @@ if __name__ == "__main__":
 
 ```python
 from reactive_resume import RxResumeClient
-from reactive_resume.models import ResumeImportData
 
 with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
     resumes = client.resumes.list()
@@ -124,26 +126,27 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
         print(f"Resume: {resume.name} (Slug: {resume.slug})")
 ```
 
-### 3. Advanced Features (AI Agent, Statistics, Flags, AI)
+### 3. Advanced Features (AI Agent, Statistics, Applications)
 
 ```python
 with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
-    # 1. Ask the AI agent to optimize a resume summary
-    ai_response = client.agent.chat("resume_id_here", "Suggest a professional summary for a software developer.")
-    print(f"AI Suggestion: {ai_response.response}")
+    # 1. Start a new AI Agent thread and send a message
+    thread = client.agent.create_thread()
+    response = client.agent.send_message(thread["id"], "Suggest a professional summary for a software developer.")
+    print(f"AI Suggestion: {response}")
 
-    # 2. Retrieve resume metrics
-    stats = client.statistics.get("resume_id_here")
-    print(f"Views: {stats.views}, Downloads: {stats.downloads}")
+    # 2. Retrieve global resume platform metrics
+    users_count = client.statistics.get_users_count()
+    print(f"Platform Users: {users_count}")
 
-    # 3. Parse a PDF resume into raw resume data
-    parsed_cv = client.ai.parse_pdf("my_resume.pdf", "base64_encoded_file_data_here", "ai_provider_id_here")
-    print(f"Parsed Name: {parsed_cv.get('basics', {}).get('name')}")
+    # 3. List job applications
+    apps = client.applications.list()
+    for app in apps:
+        print(f"Job application: {app.company} - {app.position} ({app.stage})")
 
     # 4. Check server-side feature flags
     flags = client.flags.list()
     print(f"Signups disabled: {flags.get('isSignupsDisabled')}")
-
 ```
 
 

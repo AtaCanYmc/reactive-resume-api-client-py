@@ -4,6 +4,27 @@ This section details all feature-based API endpoints mapped within the client.
 
 ---
 
+## Resumes
+
+::: reactive_resume.api.resumes.ResumesAPI
+::: reactive_resume.api.resumes.AsyncResumesAPI
+
+---
+
+## Job Applications
+
+::: reactive_resume.api.applications.ApplicationsAPI
+::: reactive_resume.api.applications.AsyncApplicationsAPI
+
+---
+
+## Authentication
+
+::: reactive_resume.api.auth.AuthAPI
+::: reactive_resume.api.auth.AsyncAuthAPI
+
+---
+
 ## AI Assistant (Agent)
 
 ::: reactive_resume.api.agent.AgentAPI
