@@ -16,6 +16,7 @@ from ..api.agent import AgentAPI
 from ..api.ai_providers import AiProvidersAPI
 from ..api.flags import FlagsAPI
 from ..api.ai import AIAPI
+from ..api.applications import ApplicationsAPI
 
 
 class RxResumeClient:
@@ -66,6 +67,7 @@ class RxResumeClient:
         self.ai_providers = AiProvidersAPI(self)
         self.flags = FlagsAPI(self)
         self.ai = AIAPI(self)
+        self.applications = ApplicationsAPI(self)
 
     def set_token(self, token: str) -> None:
         """Update client headers with a new Bearer token."""

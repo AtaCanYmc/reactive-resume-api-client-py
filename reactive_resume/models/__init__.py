@@ -25,7 +25,7 @@ from .resume import (
 )
 
 from .statistics import ResumeStats
-from .agent import AgentRequest, AgentResponse
+from .application import Application, ApplicationCreate
 
 __all__ = [
     "User",
@@ -50,6 +50,6 @@ __all__ = [
     "Resume",
     "ResumeImportData",
     "ResumeStats",
-    "AgentRequest",
-    "AgentResponse",
+    "Application",
+    "ApplicationCreate",
 ]

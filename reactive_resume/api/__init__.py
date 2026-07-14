@@ -7,6 +7,7 @@ from .agent import AgentAPI, AsyncAgentAPI
 from .ai_providers import AiProvidersAPI, AsyncAiProvidersAPI
 from .flags import FlagsAPI, AsyncFlagsAPI
 from .ai import AIAPI, AsyncAIAPI
+from .applications import ApplicationsAPI, AsyncApplicationsAPI
 
 __all__ = [
     "AuthAPI",
@@ -23,4 +24,6 @@ __all__ = [
     "AsyncFlagsAPI",
     "AIAPI",
     "AsyncAIAPI",
+    "ApplicationsAPI",
+    "AsyncApplicationsAPI",
 ]

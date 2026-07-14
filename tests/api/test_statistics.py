@@ -2,7 +2,6 @@ import pytest
 import respx
 from httpx import Response
 from reactive_resume import RxResumeClient, AsyncRxResumeClient
-from reactive_resume.models import ResumeStats
 
 BASE_URL = "https://rxresu.me"
 API_KEY = "test-api-key"
@@ -21,41 +20,43 @@ async def async_client():
 
 
 @respx.mock
-def test_sync_statistics(sync_client):
-    mock_stats = {"views": 100, "downloads": 25, "history": {}}
-    route = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
-        return_value=Response(200, json=mock_stats)
+def test_sync_global_statistics(sync_client):
+    respx.get(f"{BASE_URL}/api/openapi/statistics/users").mock(
+        return_value=Response(200, json={"count": 100})
     )
-    stats = sync_client.statistics.get("resume-123")
-    assert isinstance(stats, ResumeStats)
-    assert stats.views == 100
-    assert stats.downloads == 25
-    assert route.called
+    respx.get(f"{BASE_URL}/api/openapi/statistics/github/stars").mock(
+        return_value=Response(200, json={"stars": 5000})
+    )
+    respx.get(f"{BASE_URL}/api/openapi/statistics/resumes").mock(
+        return_value=Response(200, json={"count": 250})
+    )
 
-    route_daily = respx.get(
-        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
-    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1}))
-    daily = sync_client.statistics.get_daily("resume-123", 30)
-    assert daily.views == 5
-    assert route_daily.called
+    users = sync_client.statistics.get_users_count()
+    stars = sync_client.statistics.get_github_stars()
+    resumes = sync_client.statistics.get_resumes_count()
+
+    assert users == {"count": 100}
+    assert stars == {"stars": 5000}
+    assert resumes == {"count": 250}
 
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_async_statistics(async_client):
-    mock_stats = {"views": 100, "downloads": 25, "history": {}}
-    route = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
-        return_value=Response(200, json=mock_stats)
+async def test_async_global_statistics(async_client):
+    respx.get(f"{BASE_URL}/api/openapi/statistics/users").mock(
+        return_value=Response(200, json={"count": 100})
     )
-    stats = await async_client.statistics.get("resume-123")
-    assert isinstance(stats, ResumeStats)
-    assert stats.views == 100
-    assert stats.downloads == 25
-    assert route.called
+    respx.get(f"{BASE_URL}/api/openapi/statistics/github/stars").mock(
+        return_value=Response(200, json={"stars": 5000})
+    )
+    respx.get(f"{BASE_URL}/api/openapi/statistics/resumes").mock(
+        return_value=Response(200, json={"count": 250})
+    )
 
-    route_daily = respx.get(
-        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
-    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1}))
-    daily = await async_client.statistics.get_daily("resume-123", 30)
-    assert daily.views == 5
-    assert route_daily.called
+    users = await async_client.statistics.get_users_count()
+    stars = await async_client.statistics.get_github_stars()
+    resumes = await async_client.statistics.get_resumes_count()
+
+    assert users == {"count": 100}
+    assert stars == {"stars": 5000}
+    assert resumes == {"count": 250}

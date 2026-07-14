@@ -2,7 +2,7 @@ import pytest
 import respx
 from httpx import Response
 from reactive_resume import RxResumeClient, AsyncRxResumeClient
-from reactive_resume.models import ResumeImportData
+from reactive_resume.models import ResumeImportData, ResumeStats
 
 BASE_URL = "https://rxresu.me"
 API_KEY = "test-api-key"
@@ -179,6 +179,32 @@ def test_sync_resume_crud(sync_client):
     sync_client.resumes.lock("resume-123", True)
     assert route_lock.called
 
+    # 14. download pdf
+    route_pdf = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/pdf").mock(
+        return_value=Response(200, content=b"pdf-content")
+    )
+    pdf = sync_client.resumes.download_pdf("resume-123")
+    assert pdf == b"pdf-content"
+    assert route_pdf.called
+
+    # 15. get statistics
+    route_stats = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
+        return_value=Response(200, json={"views": 10, "downloads": 2, "history": {}})
+    )
+    stats = sync_client.resumes.get_statistics("resume-123")
+    assert isinstance(stats, ResumeStats)
+    assert stats.views == 10
+    assert route_stats.called
+
+    # 16. get daily statistics
+    route_daily = respx.get(
+        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
+    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1, "history": {}}))
+    daily = sync_client.resumes.get_daily_statistics("resume-123", 30)
+    assert isinstance(daily, ResumeStats)
+    assert daily.views == 5
+    assert route_daily.called
+
 
 @pytest.mark.asyncio
 @respx.mock
@@ -314,3 +340,29 @@ async def test_async_resume_crud(async_client):
     )
     await async_client.resumes.lock("resume-123", True)
     assert route_lock.called
+
+    # 14. download pdf
+    route_pdf = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/pdf").mock(
+        return_value=Response(200, content=b"pdf-content")
+    )
+    pdf = await async_client.resumes.download_pdf("resume-123")
+    assert pdf == b"pdf-content"
+    assert route_pdf.called
+
+    # 15. get statistics
+    route_stats = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
+        return_value=Response(200, json={"views": 10, "downloads": 2, "history": {}})
+    )
+    stats = await async_client.resumes.get_statistics("resume-123")
+    assert isinstance(stats, ResumeStats)
+    assert stats.views == 10
+    assert route_stats.called
+
+    # 16. get daily statistics
+    route_daily = respx.get(
+        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
+    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1, "history": {}}))
+    daily = await async_client.resumes.get_daily_statistics("resume-123", 30)
+    assert isinstance(daily, ResumeStats)
+    assert daily.views == 5
+    assert route_daily.called

@@ -16,6 +16,7 @@ from ..api.agent import AsyncAgentAPI
 from ..api.ai_providers import AsyncAiProvidersAPI
 from ..api.flags import AsyncFlagsAPI
 from ..api.ai import AsyncAIAPI
+from ..api.applications import AsyncApplicationsAPI
 
 
 class AsyncRxResumeClient:
@@ -66,6 +67,7 @@ class AsyncRxResumeClient:
         self.ai_providers = AsyncAiProvidersAPI(self)
         self.flags = AsyncFlagsAPI(self)
         self.ai = AsyncAIAPI(self)
+        self.applications = AsyncApplicationsAPI(self)
 
     def set_token(self, token: str) -> None:
         """Update client headers with a new Bearer token."""

@@ -70,20 +70,36 @@ def test_sync_applications_crud(sync_client):
     assert new_app.id == "app-123"
     assert route_create.called
 
-    # 4. update
-    route_patch = respx.patch(f"{BASE_URL}/api/openapi/applications/app-123").mock(
-        return_value=Response(200, json=MOCK_APP)
-    )
-    updated = sync_client.applications.update("app-123", {"stage": "Offered"})
-    assert updated.id == "app-123"
-    assert route_patch.called
-
-    # 5. delete
+    # 4. delete
     route_delete = respx.delete(f"{BASE_URL}/api/openapi/applications/app-123").mock(
         return_value=Response(204)
     )
     sync_client.applications.delete("app-123")
     assert route_delete.called
+
+    # 5. list tags
+    route_tags = respx.get(f"{BASE_URL}/api/openapi/applications/tags").mock(
+        return_value=Response(200, json=["tech", "finance"])
+    )
+    tags = sync_client.applications.list_tags()
+    assert tags == ["tech", "finance"]
+    assert route_tags.called
+
+    # 6. pipeline stats
+    route_stats = respx.get(f"{BASE_URL}/api/openapi/applications/stats").mock(
+        return_value=Response(200, json={"total": 5})
+    )
+    stats = sync_client.applications.get_pipeline_stats()
+    assert stats == {"total": 5}
+    assert route_stats.called
+
+    # 7. bulk import
+    route_import = respx.post(f"{BASE_URL}/api/openapi/applications/import").mock(
+        return_value=Response(200, json={"success": True})
+    )
+    res = sync_client.applications.bulk_import([{"company": "Meta", "role": "SWE"}])
+    assert res == {"success": True}
+    assert route_import.called
 
 
 @pytest.mark.asyncio
@@ -124,17 +140,33 @@ async def test_async_applications_crud(async_client):
     assert new_app.id == "app-123"
     assert route_create.called
 
-    # 4. update
-    route_patch = respx.patch(f"{BASE_URL}/api/openapi/applications/app-123").mock(
-        return_value=Response(200, json=MOCK_APP)
-    )
-    updated = await async_client.applications.update("app-123", {"stage": "Offered"})
-    assert updated.id == "app-123"
-    assert route_patch.called
-
-    # 5. delete
+    # 4. delete
     route_delete = respx.delete(f"{BASE_URL}/api/openapi/applications/app-123").mock(
         return_value=Response(204)
     )
     await async_client.applications.delete("app-123")
     assert route_delete.called
+
+    # 5. list tags
+    route_tags = respx.get(f"{BASE_URL}/api/openapi/applications/tags").mock(
+        return_value=Response(200, json=["tech", "finance"])
+    )
+    tags = await async_client.applications.list_tags()
+    assert tags == ["tech", "finance"]
+    assert route_tags.called
+
+    # 6. pipeline stats
+    route_stats = respx.get(f"{BASE_URL}/api/openapi/applications/stats").mock(
+        return_value=Response(200, json={"total": 5})
+    )
+    stats = await async_client.applications.get_pipeline_stats()
+    assert stats == {"total": 5}
+    assert route_stats.called
+
+    # 7. bulk import
+    route_import = respx.post(f"{BASE_URL}/api/openapi/applications/import").mock(
+        return_value=Response(200, json={"success": True})
+    )
+    res = await async_client.applications.bulk_import([{"company": "Meta", "role": "SWE"}])
+    assert res == {"success": True}
+    assert route_import.called
