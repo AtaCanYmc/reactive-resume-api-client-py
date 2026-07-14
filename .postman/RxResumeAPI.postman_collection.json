@@ -1,0 +1,962 @@
+{
+  "info": {
+    "_postman_id": "280afa27-23b0-4300-b77c-1c6ac21efe1e",
+    "name": "RxResume API",
+    "description": "This collection contains the core API requests for RxResume, covering resume management, authentication-related account operations, feature flags, AI-powered resume processing, AI provider management, and agent thread retrieval.\n\nThe collection is organized into the following functional areas:\n\n- Resume: Create, list, retrieve, update, patch, duplicate, delete, and import resumes, as well as download PDFs, manage resume passwords, access public resumes, review version history, check lock status, and retrieve resume analytics and statistics.\n    \n- Flags: Retrieve available feature flags.\n    \n- Auth: List authentication providers and manage user account export and deletion.\n    \n- AI Provider: List, create, update, test, and delete saved AI providers.\n    \n- AI: Parse PDF and DOCX files into resume data, chat with AI to modify resumes, and analyze resumes while persisting the latest analysis.\n    \n- Agent: Retrieve agent threads and fetch thread details by ID.\n    \n\nCollection-level authentication is configured with an API key header, making the collection suitable for testing secured RxResume backend endpoints consistently across requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27213095"
+  },
+  "item": [
+    {
+      "name": "resume",
+      "item": [
+        {
+          "name": "list",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "new",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"new\",\n    \"slug\": \"new\",\n    \"tags\": [\n        \"new\"\n    ],\n    \"withSampleData\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/tags",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                "tags"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"slug\": \"<string>\",\n    \"tags\": [\n        \"<string>\"\n    ],\n    \"isPublic\": true,\n    \"isLocked\": true,\n    \"data\": {\n        \"picture\": {\n            \"hidden\": true,\n            \"url\": \"<string>\",\n            \"size\": 272,\n            \"rotation\": 180,\n            \"aspectRatio\": 1.5,\n            \"borderRadius\": 50,\n            \"borderColor\": \"<string>\",\n            \"borderWidth\": 1,\n            \"shadowColor\": \"<string>\",\n            \"shadowWidth\": 1\n        },\n        \"basics\": {\n            \"name\": \"<string>\",\n            \"headline\": \"<string>\",\n            \"email\": \"<string>\",\n            \"phone\": \"<string>\",\n            \"location\": \"<string>\",\n            \"website\": {\n                \"url\": \"<string>\",\n                \"label\": \"<string>\"\n            },\n            \"customFields\": [\n                {\n                    \"id\": \"<string>\",\n                    \"icon\": \"<string>\",\n                    \"text\": \"<string>\",\n                    \"link\": \"<string>\"\n                }\n            ]\n        },\n        \"summary\": {\n            \"title\": \"<string>\",\n            \"icon\": \"<string>\",\n            \"columns\": 3,\n            \"hidden\": true,\n            \"keepTogether\": true,\n            \"startOnNewPage\": true,\n            \"content\": \"<string>\"\n        },\n        \"sections\": {\n            \"profiles\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"network\": \"<string>\",\n                        \"username\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        }\n                    }\n                ]\n            },\n            \"experience\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"company\": \"<string>\",\n                        \"position\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\",\n                        \"roles\": [\n                            {\n                                \"id\": \"<string>\",\n                                \"position\": \"<string>\",\n                                \"period\": \"<string>\",\n                                \"description\": \"<string>\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            \"education\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"school\": \"<string>\",\n                        \"degree\": \"<string>\",\n                        \"area\": \"<string>\",\n                        \"grade\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"projects\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"name\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"skills\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"name\": \"<string>\",\n                        \"proficiency\": \"<string>\",\n                        \"level\": 2.5,\n                        \"keywords\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"languages\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"language\": \"<string>\",\n                        \"fluency\": \"<string>\",\n                        \"level\": 2.5\n                    }\n                ]\n            },\n            \"interests\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"name\": \"<string>\",\n                        \"keywords\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"awards\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"awarder\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"certifications\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"issuer\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"publications\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"publisher\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"volunteer\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"organization\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"references\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"name\": \"<string>\",\n                        \"position\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"phone\": \"<string>\",\n                        \"description\": \"<string>\"\n                    }\n                ]\n            }\n        },\n        \"customSections\": [\n            {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"id\": \"<string>\",\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"recipient\": \"<string>\",\n                        \"content\": \"<string>\"\n                    }\n                ]\n            }\n        ],\n        \"metadata\": {\n            \"layout\": {\n                \"sidebarWidth\": 30,\n                \"pages\": [\n                    {\n                        \"fullWidth\": true,\n                        \"main\": [\n                            \"<string>\"\n                        ],\n                        \"sidebar\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"page\": {\n                \"gapX\": 1,\n                \"gapY\": 1,\n                \"marginX\": 1,\n                \"marginY\": 1,\n                \"locale\": \"<string>\",\n                \"hideLinkUnderline\": true,\n                \"hideIcons\": true,\n                \"hideSectionIcons\": true\n            },\n            \"design\": {\n                \"level\": {\n                    \"icon\": \"<string>\"\n                },\n                \"colors\": {\n                    \"primary\": \"<string>\",\n                    \"text\": \"<string>\",\n                    \"background\": \"<string>\"\n                }\n            },\n            \"typography\": {\n                \"body\": {\n                    \"fontFamily\": \"<string>\",\n                    \"fontWeights\": [],\n                    \"fontSize\": 15,\n                    \"lineHeight\": 2.25\n                },\n                \"heading\": {\n                    \"fontFamily\": \"<string>\",\n                    \"fontWeights\": [],\n                    \"fontSize\": 15,\n                    \"lineHeight\": 2.25\n                }\n            },\n            \"notes\": \"<string>\",\n            \"styleRules\": [\n                {\n                    \"id\": \"<string>\",\n                    \"label\": \"<string>\",\n                    \"enabled\": true,\n                    \"target\": {\n                        \"scope\": \"<unknown>\"\n                    },\n                    \"slots\": {}\n                }\n            ]\n        }\n    },\n    \"updatedAt\": \"2023-11-07T05:31:56Z\",\n    \"hasPassword\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "download pdf",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/pdf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "pdf"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "import",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"data\": {\n        \"picture\": {\n            \"hidden\": true,\n            \"url\": \"<string>\",\n            \"size\": 272,\n            \"rotation\": 180,\n            \"aspectRatio\": 1.5,\n            \"borderRadius\": 50,\n            \"borderColor\": \"<string>\",\n            \"borderWidth\": 1,\n            \"shadowColor\": \"<string>\",\n            \"shadowWidth\": 1\n        },\n        \"basics\": {\n            \"name\": \"<string>\",\n            \"headline\": \"<string>\",\n            \"email\": \"<string>\",\n            \"phone\": \"<string>\",\n            \"location\": \"<string>\",\n            \"website\": {\n                \"url\": \"<string>\",\n                \"label\": \"<string>\"\n            },\n            \"customFields\": [\n                {\n                    \"id\": \"<string>\",\n                    \"icon\": \"<string>\",\n                    \"text\": \"<string>\",\n                    \"link\": \"<string>\"\n                }\n            ]\n        },\n        \"summary\": {\n            \"title\": \"<string>\",\n            \"icon\": \"<string>\",\n            \"columns\": 3,\n            \"hidden\": true,\n            \"keepTogether\": true,\n            \"startOnNewPage\": true,\n            \"content\": \"<string>\"\n        },\n        \"sections\": {\n            \"profiles\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"network\": \"<string>\",\n                        \"username\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        }\n                    }\n                ]\n            },\n            \"experience\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"company\": \"<string>\",\n                        \"position\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\",\n                        \"roles\": [\n                            {\n                                \"id\": \"<string>\",\n                                \"position\": \"<string>\",\n                                \"period\": \"<string>\",\n                                \"description\": \"<string>\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            \"education\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"school\": \"<string>\",\n                        \"degree\": \"<string>\",\n                        \"area\": \"<string>\",\n                        \"grade\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"projects\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"name\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"skills\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"name\": \"<string>\",\n                        \"proficiency\": \"<string>\",\n                        \"level\": 2.5,\n                        \"keywords\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"languages\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"language\": \"<string>\",\n                        \"fluency\": \"<string>\",\n                        \"level\": 2.5\n                    }\n                ]\n            },\n            \"interests\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"icon\": \"<string>\",\n                        \"iconColor\": \"<string>\",\n                        \"name\": \"<string>\",\n                        \"keywords\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"awards\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"awarder\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"certifications\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"issuer\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"publications\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"title\": \"<string>\",\n                        \"publisher\": \"<string>\",\n                        \"date\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"volunteer\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"organization\": \"<string>\",\n                        \"location\": \"<string>\",\n                        \"period\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"description\": \"<string>\"\n                    }\n                ]\n            },\n            \"references\": {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"name\": \"<string>\",\n                        \"position\": \"<string>\",\n                        \"website\": {\n                            \"url\": \"<string>\",\n                            \"label\": \"<string>\",\n                            \"inlineLink\": true\n                        },\n                        \"phone\": \"<string>\",\n                        \"description\": \"<string>\"\n                    }\n                ]\n            }\n        },\n        \"customSections\": [\n            {\n                \"title\": \"<string>\",\n                \"icon\": \"<string>\",\n                \"columns\": 3,\n                \"hidden\": true,\n                \"keepTogether\": true,\n                \"startOnNewPage\": true,\n                \"id\": \"<string>\",\n                \"items\": [\n                    {\n                        \"id\": \"<string>\",\n                        \"hidden\": true,\n                        \"recipient\": \"<string>\",\n                        \"content\": \"<string>\"\n                    }\n                ]\n            }\n        ],\n        \"metadata\": {\n            \"layout\": {\n                \"sidebarWidth\": 30,\n                \"pages\": [\n                    {\n                        \"fullWidth\": true,\n                        \"main\": [\n                            \"<string>\"\n                        ],\n                        \"sidebar\": [\n                            \"<string>\"\n                        ]\n                    }\n                ]\n            },\n            \"page\": {\n                \"gapX\": 1,\n                \"gapY\": 1,\n                \"marginX\": 1,\n                \"marginY\": 1,\n                \"locale\": \"<string>\",\n                \"hideLinkUnderline\": true,\n                \"hideIcons\": true,\n                \"hideSectionIcons\": true\n            },\n            \"design\": {\n                \"level\": {\n                    \"icon\": \"<string>\"\n                },\n                \"colors\": {\n                    \"primary\": \"<string>\",\n                    \"text\": \"<string>\",\n                    \"background\": \"<string>\"\n                }\n            },\n            \"typography\": {\n                \"body\": {\n                    \"fontFamily\": \"<string>\",\n                    \"fontWeights\": [],\n                    \"fontSize\": 15,\n                    \"lineHeight\": 2.25\n                },\n                \"heading\": {\n                    \"fontFamily\": \"<string>\",\n                    \"fontWeights\": [],\n                    \"fontSize\": 15,\n                    \"lineHeight\": 2.25\n                }\n            },\n            \"notes\": \"<string>\",\n            \"styleRules\": [\n                {\n                    \"id\": \"<string>\",\n                    \"label\": \"<string>\",\n                    \"enabled\": true,\n                    \"target\": {\n                        \"scope\": \"<unknown>\"\n                    },\n                    \"slots\": {}\n                }\n            ]\n        }\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/import",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                "import"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "set resume password",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"pass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "password"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove resume password",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "password"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "verify resume password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"pass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "password"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "public resume by username and slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:username/:slug",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":username",
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "username",
+                  "value": ""
+                },
+                {
+                  "key": "slug",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "latest resume analysis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/analysis",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "analysis"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resume statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/statistics",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "statistics"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resume daily statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/statistics/daily?day=30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "statistics",
+                "daily"
+              ],
+              "query": [
+                {
+                  "key": "day",
+                  "value": "30",
+                  "type": "text"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resume version history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/versions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "versions"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "019e2339-8f1a-71e1-8d50-65bf05687048"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "duplicate a resume",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"<string>\",\n    \"slug\": \"<string>\",\n    \"tags\": [\n        \"<string>\"\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/duplicate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "duplicate"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch resume data",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"operations\": [\n        {\n            \"op\": \"<unknown>\",\n            \"path\": \"<string>\",\n            \"value\": \"<unknown>\"\n        }\n    ],\n    \"expectedUpdatedAt\": \"2023-11-07T05:31:56Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resume lock status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"isLocked\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/resumes/:id/lock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resumes",
+                ":id",
+                "lock"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "flags",
+      "item": [
+        {
+          "name": "list",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/flags",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "flags"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "list authentication providers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/providers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "providers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "export user account data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/account/export",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "account",
+                "export"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete user account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/account",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "account"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ai provider",
+      "item": [
+        {
+          "name": "list",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ai-providers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai-providers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create ai providers",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"label\": \"<string>\",\n    \"model\": \"<string>\",\n    \"apiKey\": \"<string>\",\n    \"baseURL\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/ai-providers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai-providers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete ai-provider",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"label\": \"<string>\",\n    \"model\": \"<string>\",\n    \"apiKey\": \"<string>\",\n    \"baseURL\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/ai-providers/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai-providers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "test saved AI provider",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ai-providers/:id/test",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai-providers",
+                ":id",
+                "test"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update saved AI provider",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"label\": \"<string>\",\n    \"model\": \"<string>\",\n    \"baseURL\": \"\",\n    \"apiKey\": \"<string>\",\n    \"enabled\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/ai-providers/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai-providers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "item": [
+        {
+          "name": "parse a PDF file into resume data",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"file\": {\n        \"name\": \"<string>\",\n        \"data\": \"<string>\"\n    },\n    \"aiProviderId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/ai/parse-pdf",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai",
+                "parse-pdf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "parse a DOCX file into resume data",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"file\": {\n        \"name\": \"<string>\",\n        \"data\": \"<string>\"\n    },\n    \"aiProviderId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/ai/parse-docx",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai",
+                "parse-docx"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "chat with AI to modify resume",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ai/chat",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai",
+                "chat"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "analyze resume and persist latest analysis",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"resumeId\": \"<string>\",\n    \"aiProviderId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/ai/analyze-resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ai",
+                "analyze-resume"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "item": [
+        {
+          "name": "list agent threads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/threads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "agent thread by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/threads/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "{{auth_secret_0orj}}",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "api_key",
+      "value": ""
+    },
+    {
+      "key": "auth_secret_0orj",
+      "secret": true
+    }
+  ]
+}

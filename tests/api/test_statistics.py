@@ -23,7 +23,7 @@ async def async_client():
 @respx.mock
 def test_sync_statistics(sync_client):
     mock_stats = {"views": 100, "downloads": 25, "history": {}}
-    route = respx.get(f"{BASE_URL}/api/openapi/statistics/resume-123").mock(
+    route = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
         return_value=Response(200, json=mock_stats)
     )
     stats = sync_client.statistics.get("resume-123")
@@ -32,12 +32,19 @@ def test_sync_statistics(sync_client):
     assert stats.downloads == 25
     assert route.called
 
+    route_daily = respx.get(
+        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
+    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1}))
+    daily = sync_client.statistics.get_daily("resume-123", 30)
+    assert daily.views == 5
+    assert route_daily.called
+
 
 @pytest.mark.asyncio
 @respx.mock
 async def test_async_statistics(async_client):
     mock_stats = {"views": 100, "downloads": 25, "history": {}}
-    route = respx.get(f"{BASE_URL}/api/openapi/statistics/resume-123").mock(
+    route = respx.get(f"{BASE_URL}/api/openapi/resumes/resume-123/statistics").mock(
         return_value=Response(200, json=mock_stats)
     )
     stats = await async_client.statistics.get("resume-123")
@@ -45,3 +52,10 @@ async def test_async_statistics(async_client):
     assert stats.views == 100
     assert stats.downloads == 25
     assert route.called
+
+    route_daily = respx.get(
+        f"{BASE_URL}/api/openapi/resumes/resume-123/statistics/daily?day=30"
+    ).mock(return_value=Response(200, json={"views": 5, "downloads": 1}))
+    daily = await async_client.statistics.get_daily("resume-123", 30)
+    assert daily.views == 5
+    assert route_daily.called

@@ -16,6 +16,8 @@ from ..api.statistics import AsyncStatisticsAPI
 from ..api.storage import AsyncStorageAPI
 from ..api.agent import AsyncAgentAPI
 from ..api.ai_providers import AsyncAiProvidersAPI
+from ..api.flags import AsyncFlagsAPI
+from ..api.ai import AsyncAIAPI
 
 
 class AsyncRxResumeClient:
@@ -59,7 +61,6 @@ class AsyncRxResumeClient:
             verify=self.verify,
         )
 
-        # Initialize API sections
         self.auth = AsyncAuthAPI(self)
         self.resumes = AsyncResumesAPI(self)
         self.applications = AsyncApplicationsAPI(self)
@@ -67,6 +68,8 @@ class AsyncRxResumeClient:
         self.storage = AsyncStorageAPI(self)
         self.agent = AsyncAgentAPI(self)
         self.ai_providers = AsyncAiProvidersAPI(self)
+        self.flags = AsyncFlagsAPI(self)
+        self.ai = AsyncAIAPI(self)
 
     def set_token(self, token: str) -> None:
         """Update client headers with a new Bearer token."""

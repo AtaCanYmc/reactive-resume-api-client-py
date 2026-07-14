@@ -21,23 +21,53 @@ async def async_client():
 
 
 @respx.mock
-def test_sync_agent_chat(sync_client):
-    route = respx.post(f"{BASE_URL}/api/openapi/agent/resume-123/chat").mock(
+def test_sync_agent(sync_client):
+    route_chat = respx.post(f"{BASE_URL}/api/openapi/agent/resume-123/chat").mock(
         return_value=Response(200, json={"response": "Draft updated!"})
     )
     res = sync_client.agent.chat("resume-123", "Write details")
     assert isinstance(res, AgentResponse)
     assert res.response == "Draft updated!"
-    assert route.called
+    assert route_chat.called
+
+    route_threads = respx.get(f"{BASE_URL}/api/openapi/agent/threads").mock(
+        return_value=Response(200, json=[{"id": "thread-1"}])
+    )
+    threads = sync_client.agent.list_threads()
+    assert len(threads) == 1
+    assert threads[0]["id"] == "thread-1"
+    assert route_threads.called
+
+    route_thread = respx.get(f"{BASE_URL}/api/openapi/agent/threads/thread-1").mock(
+        return_value=Response(200, json={"id": "thread-1", "messages": []})
+    )
+    thread = sync_client.agent.get_thread("thread-1")
+    assert thread["id"] == "thread-1"
+    assert route_thread.called
 
 
 @pytest.mark.asyncio
 @respx.mock
-async def test_async_agent_chat(async_client):
-    route = respx.post(f"{BASE_URL}/api/openapi/agent/resume-123/chat").mock(
+async def test_async_agent(async_client):
+    route_chat = respx.post(f"{BASE_URL}/api/openapi/agent/resume-123/chat").mock(
         return_value=Response(200, json={"response": "Draft updated!"})
     )
     res = await async_client.agent.chat("resume-123", "Write details")
     assert isinstance(res, AgentResponse)
     assert res.response == "Draft updated!"
-    assert route.called
+    assert route_chat.called
+
+    route_threads = respx.get(f"{BASE_URL}/api/openapi/agent/threads").mock(
+        return_value=Response(200, json=[{"id": "thread-1"}])
+    )
+    threads = await async_client.agent.list_threads()
+    assert len(threads) == 1
+    assert threads[0]["id"] == "thread-1"
+    assert route_threads.called
+
+    route_thread = respx.get(f"{BASE_URL}/api/openapi/agent/threads/thread-1").mock(
+        return_value=Response(200, json={"id": "thread-1", "messages": []})
+    )
+    thread = await async_client.agent.get_thread("thread-1")
+    assert thread["id"] == "thread-1"
+    assert route_thread.called
