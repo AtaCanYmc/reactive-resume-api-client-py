@@ -592,10 +592,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-exporting-pdf" class="md-nav__link">
+  <a href="#5-downloading-pdf" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📄 5. Exporting PDF
+        📄 5. Downloading PDF
       
     </span>
   </a>
@@ -1003,10 +1003,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-exporting-pdf" class="md-nav__link">
+  <a href="#5-downloading-pdf" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📄 5. Exporting PDF
+        📄 5. Downloading PDF
       
     </span>
   </a>
@@ -1100,11 +1100,13 @@
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resume deleted successfully.&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <hr />
-<h2 id="5-exporting-pdf">📄 5. Exporting PDF</h2>
-<p>To get the download link to the compiled PDF document of a specific resume:</p>
+<h2 id="5-downloading-pdf">📄 5. Downloading PDF</h2>
+<p>To download the compiled PDF document of a specific resume:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">with</span> <span class="n">RxResumeClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://rxresu.me&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;my_key&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">pdf_url</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">resumes</span><span class="o">.</span><span class="n">get_pdf_url</span><span class="p">(</span><span class="s2">&quot;test-resume-id&quot;</span><span class="p">)</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download PDF: </span><span class="si">{</span><span class="n">pdf_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">pdf_bytes</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">resumes</span><span class="o">.</span><span class="n">download_pdf</span><span class="p">(</span><span class="s2">&quot;test-resume-id&quot;</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;resume.pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdf_bytes</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PDF downloaded successfully.&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 
 
