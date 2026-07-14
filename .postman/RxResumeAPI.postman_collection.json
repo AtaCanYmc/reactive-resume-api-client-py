@@ -902,6 +902,495 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "delete agent thread",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/threads/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create agent thread",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"aiProviderId\": \"<string>\",\n    \"sourceResumeId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/threads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get or create an in-resume agent thread",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"aiProviderId\": \"<string>\",\n    \"sourceResumeId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/threads/for-resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads",
+                "for-resume"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "send agent message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"threadId\": \"<string>\",\n    \"message\": \"<unknown>\",\n    \"attachmentIds\": [\n        \"<string>\"\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/messages/send",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "messages",
+                "send"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "archive agent thread",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"aiProviderId\": \"<string>\",\n    \"sourceResumeId\": \"<string>\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/threads/:id/archive",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "threads",
+                ":id",
+                "archive"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "stop active agent run",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"threadId\": \"<string>\",\n    \"partialMessage\": \"<unknown>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/messages/stop",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "messages",
+                "stop"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resume agent message stream",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/messages/resume?threadId=id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "messages",
+                "resume"
+              ],
+              "query": [
+                {
+                  "key": "threadId",
+                  "value": "id",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create agent attachment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"threadId\": \"<string>\",\n    \"filename\": \"<string>\",\n    \"mediaType\": \"<string>\",\n    \"data\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/agent/attachments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "attachments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete agent attachment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/attachments/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "attachments",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "restore agent action snapshot",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agent/actions/:id/revert",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "agent",
+                "actions",
+                ":id",
+                "revert"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "statistics",
+      "item": [
+        {
+          "name": "total number of users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/statistics/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "statistics",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GitHub star count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/statistics/github/stars",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "statistics",
+                "github",
+                "stars"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "total number of resumes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/statistics/resumes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "statistics",
+                "resumes"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "applications",
+      "item": [
+        {
+          "name": "list job applications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/applications",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "application by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/applications/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete application",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/applications/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "list application tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/applications/tags",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                "tags"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "application pipeline stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/applications/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create a job application",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"company\": \"<string>\",\n    \"role\": \"<string>\",\n    \"location\": \"<string>\",\n    \"salary\": \"<string>\",\n    \"source\": \"<string>\",\n    \"sourceUrl\": \"<string>\",\n    \"jobDescription\": \"<string>\",\n    \"notes\": \"<string>\",\n    \"resumeFileUrl\": \"<string>\",\n    \"resumeFileName\": \"<string>\",\n    \"coverLetterUrl\": \"<string>\",\n    \"coverLetterName\": \"<string>\",\n    \"followUpAt\": \"2023-11-07T05:31:56Z\",\n    \"followUpNote\": \"<string>\",\n    \"contacts\": [\n        {\n            \"name\": \"<string>\",\n            \"role\": \"\",\n            \"type\": \"\"\n        }\n    ],\n    \"resumeId\": \"<string>\",\n    \"tags\": [\n        \"<string>\"\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/applications",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk import",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        {\n            \"company\": \"<string>\",\n            \"role\": \"<string>\",\n            \"location\": \"<string>\",\n            \"salary\": \"<string>\",\n            \"source\": \"<string>\",\n            \"sourceUrl\": \"<string>\",\n            \"jobDescription\": \"<string>\",\n            \"notes\": \"<string>\",\n            \"resumeFileUrl\": \"<string>\",\n            \"resumeFileName\": \"<string>\",\n            \"coverLetterUrl\": \"<string>\",\n            \"coverLetterName\": \"<string>\",\n            \"followUpAt\": \"2023-11-07T05:31:56Z\",\n            \"followUpNote\": \"<string>\",\n            \"contacts\": [\n                {\n                    \"name\": \"<string>\",\n                    \"role\": \"\",\n                    \"type\": \"\"\n                }\n            ],\n            \"resumeId\": \"<string>\",\n            \"tags\": [\n                \"<string>\"\n            ]\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/applications/import",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                "import"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }

@@ -11,9 +11,7 @@ from .exceptions import (
 )
 from ..api.auth import AuthAPI
 from ..api.resumes import ResumesAPI
-from ..api.applications import ApplicationsAPI
 from ..api.statistics import StatisticsAPI
-from ..api.storage import StorageAPI
 from ..api.agent import AgentAPI
 from ..api.ai_providers import AiProvidersAPI
 from ..api.flags import FlagsAPI
@@ -63,9 +61,7 @@ class RxResumeClient:
 
         self.auth = AuthAPI(self)
         self.resumes = ResumesAPI(self)
-        self.applications = ApplicationsAPI(self)
         self.statistics = StatisticsAPI(self)
-        self.storage = StorageAPI(self)
         self.agent = AgentAPI(self)
         self.ai_providers = AiProvidersAPI(self)
         self.flags = FlagsAPI(self)
