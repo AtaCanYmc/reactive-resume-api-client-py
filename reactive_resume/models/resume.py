@@ -186,10 +186,10 @@ class Resume(BaseModel):
     id: str
     name: str
     slug: str
-    user_id: str = Field(..., alias="userId")
+    user_id: Optional[str] = Field(None, alias="userId")
     visibility: str = "public"
     locked: bool = False
-    data: ResumeData
+    data: Optional[ResumeData] = None
     created_at: datetime = Field(..., alias="createdAt")
     updated_at: datetime = Field(..., alias="updatedAt")
 
