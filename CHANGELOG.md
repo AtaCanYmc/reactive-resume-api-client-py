@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.3.0...v0.4.0) (2026-07-14)
+
+
+### Features
+
+* add AI functions and feature flags documentation to API and README ([0d7ebaa](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/0d7ebaa6fa0e1cc70017c6da111ce80c651abb60))
+* add Applications API and enhance Agent API with new thread management features ([1456992](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/1456992129b1f1c158be6d7febebd298b05dd0b8))
+* add Job Application models to documentation and remove unused AgentRequest and AgentResponse sections ([def99fd](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/def99fdd48eacfe9c0af3ae0d9c957ce5b94277e))
+* add new postman collection ([b4571ae](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/b4571ae138b84e7179eaee4e3327714d95a8e0a7))
+* enhance API documentation with new Resumes and Job Applications sections, update authentication instructions, and improve README clarity ([6cb9e67](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/6cb9e67ba4ae3f74aceefc70b807170b697ec294))
+* enhance README with architecture diagram and capability matrix for service modules ([c78dfdc](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/c78dfdc23099a623c74e418d73299d99e1894527))
+* implement Flags and AI APIs, enhance resumes API with additional features and tests ([1766288](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/1766288a0da1c65c5025e7c548a5af0942e113bc))
+* remove Applications and Storage APIs from public interface and documentation ([a41f9ae](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/a41f9ae182e42721c0967932061f325f51fe8164))
+* update README to improve clarity of service modules diagram ([003871b](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/003871ba12645c79b3b2cd196da36f657ea17536))
+* update README to improve clarity of service modules diagram ([db25f74](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/db25f74b8fdca6ca4a6b6697d360df0c5c0bb57a))
+
 ## [0.3.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.2.0...v0.3.0) (2026-07-13)
 
 
