@@ -30,10 +30,13 @@ This section contains auto-generated documentation for the Pydantic v2 schemas u
 
 ::: reactive_resume.models.User
 
+## Job Application Models
+
+::: reactive_resume.models.Application
+::: reactive_resume.models.ApplicationCreate
+
 ---
 
 ## Feature Log Models
 
 ::: reactive_resume.models.ResumeStats
-::: reactive_resume.models.AgentRequest
-::: reactive_resume.models.AgentResponse
