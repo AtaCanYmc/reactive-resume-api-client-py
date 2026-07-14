@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.5.0...v0.5.1) (2026-07-14)
+
+
+### Bug Fixes
+
+* update site URL in mkdocs configuration ([6d69992](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/6d699926806252bdec31210ca05f98765afdadfc))
+
 ## [0.5.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.4.0...v0.5.0) (2026-07-14)
 
 
