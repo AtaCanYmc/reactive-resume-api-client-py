@@ -18,8 +18,54 @@ It supports both synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClie
 - **Robust error handling**: Raw API status errors are automatically parsed into specific exceptions (`AuthenticationError`, `NotFoundError`, etc.).
 - **Developer Experience (DX)**: Code-completion ready with clear typing and docstrings.
 
+---
+
+## Architecture
+
+```mermaid
+graph TD
+    UserApp[User Application / Script] -->|Instantiates| SyncClient[RxResumeClient]
+    UserApp -->|Instantiates| AsyncClient[AsyncRxResumeClient]
+
+    subgraph Service Modules (Sync & Async)
+        SyncClient --> Auth[auth]
+        SyncClient --> Resumes[resumes]
+        SyncClient --> Apps[applications]
+        SyncClient --> Stats[statistics]
+        SyncClient --> Storage[storage]
+        SyncClient --> Agent[agent]
+        SyncClient --> AIProviders[ai_providers]
+        SyncClient --> Flags[flags]
+        SyncClient --> AI[ai]
+    end
+
+    Auth -->|HTTP/REST Calls| Backend[Reactive Resume v4 API Backend]
+    Resumes -->|HTTP/REST Calls| Backend
+    Apps -->|HTTP/REST Calls| Backend
+    Stats -->|HTTP/REST Calls| Backend
+    Storage -->|HTTP/REST Calls| Backend
+    Agent -->|HTTP/REST Calls| Backend
+    AIProviders -->|HTTP/REST Calls| Backend
+    Flags -->|HTTP/REST Calls| Backend
+    AI -->|HTTP/REST Calls| Backend
+```
 
 ---
+
+## Capability Matrix
+
+| Service Module | Sync | Async | Key Mapped Endpoints (Postman Collection) |
+| :--- | :---: | :---: | :--- |
+| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Set/Verify/Remove Password, Duplicate, Lock, Version History, Public Resume |
+| **Auth** (`client.auth`) | Yes | Yes | Login, Get Me, List Providers, Export Account, Delete Account |
+| **Applications** (`client.applications`) | Yes | Yes | List, Get, Create, Update, Delete Job Tracker Applications |
+| **Statistics** (`client.statistics`) | Yes | Yes | Get Statistics, Get Daily Statistics |
+| **Storage** (`client.storage`) | Yes | Yes | Upload File/Blob |
+| **Agent** (`client.agent`) | Yes | Yes | Chat Context, List Threads, Get Thread Details |
+| **AI Providers** (`client.ai_providers`) | Yes | Yes | List, Create, Update, Delete, Test saved AI providers |
+| **AI Functions** (`client.ai`) | Yes | Yes | Parse PDF, Parse DOCX, Chat, Analyze Resume |
+| **Feature Flags** (`client.flags`) | Yes | Yes | List Server-side Feature Flags |
+
 
 ## Installation
 
