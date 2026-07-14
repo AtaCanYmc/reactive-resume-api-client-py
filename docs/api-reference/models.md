@@ -34,9 +34,6 @@ This section contains auto-generated documentation for the Pydantic v2 schemas u
 
 ## Feature Log Models
 
-::: reactive_resume.models.Application
-::: reactive_resume.models.ApplicationCreate
 ::: reactive_resume.models.ResumeStats
-::: reactive_resume.models.StorageFile
 ::: reactive_resume.models.AgentRequest
 ::: reactive_resume.models.AgentResponse

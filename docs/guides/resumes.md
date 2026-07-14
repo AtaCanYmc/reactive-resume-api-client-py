@@ -91,12 +91,14 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="my_key") as client:
 
 ---
 
-## 📄 5. Exporting PDF
+## 📄 5. Downloading PDF
 
-To get the download link to the compiled PDF document of a specific resume:
+To download the compiled PDF document of a specific resume:
 
 ```python
 with RxResumeClient(base_url="https://rxresu.me", api_key="my_key") as client:
-    pdf_url = client.resumes.get_pdf_url("test-resume-id")
-    print(f"Download PDF: {pdf_url}")
+    pdf_bytes = client.resumes.download_pdf("test-resume-id")
+    with open("resume.pdf", "wb") as f:
+        f.write(pdf_bytes)
+    print("PDF downloaded successfully.")
 ```

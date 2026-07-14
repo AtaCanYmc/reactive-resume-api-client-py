@@ -5,7 +5,7 @@ from ..models.application import Application, ApplicationCreate
 
 
 class ApplicationsAPI:
-    """Synchronous Applications operations."""
+    """Synchronous Job Applications operations."""
 
     def __init__(self, client) -> None:
         self._client = client
@@ -30,18 +30,29 @@ class ApplicationsAPI:
         response = self._client._request("POST", "/api/openapi/applications", json=payload)
         return Application.model_validate(response)
 
-    def update(self, app_id: str, data: Dict[str, Any]) -> Application:
-        """Update an existing job application."""
-        response = self._client._request("PATCH", f"/api/openapi/applications/{app_id}", json=data)
-        return Application.model_validate(response)
-
     def delete(self, app_id: str) -> None:
         """Delete a job application by ID."""
         self._client._request("DELETE", f"/api/openapi/applications/{app_id}")
 
+    def list_tags(self) -> List[str]:
+        """List all application tags."""
+        response = self._client._request("GET", "/api/openapi/applications/tags")
+        return list(response)
+
+    def get_pipeline_stats(self) -> Dict[str, Any]:
+        """Get application pipeline statistics."""
+        response = self._client._request("GET", "/api/openapi/applications/stats")
+        return dict(response)
+
+    def bulk_import(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Bulk import job applications."""
+        payload = {"items": items}
+        response = self._client._request("POST", "/api/openapi/applications/import", json=payload)
+        return dict(response)
+
 
 class AsyncApplicationsAPI:
-    """Asynchronous Applications operations."""
+    """Asynchronous Job Applications operations."""
 
     def __init__(self, client) -> None:
         self._client = client
@@ -66,13 +77,24 @@ class AsyncApplicationsAPI:
         response = await self._client._request("POST", "/api/openapi/applications", json=payload)
         return Application.model_validate(response)
 
-    async def update(self, app_id: str, data: Dict[str, Any]) -> Application:
-        """Update an existing job application asynchronously."""
-        response = await self._client._request(
-            "PATCH", f"/api/openapi/applications/{app_id}", json=data
-        )
-        return Application.model_validate(response)
-
     async def delete(self, app_id: str) -> None:
         """Delete a job application by ID asynchronously."""
         await self._client._request("DELETE", f"/api/openapi/applications/{app_id}")
+
+    async def list_tags(self) -> List[str]:
+        """List all application tags asynchronously."""
+        response = await self._client._request("GET", "/api/openapi/applications/tags")
+        return list(response)
+
+    async def get_pipeline_stats(self) -> Dict[str, Any]:
+        """Get application pipeline statistics asynchronously."""
+        response = await self._client._request("GET", "/api/openapi/applications/stats")
+        return dict(response)
+
+    async def bulk_import(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Bulk import job applications asynchronously."""
+        payload = {"items": items}
+        response = await self._client._request(
+            "POST", "/api/openapi/applications/import", json=payload
+        )
+        return dict(response)

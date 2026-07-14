@@ -4,10 +4,24 @@ This section details all feature-based API endpoints mapped within the client.
 
 ---
 
-## Job Tracker (Applications)
+## Resumes
+
+::: reactive_resume.api.resumes.ResumesAPI
+::: reactive_resume.api.resumes.AsyncResumesAPI
+
+---
+
+## Job Applications
 
 ::: reactive_resume.api.applications.ApplicationsAPI
 ::: reactive_resume.api.applications.AsyncApplicationsAPI
+
+---
+
+## Authentication
+
+::: reactive_resume.api.auth.AuthAPI
+::: reactive_resume.api.auth.AsyncAuthAPI
 
 ---
 
@@ -22,13 +36,6 @@ This section details all feature-based API endpoints mapped within the client.
 
 ::: reactive_resume.api.ai_providers.AiProvidersAPI
 ::: reactive_resume.api.ai_providers.AsyncAiProvidersAPI
-
----
-
-## Storage & Files
-
-::: reactive_resume.api.storage.StorageAPI
-::: reactive_resume.api.storage.AsyncStorageAPI
 
 ---
 

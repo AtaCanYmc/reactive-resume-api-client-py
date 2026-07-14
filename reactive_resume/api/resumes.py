@@ -2,6 +2,7 @@
 
 from typing import List, Dict, Any, Optional
 from ..models.resume import Resume, ResumeImportData
+from ..models.statistics import ResumeStats
 
 
 class ResumesAPI:
@@ -106,6 +107,22 @@ class ResumesAPI:
         self._client._request(
             "POST", f"/api/openapi/resumes/{resume_id}/lock", json={"isLocked": is_locked}
         )
+
+    def download_pdf(self, resume_id: str) -> bytes:
+        """Download the PDF version of a resume as bytes."""
+        return self._client._request("GET", f"/api/openapi/resumes/{resume_id}/pdf")
+
+    def get_statistics(self, resume_id: str) -> ResumeStats:
+        """Retrieve interaction statistics for a specific resume."""
+        response = self._client._request("GET", f"/api/openapi/resumes/{resume_id}/statistics")
+        return ResumeStats.model_validate(response)
+
+    def get_daily_statistics(self, resume_id: str, day: int = 30) -> ResumeStats:
+        """Retrieve daily interaction statistics for a specific resume."""
+        response = self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/statistics/daily?day={day}"
+        )
+        return ResumeStats.model_validate(response)
 
 
 class AsyncResumesAPI:
@@ -214,3 +231,21 @@ class AsyncResumesAPI:
         await self._client._request(
             "POST", f"/api/openapi/resumes/{resume_id}/lock", json={"isLocked": is_locked}
         )
+
+    async def download_pdf(self, resume_id: str) -> bytes:
+        """Download the PDF version of a resume as bytes asynchronously."""
+        return await self._client._request("GET", f"/api/openapi/resumes/{resume_id}/pdf")
+
+    async def get_statistics(self, resume_id: str) -> ResumeStats:
+        """Retrieve interaction statistics for a specific resume asynchronously."""
+        response = await self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/statistics"
+        )
+        return ResumeStats.model_validate(response)
+
+    async def get_daily_statistics(self, resume_id: str, day: int = 30) -> ResumeStats:
+        """Retrieve daily interaction statistics for a specific resume asynchronously."""
+        response = await self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/statistics/daily?day={day}"
+        )
+        return ResumeStats.model_validate(response)
