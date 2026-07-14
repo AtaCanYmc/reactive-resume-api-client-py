@@ -109,7 +109,16 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
         stage="Interviewing"
     ))
     print(f"Logged Application ID: {app.id}")
+
+    # 5. Parse a PDF resume into raw resume data
+    parsed_cv = client.ai.parse_pdf("my_resume.pdf", "base64_encoded_file_data_here", "ai_provider_id_here")
+    print(f"Parsed Name: {parsed_cv.get('basics', {}).get('name')}")
+
+    # 6. Check server-side feature flags
+    flags = client.flags.list()
+    print(f"Signups disabled: {flags.get('isSignupsDisabled')}")
 ```
+
 
 ---
 

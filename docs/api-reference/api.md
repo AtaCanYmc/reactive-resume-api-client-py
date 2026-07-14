@@ -36,3 +36,17 @@ This section details all feature-based API endpoints mapped within the client.
 
 ::: reactive_resume.api.statistics.StatisticsAPI
 ::: reactive_resume.api.statistics.AsyncStatisticsAPI
+
+---
+
+## AI Functions
+
+::: reactive_resume.api.ai.AIAPI
+::: reactive_resume.api.ai.AsyncAIAPI
+
+---
+
+## Feature Flags
+
+::: reactive_resume.api.flags.FlagsAPI
+::: reactive_resume.api.flags.AsyncFlagsAPI
