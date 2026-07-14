@@ -27,7 +27,7 @@ graph TD
     UserApp[User Application / Script] -->|Instantiates| SyncClient[RxResumeClient]
     UserApp -->|Instantiates| AsyncClient[AsyncRxResumeClient]
 
-    subgraph Service Modules (Sync & Async)
+    subgraph "Service Modules (Sync & Async)"
         SyncClient --> Auth[auth]
         SyncClient --> Resumes[resumes]
         SyncClient --> Apps[applications]
