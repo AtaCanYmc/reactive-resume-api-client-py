@@ -36,7 +36,7 @@ python-discovery==1.4.4
 PyYAML==6.0.3
 respx==0.23.1
 rich==15.0.0
-ruff==0.15.21
+ruff==0.15.22
 stevedore==5.9.0
 typing-inspection==0.4.2
 typing_extensions==4.16.0
