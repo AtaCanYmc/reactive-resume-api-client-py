@@ -2,7 +2,7 @@ annotated-types==0.7.0
 anyio==4.14.2
 ast_serialize==0.6.0
 bandit==1.9.4
-certifi==2026.6.17
+certifi==2026.7.22
 cfgv==3.5.0
 coverage==7.15.1
 distlib==0.4.3
