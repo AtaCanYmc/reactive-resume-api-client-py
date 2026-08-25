@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.5.0...v0.6.0) (2026-08-25)
+
+
+### Features
+
+* add Flask demo application with Docker support and resume management features ([a37de3b](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/a37de3b11e4363a93c9a0075213f280832e7f6aa))
+
+
+### Bug Fixes
+
+* correct condition for publishing to PyPI in release workflow ([a584974](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/a58497454e7f887ece8159b15734202b763359a4))
+* update site URL in mkdocs configuration ([6d69992](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/6d699926806252bdec31210ca05f98765afdadfc))
+
 ## [0.5.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.4.0...v0.5.0) (2026-07-14)
 
 
