@@ -3,8 +3,10 @@
 Run using: uvicorn fast_api_app:app --reload
 """
 
-from fastapi import FastAPI, Depends, HTTPException, status
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
+
+from fastapi import Depends, FastAPI, HTTPException, status
+
 from reactive_resume import AsyncRxResumeClient
 from reactive_resume.core.exceptions import AuthenticationError, NotFoundError
 
@@ -24,7 +26,7 @@ async def get_resume_client() -> AsyncGenerator[AsyncRxResumeClient, None]:
 @app.get("/cv/{resume_id}/pdf")
 async def get_cv_pdf_link(
     resume_id: str,
-    client: AsyncRxResumeClient = Depends(get_resume_client),
+    client: AsyncRxResumeClient = Depends(get_resume_client),  # noqa: B008
 ):
     """Retrieve the direct PDF download URL for a candidate's resume."""
     try:
@@ -43,7 +45,7 @@ async def get_cv_pdf_link(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Resume with ID {resume_id} not found in the remote server.",
         )
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Unexpected error interfacing with SDK: {e}",

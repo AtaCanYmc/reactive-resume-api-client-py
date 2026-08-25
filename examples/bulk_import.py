@@ -5,9 +5,9 @@ and import them in batch to a Reactive Resume server.
 
 import csv
 from io import StringIO
-from typing import List, Dict
+
 from reactive_resume import RxResumeClient
-from reactive_resume.models import ResumeImportData, Basics
+from reactive_resume.models import Basics, ResumeImportData
 
 # Mock CSV string containing candidates
 MOCK_CSV = """name,headline,email,phone,website
@@ -17,17 +17,14 @@ Alice Smith,AI Architect,alice@example.com,+447777777777,https://alice.me
 """
 
 
-def parse_candidates_from_csv(csv_data: str) -> List[Dict[str, str]]:
+def parse_candidates_from_csv(csv_data: str) -> list[dict[str, str]]:
     """Parse CSV rows into dictionaries."""
-    candidates = []
     f = StringIO(csv_data)
     reader = csv.DictReader(f)
-    for row in reader:
-        candidates.append(row)
-    return candidates
+    return list(reader)
 
 
-def bulk_import_candidates(base_url: str, api_key: str, candidates: List[Dict[str, str]]) -> None:
+def bulk_import_candidates(base_url: str, api_key: str, candidates: list[dict[str, str]]) -> None:
     """Iterate through candidates and import them as resumes."""
     # Initialize Sync Client
     with RxResumeClient(base_url=base_url, api_key=api_key) as client:
@@ -48,7 +45,7 @@ def bulk_import_candidates(base_url: str, api_key: str, candidates: List[Dict[st
             try:
                 resume = client.resumes.import_resume(import_data)
                 print(f"[{idx}/{len(candidates)}] Imported: {resume.name} (Slug: {resume.slug})")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 print(f"[{idx}/{len(candidates)}] Failed to import {candidate['name']}: {e}")
 
 
