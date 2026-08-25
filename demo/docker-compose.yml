@@ -1,0 +1,14 @@
+services:
+  demo:
+    build:
+      context: ..
+      dockerfile: demo/Dockerfile
+    container_name: rxresume-flask-demo
+    ports:
+      - "5000:5000"
+    environment:
+      - RX_RESUME_URL=${RX_RESUME_URL:-https://rxresu.me}
+      - RX_RESUME_API_KEY=${RX_RESUME_API_KEY:-}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-reactive-resume-demo-secret-key}
+      - PORT=5000
+    restart: unless-stopped

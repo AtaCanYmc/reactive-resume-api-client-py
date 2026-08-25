@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Import Resume - Reactive Resume Flask Demo{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+    <h1 class="text-2xl font-bold text-gray-900">Import Candidate Resume</h1>
+
+    <form method="POST" class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4">
+        <div>
+            <label for="title" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Resume Title</label>
+            <input type="text" id="title" name="title" placeholder="e.g. Ata Can - Senior Engineer" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+
+        <div>
+            <label for="name" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Full Name *</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Ata Can Yaymacı" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+
+        <div>
+            <label for="headline" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Professional Headline</label>
+            <input type="text" id="headline" name="headline" placeholder="e.g. Senior Backend Architect" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+
+        <div>
+            <label for="email" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="e.g. ata@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+
+        <div class="pt-4 flex justify-end space-x-3">
+            <a href="{{ url_for('list_resumes') }}" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">Cancel</a>
+            <button type="submit" class="px-4 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm">
+                Import Resume
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

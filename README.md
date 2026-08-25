@@ -153,6 +153,17 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
     print(f"Signups disabled: {flags.get('isSignupsDisabled')}")
 ```
 
+---
+
+## Demo Web Application & Docker
+
+A full-fledged Flask web application is included in the `demo/` directory to demonstrate real-world SDK usage:
+
+- **Local Execution**: `uv sync --extra demo && python demo/app.py`
+- **Docker Compose**: `docker compose -f demo/docker-compose.yml up --build`
+
+For detailed setup instructions, check out the [Demo README](demo/README.md) and [Flask Demo Guide](docs/examples/flask_demo.md).
+
 
 ---
 

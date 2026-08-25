@@ -54,6 +54,7 @@ nav:
   - Examples:
       - FastAPI Integration: examples/fast_api_app.py
       - Bulk CSV Import: examples/bulk_import.py
+      - Flask Web App & Docker: examples/flask_demo.md
   - API Reference:
       - Synchronous Client: api-reference/client.md
       - Asynchronous Client: api-reference/async_client.md

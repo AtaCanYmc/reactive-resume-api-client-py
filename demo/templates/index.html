@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Reactive Resume Flask Demo{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Hero Banner -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white shadow-xl">
+        <h1 class="text-3xl font-extrabold tracking-tight">Reactive Resume Python SDK Demo</h1>
+        <p class="mt-2 text-indigo-100 max-w-2xl">
+            This Flask web application demonstrates seamless integration with Reactive Resume v4 server endpoints using the official unofficial Python API Client (<code class="bg-indigo-700 px-1 py-0.5 rounded text-xs font-mono">rxresume-python</code>).
+        </p>
+    </div>
+
+    <!-- Status Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Target Server</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">API Endpoint</span>
+            </div>
+            <p class="mt-4 text-xl font-bold text-gray-900 font-mono">{{ server_url }}</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-gray-500 uppercase tracking-wider">API Key Status</span>
+                {% if has_api_key %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Configured</span>
+                {% else %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Not Set</span>
+                {% endif %}
+            </div>
+            <p class="mt-4 text-sm text-gray-600">
+                {% if has_api_key %}
+                    <code class="text-xs bg-gray-100 p-1 rounded font-mono">RX_RESUME_API_KEY</code> environment variable is set and ready.
+                {% else %}
+                    Set <code class="text-xs bg-gray-100 p-1 rounded font-mono">RX_RESUME_API_KEY</code> environment variable to perform authenticated API calls.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Features Overview -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Available Capabilities</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="{{ url_for('list_resumes') }}" class="block p-4 rounded-lg border border-gray-200 hover:border-indigo-500 hover:shadow-md transition">
+                <h3 class="font-semibold text-indigo-600">📄 List Resumes</h3>
+                <p class="text-xs text-gray-500 mt-1">Retrieve all candidate resume records from the server.</p>
+            </a>
+            <a href="{{ url_for('import_resume') }}" class="block p-4 rounded-lg border border-gray-200 hover:border-indigo-500 hover:shadow-md transition">
+                <h3 class="font-semibold text-indigo-600">📥 Import Resume</h3>
+                <p class="text-xs text-gray-500 mt-1">Import candidate data dynamically using Pydantic models.</p>
+            </a>
+            <div class="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                <h3 class="font-semibold text-gray-700">⚡ Async & Sync Clients</h3>
+                <p class="text-xs text-gray-500 mt-1">Support for both synchronous and asynchronous HTTP flows.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

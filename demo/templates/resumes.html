@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Resumes - Reactive Resume Flask Demo{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">Resumes List</h1>
+        <a href="{{ url_for('import_resume') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm">
+            + Import New Resume
+        </a>
+    </div>
+
+    {% if error_message %}
+        <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg text-sm">
+            <strong>API Error:</strong> {{ error_message }}
+        </div>
+    {% endif %}
+
+    {% if resumes %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for r in resumes %}
+                <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                    <h2 class="text-lg font-bold text-gray-900 truncate">{{ r.title or r.name or 'Untitled Resume' }}</h2>
+                    <p class="text-xs text-gray-500 mt-1 font-mono">Slug: {{ r.slug }}</p>
+                    <p class="text-xs text-gray-400 mt-0.5">ID: {{ r.id }}</p>
+                    <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xs text-gray-400">Updated: {{ r.updated_at or 'N/A' }}</span>
+                        <a href="{{ url_for('view_resume', resume_id=r.id) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800">
+                            View Details &rarr;
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-white border border-gray-200 rounded-xl p-12 text-center">
+            <p class="text-gray-500 text-sm">No resumes found or API credentials not provided.</p>
+            <p class="text-xs text-gray-400 mt-1">Make sure <code class="bg-gray-100 px-1 rounded font-mono">RX_RESUME_API_KEY</code> is set properly.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

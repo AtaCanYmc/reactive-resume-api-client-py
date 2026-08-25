@@ -38,6 +38,9 @@ docs = [
     "mkdocs-material>=9.0.0",
     "mkdocstrings[python]>=0.20.0",
 ]
+demo = [
+    "flask>=3.0.0",
+]
 
 
 [tool.setuptools.packages.find]

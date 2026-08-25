@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Details - Reactive Resume Flask Demo{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center space-x-2 text-sm text-gray-500">
+        <a href="{{ url_for('list_resumes') }}" class="hover:underline">Resumes</a>
+        <span>&rarr;</span>
+        <span class="text-gray-900 font-medium">Details</span>
+    </div>
+
+    {% if error_message %}
+        <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg text-sm">
+            <strong>API Error:</strong> {{ error_message }}
+        </div>
+    {% endif %}
+
+    {% if resume %}
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ resume.title or resume.name or 'Untitled Resume' }}</h1>
+                    <p class="text-xs text-gray-500 font-mono mt-1">ID: {{ resume.id }} | Slug: {{ resume.slug }}</p>
+                </div>
+                {% if pdf_url %}
+                    <a href="{{ pdf_url }}" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm">
+                        📄 Download PDF
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if resume.data and resume.data.basics %}
+                <div class="border-t border-gray-100 pt-4 space-y-2">
+                    <h2 class="text-sm font-semibold text-gray-700">Basics</h2>
+                    <p class="text-sm"><strong>Name:</strong> {{ resume.data.basics.name or 'N/A' }}</p>
+                    <p class="text-sm"><strong>Headline:</strong> {{ resume.data.basics.headline or 'N/A' }}</p>
+                    <p class="text-sm"><strong>Email:</strong> {{ resume.data.basics.email or 'N/A' }}</p>
+                </div>
+            {% endif %}
+
+            <div class="border-t border-gray-100 pt-4">
+                <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Raw Model Data</h2>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto font-mono max-h-96">{{ resume.model_dump_json(indent=2) }}</pre>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
