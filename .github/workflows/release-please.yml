@@ -26,6 +26,9 @@ jobs:
     needs: release-please
     if: ${{ needs.release-please.outputs.releases_created }}
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/rxresume-python
     permissions:
       id-token: write
       contents: read
@@ -44,7 +47,9 @@ jobs:
           pip install build
 
       - name: Build Package
-        run: python -m build
+        run: |
+          python -m build --verbose
+          ls -la dist/
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
