@@ -1,6 +1,8 @@
 """Applications API endpoints implementation."""
 
-from typing import List, Dict, Any
+import builtins
+from typing import Any
+
 from ..models.application import Application, ApplicationCreate
 
 
@@ -10,7 +12,7 @@ class ApplicationsAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    def list(self) -> List[Application]:
+    def list(self) -> list[Application]:
         """List all job applications."""
         response = self._client._request("GET", "/api/openapi/applications")
         if isinstance(response, dict) and "data" in response:
@@ -34,17 +36,17 @@ class ApplicationsAPI:
         """Delete a job application by ID."""
         self._client._request("DELETE", f"/api/openapi/applications/{app_id}")
 
-    def list_tags(self) -> List[str]:
+    def list_tags(self) -> builtins.list[str]:
         """List all application tags."""
         response = self._client._request("GET", "/api/openapi/applications/tags")
         return list(response)
 
-    def get_pipeline_stats(self) -> Dict[str, Any]:
+    def get_pipeline_stats(self) -> dict[str, Any]:
         """Get application pipeline statistics."""
         response = self._client._request("GET", "/api/openapi/applications/stats")
         return dict(response)
 
-    def bulk_import(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def bulk_import(self, items: builtins.list[dict[str, Any]]) -> dict[str, Any]:
         """Bulk import job applications."""
         payload = {"items": items}
         response = self._client._request("POST", "/api/openapi/applications/import", json=payload)
@@ -57,7 +59,7 @@ class AsyncApplicationsAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    async def list(self) -> List[Application]:
+    async def list(self) -> list[Application]:
         """List all job applications asynchronously."""
         response = await self._client._request("GET", "/api/openapi/applications")
         if isinstance(response, dict) and "data" in response:
@@ -81,17 +83,17 @@ class AsyncApplicationsAPI:
         """Delete a job application by ID asynchronously."""
         await self._client._request("DELETE", f"/api/openapi/applications/{app_id}")
 
-    async def list_tags(self) -> List[str]:
+    async def list_tags(self) -> builtins.list[str]:
         """List all application tags asynchronously."""
         response = await self._client._request("GET", "/api/openapi/applications/tags")
         return list(response)
 
-    async def get_pipeline_stats(self) -> Dict[str, Any]:
+    async def get_pipeline_stats(self) -> dict[str, Any]:
         """Get application pipeline statistics asynchronously."""
         response = await self._client._request("GET", "/api/openapi/applications/stats")
         return dict(response)
 
-    async def bulk_import(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def bulk_import(self, items: builtins.list[dict[str, Any]]) -> dict[str, Any]:
         """Bulk import job applications asynchronously."""
         payload = {"items": items}
         response = await self._client._request(

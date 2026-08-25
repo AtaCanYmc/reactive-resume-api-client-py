@@ -1,7 +1,8 @@
 """Pydantic models representing resume interaction statistics."""
 
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict
-from typing import Dict, Any
 
 
 class ResumeStats(BaseModel):
@@ -11,4 +12,4 @@ class ResumeStats(BaseModel):
 
     views: int = 0
     downloads: int = 0
-    history: Dict[str, Any] = {}
+    history: dict[str, Any] = {}

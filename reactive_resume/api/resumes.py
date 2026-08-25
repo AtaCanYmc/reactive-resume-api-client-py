@@ -1,6 +1,8 @@
 """Resumes endpoints implementation aligned with Postman collection."""
 
-from typing import List, Dict, Any, Optional
+import builtins
+from typing import Any
+
 from ..models.resume import Resume, ResumeImportData
 from ..models.statistics import ResumeStats
 
@@ -11,7 +13,7 @@ class ResumesAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    def list(self) -> List[Resume]:
+    def list(self) -> list[Resume]:
         """List all resumes for the authenticated user."""
         response = self._client._request("GET", "/api/openapi/resumes")
         if isinstance(response, dict) and "data" in response:
@@ -37,12 +39,12 @@ class ResumesAPI:
         response = self._client._request("POST", "/api/openapi/resumes/import", json=payload)
         return Resume.model_validate(response)
 
-    def update(self, resume_id: str, data: Dict[str, Any]) -> Resume:
+    def update(self, resume_id: str, data: dict[str, Any]) -> Resume:
         """Update a resume using PATCH or PUT (maps to PATCH)."""
         response = self._client._request("PATCH", f"/api/openapi/resumes/{resume_id}", json=data)
         return Resume.model_validate(response)
 
-    def update_put(self, resume_id: str, data: Dict[str, Any]) -> Resume:
+    def update_put(self, resume_id: str, data: dict[str, Any]) -> Resume:
         """Update a resume using PUT."""
         response = self._client._request("PUT", f"/api/openapi/resumes/{resume_id}", json=data)
         return Resume.model_validate(response)
@@ -55,7 +57,7 @@ class ResumesAPI:
         """Get the URL to download the PDF for a specific resume."""
         return f"{self._client.base_url}/api/openapi/resumes/{resume_id}/pdf"
 
-    def tags(self) -> List[str]:
+    def tags(self) -> builtins.list[str]:
         """List all unique tags among user's resumes."""
         response = self._client._request("GET", "/api/openapi/resumes/tags")
         return list(response)
@@ -82,18 +84,18 @@ class ResumesAPI:
         response = self._client._request("GET", f"/api/openapi/resumes/{username}/{slug}")
         return Resume.model_validate(response)
 
-    def get_latest_analysis(self, resume_id: str) -> Dict[str, Any]:
+    def get_latest_analysis(self, resume_id: str) -> dict[str, Any]:
         """Get the latest AI analysis for a resume."""
         response = self._client._request("GET", f"/api/openapi/resumes/{resume_id}/analysis")
         return dict(response)
 
-    def get_versions(self, resume_id: str) -> List[Dict[str, Any]]:
+    def get_versions(self, resume_id: str) -> builtins.list[dict[str, Any]]:
         """Get the version history of a resume."""
         response = self._client._request("GET", f"/api/openapi/resumes/{resume_id}/versions")
         return list(response)
 
     def duplicate(
-        self, resume_id: str, name: str, slug: str, tags: Optional[List[str]] = None
+        self, resume_id: str, name: str, slug: str, tags: builtins.list[str] | None = None
     ) -> Resume:
         """Duplicate an existing resume."""
         payload = {"name": name, "slug": slug, "tags": tags or []}
@@ -131,7 +133,7 @@ class AsyncResumesAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    async def list(self) -> List[Resume]:
+    async def list(self) -> list[Resume]:
         """List all resumes asynchronously."""
         response = await self._client._request("GET", "/api/openapi/resumes")
         if isinstance(response, dict) and "data" in response:
@@ -157,14 +159,14 @@ class AsyncResumesAPI:
         response = await self._client._request("POST", "/api/openapi/resumes/import", json=payload)
         return Resume.model_validate(response)
 
-    async def update(self, resume_id: str, data: Dict[str, Any]) -> Resume:
+    async def update(self, resume_id: str, data: dict[str, Any]) -> Resume:
         """Update a resume asynchronously using PATCH."""
         response = await self._client._request(
             "PATCH", f"/api/openapi/resumes/{resume_id}", json=data
         )
         return Resume.model_validate(response)
 
-    async def update_put(self, resume_id: str, data: Dict[str, Any]) -> Resume:
+    async def update_put(self, resume_id: str, data: dict[str, Any]) -> Resume:
         """Update a resume asynchronously using PUT."""
         response = await self._client._request(
             "PUT", f"/api/openapi/resumes/{resume_id}", json=data
@@ -179,7 +181,7 @@ class AsyncResumesAPI:
         """Get the URL to download the PDF asynchronously."""
         return f"{self._client.base_url}/api/openapi/resumes/{resume_id}/pdf"
 
-    async def tags(self) -> List[str]:
+    async def tags(self) -> builtins.list[str]:
         """List all unique tags among user's resumes asynchronously."""
         response = await self._client._request("GET", "/api/openapi/resumes/tags")
         return list(response)
@@ -206,18 +208,18 @@ class AsyncResumesAPI:
         response = await self._client._request("GET", f"/api/openapi/resumes/{username}/{slug}")
         return Resume.model_validate(response)
 
-    async def get_latest_analysis(self, resume_id: str) -> Dict[str, Any]:
+    async def get_latest_analysis(self, resume_id: str) -> dict[str, Any]:
         """Get the latest AI analysis asynchronously."""
         response = await self._client._request("GET", f"/api/openapi/resumes/{resume_id}/analysis")
         return dict(response)
 
-    async def get_versions(self, resume_id: str) -> List[Dict[str, Any]]:
+    async def get_versions(self, resume_id: str) -> builtins.list[dict[str, Any]]:
         """Get the version history asynchronously."""
         response = await self._client._request("GET", f"/api/openapi/resumes/{resume_id}/versions")
         return list(response)
 
     async def duplicate(
-        self, resume_id: str, name: str, slug: str, tags: Optional[List[str]] = None
+        self, resume_id: str, name: str, slug: str, tags: builtins.list[str] | None = None
     ) -> Resume:
         """Duplicate an existing resume asynchronously."""
         payload = {"name": name, "slug": slug, "tags": tags or []}

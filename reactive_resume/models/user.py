@@ -1,7 +1,8 @@
 """Pydantic models representing user accounts in Reactive Resume."""
 
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class User(BaseModel):

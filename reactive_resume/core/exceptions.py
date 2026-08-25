@@ -1,18 +1,14 @@
 """Custom exceptions for the Reactive Resume API Client."""
 
-from typing import Optional, Any
+from typing import Any
 
 
 class ReactiveResumeError(Exception):
     """Base exception for all Reactive Resume client errors."""
 
-    pass
-
 
 class ValidationError(ReactiveResumeError):
     """Raised when request data fails client-side validation."""
-
-    pass
 
 
 class ReactiveResumeAPIError(ReactiveResumeError):
@@ -21,8 +17,8 @@ class ReactiveResumeAPIError(ReactiveResumeError):
     def __init__(
         self,
         message: str,
-        status_code: Optional[int] = None,
-        response_body: Optional[Any] = None,
+        status_code: int | None = None,
+        response_body: Any | None = None,
     ) -> None:
         super().__init__(message)
         self.status_code = status_code
@@ -36,10 +32,6 @@ class ReactiveResumeAPIError(ReactiveResumeError):
 class AuthenticationError(ReactiveResumeAPIError):
     """Raised when authentication fails (401/403)."""
 
-    pass
-
 
 class NotFoundError(ReactiveResumeAPIError):
     """Raised when a requested resource is not found (404)."""
-
-    pass

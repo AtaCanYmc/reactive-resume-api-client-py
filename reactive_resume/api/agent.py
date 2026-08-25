@@ -1,6 +1,6 @@
 """Agent API endpoints implementation."""
 
-from typing import List, Dict, Any, Optional
+from typing import Any
 
 
 class AgentAPI:
@@ -9,12 +9,12 @@ class AgentAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    def list_threads(self) -> List[Dict[str, Any]]:
+    def list_threads(self) -> list[dict[str, Any]]:
         """List all active agent threads."""
         response = self._client._request("GET", "/api/openapi/agent/threads")
         return list(response)
 
-    def get_thread(self, thread_id: str) -> Dict[str, Any]:
+    def get_thread(self, thread_id: str) -> dict[str, Any]:
         """Get details of a specific agent thread by ID."""
         response = self._client._request("GET", f"/api/openapi/agent/threads/{thread_id}")
         return dict(response)
@@ -24,8 +24,8 @@ class AgentAPI:
         self._client._request("DELETE", f"/api/openapi/agent/threads/{thread_id}")
 
     def create_thread(
-        self, ai_provider_id: Optional[str] = None, source_resume_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, ai_provider_id: str | None = None, source_resume_id: str | None = None
+    ) -> dict[str, Any]:
         """Create a new agent thread."""
         payload = {}
         if ai_provider_id is not None:
@@ -36,8 +36,8 @@ class AgentAPI:
         return dict(response)
 
     def get_or_create_thread_for_resume(
-        self, ai_provider_id: Optional[str] = None, source_resume_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, ai_provider_id: str | None = None, source_resume_id: str | None = None
+    ) -> dict[str, Any]:
         """Get or create an in-resume agent thread."""
         payload = {}
         if ai_provider_id is not None:
@@ -50,8 +50,8 @@ class AgentAPI:
         return dict(response)
 
     def send_message(
-        self, thread_id: str, message: Any, attachment_ids: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, thread_id: str, message: Any, attachment_ids: list[str] | None = None
+    ) -> dict[str, Any]:
         """Send an agent message."""
         payload = {
             "threadId": thread_id,
@@ -65,9 +65,9 @@ class AgentAPI:
     def archive_thread(
         self,
         thread_id: str,
-        ai_provider_id: Optional[str] = None,
-        source_resume_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ai_provider_id: str | None = None,
+        source_resume_id: str | None = None,
+    ) -> dict[str, Any]:
         """Archive an agent thread."""
         payload = {}
         if ai_provider_id is not None:
@@ -79,7 +79,7 @@ class AgentAPI:
         )
         return dict(response)
 
-    def stop_run(self, thread_id: str, partial_message: Optional[Any] = None) -> Dict[str, Any]:
+    def stop_run(self, thread_id: str, partial_message: Any | None = None) -> dict[str, Any]:
         """Stop active agent run."""
         payload = {
             "threadId": thread_id,
@@ -97,7 +97,7 @@ class AgentAPI:
 
     def create_attachment(
         self, thread_id: str, filename: str, media_type: str, data: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create agent attachment."""
         payload = {
             "threadId": thread_id,
@@ -112,7 +112,7 @@ class AgentAPI:
         """Delete agent attachment."""
         self._client._request("DELETE", f"/api/openapi/agent/attachments/{attachment_id}")
 
-    def revert_action(self, action_id: str) -> Dict[str, Any]:
+    def revert_action(self, action_id: str) -> dict[str, Any]:
         """Restore agent action snapshot."""
         response = self._client._request("POST", f"/api/openapi/agent/actions/{action_id}/revert")
         return dict(response)
@@ -124,12 +124,12 @@ class AsyncAgentAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    async def list_threads(self) -> List[Dict[str, Any]]:
+    async def list_threads(self) -> list[dict[str, Any]]:
         """List all active agent threads asynchronously."""
         response = await self._client._request("GET", "/api/openapi/agent/threads")
         return list(response)
 
-    async def get_thread(self, thread_id: str) -> Dict[str, Any]:
+    async def get_thread(self, thread_id: str) -> dict[str, Any]:
         """Get details of a specific agent thread by ID asynchronously."""
         response = await self._client._request("GET", f"/api/openapi/agent/threads/{thread_id}")
         return dict(response)
@@ -139,8 +139,8 @@ class AsyncAgentAPI:
         await self._client._request("DELETE", f"/api/openapi/agent/threads/{thread_id}")
 
     async def create_thread(
-        self, ai_provider_id: Optional[str] = None, source_resume_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, ai_provider_id: str | None = None, source_resume_id: str | None = None
+    ) -> dict[str, Any]:
         """Create a new agent thread asynchronously."""
         payload = {}
         if ai_provider_id is not None:
@@ -151,8 +151,8 @@ class AsyncAgentAPI:
         return dict(response)
 
     async def get_or_create_thread_for_resume(
-        self, ai_provider_id: Optional[str] = None, source_resume_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, ai_provider_id: str | None = None, source_resume_id: str | None = None
+    ) -> dict[str, Any]:
         """Get or create an in-resume agent thread asynchronously."""
         payload = {}
         if ai_provider_id is not None:
@@ -165,8 +165,8 @@ class AsyncAgentAPI:
         return dict(response)
 
     async def send_message(
-        self, thread_id: str, message: Any, attachment_ids: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, thread_id: str, message: Any, attachment_ids: list[str] | None = None
+    ) -> dict[str, Any]:
         """Send an agent message asynchronously."""
         payload = {
             "threadId": thread_id,
@@ -182,9 +182,9 @@ class AsyncAgentAPI:
     async def archive_thread(
         self,
         thread_id: str,
-        ai_provider_id: Optional[str] = None,
-        source_resume_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        ai_provider_id: str | None = None,
+        source_resume_id: str | None = None,
+    ) -> dict[str, Any]:
         """Archive an agent thread asynchronously."""
         payload = {}
         if ai_provider_id is not None:
@@ -196,9 +196,7 @@ class AsyncAgentAPI:
         )
         return dict(response)
 
-    async def stop_run(
-        self, thread_id: str, partial_message: Optional[Any] = None
-    ) -> Dict[str, Any]:
+    async def stop_run(self, thread_id: str, partial_message: Any | None = None) -> dict[str, Any]:
         """Stop active agent run asynchronously."""
         payload = {
             "threadId": thread_id,
@@ -218,7 +216,7 @@ class AsyncAgentAPI:
 
     async def create_attachment(
         self, thread_id: str, filename: str, media_type: str, data: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create agent attachment asynchronously."""
         payload = {
             "threadId": thread_id,
@@ -235,7 +233,7 @@ class AsyncAgentAPI:
         """Delete agent attachment asynchronously."""
         await self._client._request("DELETE", f"/api/openapi/agent/attachments/{attachment_id}")
 
-    async def revert_action(self, action_id: str) -> Dict[str, Any]:
+    async def revert_action(self, action_id: str) -> dict[str, Any]:
         """Restore agent action snapshot asynchronously."""
         response = await self._client._request(
             "POST", f"/api/openapi/agent/actions/{action_id}/revert"

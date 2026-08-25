@@ -19,7 +19,7 @@ import_data = ResumeImportData(
         name="Ata Can Yaymacı",
         headline="Software Architect",
         email="ata@example.com",
-        phone="+905555555555"
+        phone="+905555555555",
     ),
     sections={
         "work": Section(
@@ -31,11 +31,11 @@ import_data = ResumeImportData(
                     company="Google DeepMind",
                     position="AI Resident",
                     date="2024 - Present",
-                    summary="Developing autonomous agent frameworks."
+                    summary="Developing autonomous agent frameworks.",
                 )
-            ]
+            ],
         )
-    }
+    },
 )
 
 with RxResumeClient(base_url="https://rxresu.me", api_key="my_key") as client:
@@ -71,8 +71,7 @@ Updates are executed via the `update()` method, which performs a `PATCH` request
 with RxResumeClient(base_url="https://rxresu.me", api_key="my_key") as client:
     # Update properties like name, slug, visibility, etc.
     updated = client.resumes.update(
-        resume_id="test-resume-id",
-        data={"name": "New Portfolio Name", "visibility": "private"}
+        resume_id="test-resume-id", data={"name": "New Portfolio Name", "visibility": "private"}
     )
     print(f"Updated Name: {updated.name}")
 ```

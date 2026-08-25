@@ -1,22 +1,23 @@
 """Synchronous API Client implementation."""
 
-from typing import Any, Optional
+from typing import Any
+
 import httpx
 
-from .exceptions import (
-    ReactiveResumeError,
-    ReactiveResumeAPIError,
-    AuthenticationError,
-    NotFoundError,
-)
+from ..api.agent import AgentAPI
+from ..api.ai import AIAPI
+from ..api.ai_providers import AiProvidersAPI
+from ..api.applications import ApplicationsAPI
 from ..api.auth import AuthAPI
+from ..api.flags import FlagsAPI
 from ..api.resumes import ResumesAPI
 from ..api.statistics import StatisticsAPI
-from ..api.agent import AgentAPI
-from ..api.ai_providers import AiProvidersAPI
-from ..api.flags import FlagsAPI
-from ..api.ai import AIAPI
-from ..api.applications import ApplicationsAPI
+from .exceptions import (
+    AuthenticationError,
+    NotFoundError,
+    ReactiveResumeAPIError,
+    ReactiveResumeError,
+)
 
 
 class RxResumeClient:
@@ -25,8 +26,8 @@ class RxResumeClient:
     def __init__(
         self,
         base_url: str,
-        api_key: Optional[str] = None,
-        token: Optional[str] = None,
+        api_key: str | None = None,
+        token: str | None = None,
         timeout: float = 30.0,
         verify: bool = True,
     ) -> None:
@@ -155,7 +156,7 @@ class RxResumeClient:
         """Close the underlying HTTP client."""
         self.client.close()
 
-    def __enter__(self) -> "RxResumeClient":
+    def __enter__(self) -> "RxResumeClient":  # noqa: PYI034
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:

@@ -1,8 +1,9 @@
 """Pydantic models representing resume data in Reactive Resume."""
 
-from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
-from typing import Optional, List, Dict, Any, Union
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class URLModel(BaseModel):
@@ -15,10 +16,10 @@ class URLModel(BaseModel):
 class Profile(BaseModel):
     """Represents a social media profile link."""
 
-    id: Optional[str] = None
+    id: str | None = None
     network: str = ""
     username: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class Basics(BaseModel):
@@ -28,10 +29,10 @@ class Basics(BaseModel):
     headline: str = ""
     email: str = ""
     phone: str = ""
-    website: Union[URLModel, str] = ""
+    website: URLModel | str = ""
     location: str = ""
     picture: str = ""
-    profiles: List[Profile] = Field(default_factory=list)
+    profiles: list[Profile] = Field(default_factory=list)
 
 
 # General item model for list items
@@ -50,7 +51,7 @@ class WorkItem(Item):
     location: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class EducationItem(Item):
@@ -62,7 +63,7 @@ class EducationItem(Item):
     score: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
     model_config = ConfigDict(populate_by_name=True)
 
@@ -74,8 +75,8 @@ class ProjectItem(Item):
     description: str = ""
     date: str = ""
     summary: str = ""
-    keywords: List[str] = Field(default_factory=list)
-    url: Union[URLModel, str] = ""
+    keywords: list[str] = Field(default_factory=list)
+    url: URLModel | str = ""
 
 
 class SkillItem(Item):
@@ -84,7 +85,7 @@ class SkillItem(Item):
     name: str = ""
     description: str = ""
     level: str = ""
-    keywords: List[str] = Field(default_factory=list)
+    keywords: list[str] = Field(default_factory=list)
 
 
 class LanguageItem(Item):
@@ -102,7 +103,7 @@ class CertificationItem(Item):
     issuer: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class AwardItem(Item):
@@ -112,14 +113,14 @@ class AwardItem(Item):
     awarder: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class InterestItem(Item):
     """Represents an interest entry."""
 
     name: str = ""
-    keywords: List[str] = Field(default_factory=list)
+    keywords: list[str] = Field(default_factory=list)
 
 
 class ReferenceItem(Item):
@@ -128,7 +129,7 @@ class ReferenceItem(Item):
     name: str = ""
     relationship: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class PublicationItem(Item):
@@ -138,7 +139,7 @@ class PublicationItem(Item):
     publisher: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class VolunteerItem(Item):
@@ -149,7 +150,7 @@ class VolunteerItem(Item):
     location: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 class CustomItem(Item):
@@ -159,7 +160,7 @@ class CustomItem(Item):
     subtitle: str = ""
     date: str = ""
     summary: str = ""
-    url: Union[URLModel, str] = ""
+    url: URLModel | str = ""
 
 
 # Section Models
@@ -170,14 +171,14 @@ class Section(BaseModel):
     name: str
     columns: int = 1
     visible: bool = True
-    items: List[Any] = Field(default_factory=list)
+    items: list[Any] = Field(default_factory=list)
 
 
 class ResumeData(BaseModel):
     """Contains all actual resume sections and basic details."""
 
     basics: Basics = Field(default_factory=Basics)
-    sections: Dict[str, Section] = Field(default_factory=dict)
+    sections: dict[str, Section] = Field(default_factory=dict)
 
 
 class Resume(BaseModel):
@@ -186,10 +187,10 @@ class Resume(BaseModel):
     id: str
     name: str
     slug: str
-    user_id: Optional[str] = Field(None, alias="userId")
+    user_id: str | None = Field(None, alias="userId")
     visibility: str = "public"
     locked: bool = False
-    data: Optional[ResumeData] = None
+    data: ResumeData | None = None
     created_at: datetime = Field(..., alias="createdAt")
     updated_at: datetime = Field(..., alias="updatedAt")
 
@@ -200,7 +201,7 @@ class ResumeImportData(BaseModel):
     """Schema for importing/creating a new resume."""
 
     title: str = Field(..., description="The name/title of the resume")
-    slug: Optional[str] = Field(None, description="Optional custom URL slug")
-    basics: Optional[Basics] = None
-    sections: Optional[Dict[str, Section]] = None
-    metadata: Optional[Dict[str, Any]] = None
+    slug: str | None = Field(None, description="Optional custom URL slug")
+    basics: Basics | None = None
+    sections: dict[str, Section] | None = None
+    metadata: dict[str, Any] | None = None

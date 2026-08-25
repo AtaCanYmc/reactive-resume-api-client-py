@@ -1,7 +1,8 @@
 import pytest
 import respx
 from httpx import Response
-from reactive_resume import RxResumeClient, AsyncRxResumeClient
+
+from reactive_resume import AsyncRxResumeClient, RxResumeClient
 
 BASE_URL = "https://rxresu.me"
 API_KEY = "test-api-key"

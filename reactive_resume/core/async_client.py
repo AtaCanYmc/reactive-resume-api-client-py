@@ -1,22 +1,23 @@
 """Asynchronous API Client implementation."""
 
-from typing import Any, Optional
+from typing import Any
+
 import httpx
 
-from .exceptions import (
-    ReactiveResumeError,
-    ReactiveResumeAPIError,
-    AuthenticationError,
-    NotFoundError,
-)
+from ..api.agent import AsyncAgentAPI
+from ..api.ai import AsyncAIAPI
+from ..api.ai_providers import AsyncAiProvidersAPI
+from ..api.applications import AsyncApplicationsAPI
 from ..api.auth import AsyncAuthAPI
+from ..api.flags import AsyncFlagsAPI
 from ..api.resumes import AsyncResumesAPI
 from ..api.statistics import AsyncStatisticsAPI
-from ..api.agent import AsyncAgentAPI
-from ..api.ai_providers import AsyncAiProvidersAPI
-from ..api.flags import AsyncFlagsAPI
-from ..api.ai import AsyncAIAPI
-from ..api.applications import AsyncApplicationsAPI
+from .exceptions import (
+    AuthenticationError,
+    NotFoundError,
+    ReactiveResumeAPIError,
+    ReactiveResumeError,
+)
 
 
 class AsyncRxResumeClient:
@@ -25,8 +26,8 @@ class AsyncRxResumeClient:
     def __init__(
         self,
         base_url: str,
-        api_key: Optional[str] = None,
-        token: Optional[str] = None,
+        api_key: str | None = None,
+        token: str | None = None,
         timeout: float = 30.0,
         verify: bool = True,
     ) -> None:
@@ -155,7 +156,7 @@ class AsyncRxResumeClient:
         """Close the underlying HTTP client."""
         await self.client.aclose()
 
-    async def __aenter__(self) -> "AsyncRxResumeClient":
+    async def __aenter__(self) -> "AsyncRxResumeClient":  # noqa: PYI034
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:

@@ -83,6 +83,7 @@ import asyncio
 from reactive_resume import AsyncRxResumeClient
 from reactive_resume.models import ResumeImportData, Basics
 
+
 async def main():
     # Initialize the async client
     async with AsyncRxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
@@ -94,9 +95,9 @@ async def main():
                 headline="Backend Engineer",
                 email="ata@example.com",
                 phone="+905555555555",
-                website="https://example.com"
+                website="https://example.com",
             ),
-            sections={}
+            sections={},
         )
 
         try:
@@ -110,6 +111,7 @@ async def main():
 
         except Exception as e:
             print(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -132,7 +134,9 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
 with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
     # 1. Start a new AI Agent thread and send a message
     thread = client.agent.create_thread()
-    response = client.agent.send_message(thread["id"], "Suggest a professional summary for a software developer.")
+    response = client.agent.send_message(
+        thread["id"], "Suggest a professional summary for a software developer."
+    )
     print(f"AI Suggestion: {response}")
 
     # 2. Retrieve global resume platform metrics

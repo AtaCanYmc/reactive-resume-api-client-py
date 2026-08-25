@@ -1,8 +1,8 @@
 """Pydantic models representing job applications in Reactive Resume."""
 
-from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
-from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class Application(BaseModel):
@@ -27,7 +27,7 @@ class ApplicationCreate(BaseModel):
 
     company: str
     position: str
-    stage: Optional[str] = "Applied"
-    date: Optional[datetime] = None
-    summary: Optional[str] = ""
-    url: Optional[str] = ""
+    stage: str | None = "Applied"
+    date: datetime | None = None
+    summary: str | None = ""
+    url: str | None = ""

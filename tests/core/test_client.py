@@ -1,14 +1,15 @@
+import httpx
 import pytest
 import respx
-import httpx
 from httpx import Response
+
 from reactive_resume import (
-    RxResumeClient,
     AsyncRxResumeClient,
     AuthenticationError,
     NotFoundError,
     ReactiveResumeAPIError,
     ReactiveResumeError,
+    RxResumeClient,
 )
 
 BASE_URL = "https://rxresu.me"
