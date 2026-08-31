@@ -40,4 +40,4 @@ ruff==0.16.4
 stevedore==5.9.0
 typing-inspection==0.4.4
 typing_extensions==4.16.0
-virtualenv==21.7.4
+virtualenv==21.7.5
