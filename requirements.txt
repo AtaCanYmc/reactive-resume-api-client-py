@@ -4,7 +4,7 @@ ast_serialize==0.6.0
 bandit==1.9.4
 certifi==2026.7.22
 cfgv==3.5.0
-coverage==7.15.2
+coverage==7.15.4
 distlib==0.4.3
 dnspython==2.8.0
 email-validator==2.3.0
