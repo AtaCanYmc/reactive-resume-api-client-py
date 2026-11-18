@@ -14,12 +14,54 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
-      releases_created: ${{ steps.release.outputs.releases_created }}
+      releases_created: ${{ steps.release.outputs.releases_created || steps.release.outputs['.--release_created'] || steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name || steps.release.outputs['.--tag_name'] }}
     steps:
       - uses: googleapis/release-please-action@v5
         id: release
         with:
-          release-type: python
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Checkout Code for Tagging
+        if: ${{ steps.release.outputs.releases_created == 'true' || steps.release.outputs['.--release_created'] == 'true' || steps.release.outputs.release_created == 'true' }}
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Update Floating Git Tags (vX, vX.Y, latest)
+        if: ${{ steps.release.outputs.releases_created == 'true' || steps.release.outputs['.--release_created'] == 'true' || steps.release.outputs.release_created == 'true' }}
+        run: |
+          TAG="${{ steps.release.outputs.tag_name || steps.release.outputs['.--tag_name'] }}"
+          VERSION="${{ steps.release.outputs.version || steps.release.outputs['.--version'] }}"
+
+          if [ -z "$TAG" ] && [ -n "$VERSION" ]; then
+            TAG="v$VERSION"
+          fi
+
+          if [ -z "$TAG" ]; then
+            TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          fi
+
+          if [ -n "$TAG" ]; then
+            CLEAN_VER="${TAG#v}"
+            IFS='.' read -r MAJ MIN PATCH <<< "$CLEAN_VER"
+
+            MAJOR="v$MAJ"
+            MINOR="v$MAJ.$MIN"
+
+            echo "Updating floating tags for release $TAG: $MAJOR, $MINOR, latest"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            git tag -f "$MAJOR" "$TAG"
+            git tag -f "$MINOR" "$TAG"
+            git tag -f latest "$TAG"
+
+            git push origin "$MAJOR" --force
+            git push origin "$MINOR" --force
+            git push origin latest --force
+          fi
 
   publish:
     name: Build and Publish to PyPI

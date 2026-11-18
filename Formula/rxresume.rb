@@ -3,8 +3,8 @@ class Rxresume < Formula
 
   desc "Reactive Resume API client, CLI, and FastMCP server"
   homepage "https://github.com/AtaCanYmc/reactive-resume-api-client-py"
-  url "https://github.com/AtaCanYmc/reactive-resume-api-client-py/archive/refs/tags/v0.6.0.tar.gz" # x-release-please-version
-  sha256 "0dde9f0dbcdd0488fb5059eea3276bfeea1bae206864cb9bd07bb7884f40db8c"
+  url "https://github.com/AtaCanYmc/reactive-resume-api-client-py/archive/refs/tags/v0.7.0.tar.gz" # x-release-please-version
+  sha256 "60539a878be88a7ae4907f412d146d9eedf12da3d903f9fb74e6a86d67f63262"
   license "MIT"
   head "https://github.com/AtaCanYmc/reactive-resume-api-client-py.git", branch: "main"
 
