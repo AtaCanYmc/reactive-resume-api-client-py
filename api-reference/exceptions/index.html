@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1087,9 +1087,9 @@
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>reactive_resume/core/exceptions.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-6">6</a></span>
-<span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReactiveResumeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="sd">"""Base exception for all Reactive Resume client errors."""</span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="reactive_resume.core.exceptions.ReactiveResumeError--source--__span-0-6"><a id="reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-6" name="reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReactiveResumeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeError--source--__span-0-7"><a id="reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-7" name="reactive_resume.core.exceptions.ReactiveResumeError--source--__codelineno-0-7"></a><span class="w">    </span><span class="sd">"""Base exception for all Reactive Resume client errors."""</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -1125,37 +1125,37 @@
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>reactive_resume/core/exceptions.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReactiveResumeAPIError</span><span class="p">(</span><span class="n">ReactiveResumeError</span><span class="p">):</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">"""Raised when the Reactive Resume API returns an error response."""</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>        <span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="n">response_body</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">response_body</span> <span class="o">=</span> <span class="n">response_body</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>        <span class="n">code_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" [Status </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">]"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="k">else</span> <span class="s2">""</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}{</span><span class="n">code_str</span><span class="si">}</span><span class="s2">"</span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-14"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-14" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-14"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReactiveResumeAPIError</span><span class="p">(</span><span class="n">ReactiveResumeError</span><span class="p">):</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-15"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-15" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-15"></a><span class="w">    </span><span class="sd">"""Raised when the Reactive Resume API returns an error response."""</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-16"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-16" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-16"></a>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-17"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-17" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-17"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-18"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-18" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-18"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-19"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-19" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-19"></a>        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-20"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-20" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-20"></a>        <span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-21"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-21" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-21"></a>        <span class="n">response_body</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-22"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-22" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-22"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-23"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-23" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-23"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-24"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-24" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-25"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-25" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">response_body</span> <span class="o">=</span> <span class="n">response_body</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-26"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-26" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-26"></a>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-27"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-27" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-27"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-28"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-28" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-28"></a>        <span class="n">code_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" [Status </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">]"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="k">else</span> <span class="s2">""</span>
+</span><span id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__span-0-29"><a id="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-29" name="reactive_resume.core.exceptions.ReactiveResumeAPIError--source--__codelineno-0-29"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}{</span><span class="n">code_str</span><span class="si">}</span><span class="s2">"</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -1208,9 +1208,9 @@
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>reactive_resume/core/exceptions.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">class</span><span class="w"> </span><span class="nc">AuthenticationError</span><span class="p">(</span><span class="n">ReactiveResumeAPIError</span><span class="p">):</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="w">    </span><span class="sd">"""Raised when authentication fails (401/403)."""</span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="reactive_resume.core.exceptions.AuthenticationError--source--__span-0-32"><a id="reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-32" name="reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-32"></a><span class="k">class</span><span class="w"> </span><span class="nc">AuthenticationError</span><span class="p">(</span><span class="n">ReactiveResumeAPIError</span><span class="p">):</span>
+</span><span id="reactive_resume.core.exceptions.AuthenticationError--source--__span-0-33"><a id="reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-33" name="reactive_resume.core.exceptions.AuthenticationError--source--__codelineno-0-33"></a><span class="w">    </span><span class="sd">"""Raised when authentication fails (401/403)."""</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -1263,9 +1263,9 @@
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>reactive_resume/core/exceptions.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">class</span><span class="w"> </span><span class="nc">NotFoundError</span><span class="p">(</span><span class="n">ReactiveResumeAPIError</span><span class="p">):</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">"""Raised when a requested resource is not found (404)."""</span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="reactive_resume.core.exceptions.NotFoundError--source--__span-0-36"><a id="reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-36" name="reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-36"></a><span class="k">class</span><span class="w"> </span><span class="nc">NotFoundError</span><span class="p">(</span><span class="n">ReactiveResumeAPIError</span><span class="p">):</span>
+</span><span id="reactive_resume.core.exceptions.NotFoundError--source--__span-0-37"><a id="reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-37" name="reactive_resume.core.exceptions.NotFoundError--source--__codelineno-0-37"></a><span class="w">    </span><span class="sd">"""Raised when a requested resource is not found (404)."""</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -1318,9 +1318,9 @@
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>reactive_resume/core/exceptions.py</code></summary>
-                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">ValidationError</span><span class="p">(</span><span class="n">ReactiveResumeError</span><span class="p">):</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="sd">"""Raised when request data fails client-side validation."""</span>
+                <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="reactive_resume.core.exceptions.ValidationError--source--__span-0-10"><a id="reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-10" name="reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">ValidationError</span><span class="p">(</span><span class="n">ReactiveResumeError</span><span class="p">):</span>
+</span><span id="reactive_resume.core.exceptions.ValidationError--source--__span-0-11"><a id="reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-11" name="reactive_resume.core.exceptions.ValidationError--source--__codelineno-0-11"></a><span class="w">    </span><span class="sd">"""Raised when request data fails client-side validation."""</span>
 </span></code></pre></div></td></tr></table></div>
               </details>
 
@@ -1376,10 +1376,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
