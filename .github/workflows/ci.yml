@@ -43,6 +43,7 @@ jobs:
 
       - name: Dependency Security Audit
         run: |
+          pip install --upgrade setuptools
           pip install pip-audit
           pip-audit
 
