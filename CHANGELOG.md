@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.6.0...v0.7.0) (2026-11-18)
+
+
+### Features
+
+* add Files and Career APIs, structured dates, resume checks, and kanban lanes ([80166a5](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/80166a584c76b338d7a98668b216dc057738e04a))
+* add Makefile with development, testing, and linting targets ([be5b93b](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/be5b93bac8841f65beae74a1b82fa0250e2896a4))
+* align SDK with Reactive Resume v6.1.1 API, health endpoint, and standalone cover letters ([38240ed](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/38240ed8bc20f92517e0d4b04fac50d4d03ff776))
+* **brew:** add Homebrew formula for rxresume CLI and FastMCP server ([d92b9ad](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/d92b9adf4e90bb389c42817d55524f3623b0ac53))
+* **cli:** implement full-featured rxresume command-line interface ([51a3d76](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/51a3d76af0e80bba1701a64fe87b491784ee17d4))
+* **docs:** replace mkdocs with custom modern web documentation UI ([2f754ff](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/2f754ff62eccb882e2aa329cf5e3345920ff4e63))
+* **mcp:** add FastMCP server with tools, resources, and prompt templates ([0da90b4](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/0da90b4bdbbfd1bbd99c8baecee397281f84bf15))
+
+
+### Bug Fixes
+
+* **ci:** bump python matrix to 3.11/3.12 and pin secure dnspython/filelock to resolve pip-audit failure ([2fee396](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/2fee396f8136b12ec7c67af3fb3335c315379c89))
+* **ci:** install mcp extra in CI and use importorskip for fastmcp tests ([7267303](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/7267303ffc98d9f40eae682beb57c1e181caf9c9))
+* **ci:** upgrade setuptools before dependency audit to prevent runner image vulnerability failure ([9721f84](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/9721f8497e61124701b97160db431f08ba09f4a0))
+* **docs:** deploy custom web docs directory to gh-pages branch via peaceiris action ([3f846ac](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/3f846ac2007fec3e8d92bd490cce7b26e6fb7b45))
+* **security:** resolve dependency vulnerabilities and harden demo configuration ([3622bd5](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/3622bd5d6a8b938b13d3ab2e2c5966c32d561b32))
+
+
+### Documentation
+
+* establish anti-slop documentation and repository governance ([2a06b1a](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/2a06b1a26f7e8bc7e89f231a466b88f08e5658dd))
+
 ## [0.6.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.5.0...v0.6.0) (2026-08-25)
 
 
