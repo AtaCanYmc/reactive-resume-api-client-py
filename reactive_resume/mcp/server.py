@@ -10,7 +10,13 @@ import base64
 import sys
 from typing import Any
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+
+    _HAS_FASTMCP = True
+except ImportError:
+    FastMCP = Any  # type: ignore[misc,assignment]
+    _HAS_FASTMCP = False
 
 from reactive_resume.cli.config import get_client
 from reactive_resume.core.client import RxResumeClient
@@ -24,6 +30,11 @@ def create_mcp_server(
     profile: str | None = None,
 ) -> FastMCP:
     """Create and configure the FastMCP Reactive Resume server."""
+    if not _HAS_FASTMCP:
+        raise ImportError(
+            "FastMCP is not installed. Install it using: pip install 'rxresume-python[mcp]'"
+        )
+
     mcp = FastMCP(
         name="Reactive Resume",
     )

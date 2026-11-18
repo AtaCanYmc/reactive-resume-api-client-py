@@ -4,6 +4,8 @@ from httpx import Response
 
 from reactive_resume.mcp.server import create_mcp_server
 
+pytest.importorskip("fastmcp")
+
 BASE_URL = "https://rxresu.me"
 
 
