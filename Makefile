@@ -5,7 +5,7 @@ UV ?= $(shell command -v uv 2>/dev/null)
 
 ifeq ($(UV),)
     RUN :=
-    INSTALL_CMD := pip install -e ".[dev,docs,demo]"
+    INSTALL_CMD := pip install -e ".[dev,demo]"
 else
     RUN := uv run
     INSTALL_CMD := uv sync --all-extras
@@ -59,12 +59,12 @@ endif
 check: format-check typecheck lint test ## Run all checks (format, typecheck, lint, test)
 
 .PHONY: docs-serve
-docs-serve: ## Serve documentation locally
-	$(RUN) mkdocs serve
+docs-serve: ## Serve documentation web app locally on port 8000
+	python -m http.server 8000 --directory docs
 
 .PHONY: docs-build
-docs-build: ## Build documentation
-	$(RUN) mkdocs build --clean
+docs-build: ## Verify documentation web assets
+	@test -f docs/index.html && echo "Documentation web screen verified at docs/index.html"
 
 .PHONY: demo
 demo: ## Run the Flask demo web application

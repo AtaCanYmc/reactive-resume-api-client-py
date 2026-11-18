@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- MANDATORY per modern-web-guidance: Declare support for both light and dark themes -->
+  <meta name="color-scheme" content="light dark">
+  <title>Reactive Resume Python SDK & CLI Documentation</title>
+  <meta name="description" content="Type-safe Python API Client (SDK) and CLI for Reactive Resume v6.1.1 API.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-header">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <button id="mobile-toggle" class="icon-btn" aria-label="Toggle navigation" style="display: none;">
+        &#9776;
+      </button>
+      <a href="#hero" class="brand-area">
+        <div class="brand-icon">Rx</div>
+        <span class="brand-title">rxresume-python</span>
+        <span class="version-tag">v0.7.0</span>
+      </a>
+    </div>
+
+    <div class="header-controls">
+      <div class="search-box">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text" id="doc-search" class="search-input" placeholder="Search docs & APIs...">
+      </div>
+
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+        <span id="theme-icon">&#127769;</span>
+      </button>
+
+      <a href="https://github.com/AtaCanYmc/reactive-resume-api-client-py" target="_blank" rel="noopener" class="icon-btn" title="GitHub Repository">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- App Shell -->
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="nav-group">
+        <div class="nav-title">Getting Started</div>
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active">Overview</a></li>
+          <li><a href="#installation" class="nav-link">Installation</a></li>
+          <li><a href="#quickstart" class="nav-link">Quickstart</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Core Architecture</div>
+        <ul class="nav-list">
+          <li><a href="#clients" class="nav-link">Sync & Async Clients</a></li>
+          <li><a href="#system-health" class="nav-link">Health Check <span class="nav-badge">v6.1.1</span></a></li>
+          <li><a href="#authentication" class="nav-link">Authentication</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">Service Modules</div>
+        <ul class="nav-list">
+          <li><a href="#resumes" class="nav-link">Resumes API</a></li>
+          <li><a href="#cover-letters" class="nav-link">Cover Letters <span class="nav-badge">New</span></a></li>
+          <li><a href="#documents" class="nav-link">Documents & Trash</a></li>
+          <li><a href="#applications" class="nav-link">Job Applications</a></li>
+          <li><a href="#files" class="nav-link">Files & Storage</a></li>
+          <li><a href="#career" class="nav-link">Career & Facts</a></li>
+          <li><a href="#custom-domain" class="nav-link">Custom Domains</a></li>
+          <li><a href="#statistics" class="nav-link">Platform Statistics</a></li>
+          <li><a href="#agent-ai" class="nav-link">AI Agent & Providers</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">CLI & Tooling</div>
+        <ul class="nav-list">
+          <li><a href="#cli" class="nav-link">CLI Reference (rxresume)</a></li>
+          <li><a href="#error-handling" class="nav-link">Error Handling</a></li>
+          <li><a href="#recipes" class="nav-link">Integration Recipes</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- Hero Section -->
+      <section id="hero" class="hero-card doc-section">
+        <div class="hero-tag">
+          <span>⚡ Reactive Resume v6.1.1 Compatible</span>
+        </div>
+        <h1 class="hero-title">Unofficial Python SDK & CLI for Reactive Resume</h1>
+        <p class="hero-desc">
+          A production-grade, type-safe Python client and terminal CLI supporting both Synchronous and Asynchronous HTTP operations. Fully aligned with the latest Reactive Resume v6.1.1 API specification.
+        </p>
+        <div class="hero-actions">
+          <a href="#quickstart" class="btn btn-primary">Get Started</a>
+          <a href="#cli" class="btn btn-secondary">Explore CLI</a>
+          <a href="#resumes" class="btn btn-secondary">API Reference</a>
+        </div>
+      </section>
+
+      <!-- Key Features Cards -->
+      <div class="grid-cards">
+        <div class="card">
+          <div class="card-icon">🔄</div>
+          <div class="card-title">Dual Client Engines</div>
+          <div class="card-body">Native support for both synchronous (<code>RxResumeClient</code>) and asynchronous (<code>AsyncRxResumeClient</code>) workflows with clean context managers.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <div class="card-title">Full Type Safety</div>
+          <div class="card-body">Rigorous Pydantic v2 schemas for all requests, responses, section items, and structured dates with strict runtime validation.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">💻</div>
+          <div class="card-title">Zero-Dependency CLI</div>
+          <div class="card-body">Built-in <code>rxresume</code> CLI tool powered entirely by Python standard library <code>argparse</code> with profile and JSON table outputs.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🗑️</div>
+          <div class="card-title">v6.1.1 Document Trash</div>
+          <div class="card-body">Full support for standalone Cover Letters, 30-day trash/restore lifecycle, Custom Domains, and unauthenticated Health checks.</div>
+        </div>
+      </div>
+
+      <!-- Installation Section -->
+      <section id="installation" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Installation</h2>
+          <p class="section-subtitle">Install the SDK from PyPI using pip or uv.</p>
+        </div>
+
+        <p>The library requires <strong>Python 3.11+</strong> and has minimal external dependencies (<code>httpx</code> and <code>pydantic</code>).</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Terminal</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code># Install standard package
+pip install rxresume-python
+
+# Or install with uv (recommended)
+uv add rxresume-python
+
+# Include demo & development extras
+pip install "rxresume-python[dev,demo]"</code></pre>
+        </div>
+      </section>
+
+      <!-- Quickstart Section -->
+      <section id="quickstart" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Quickstart</h2>
+          <p class="section-subtitle">Start managing resumes in less than 2 minutes.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs">
+              <button class="code-tab active" data-tab="async">Asynchronous</button>
+              <button class="code-tab" data-tab="sync">Synchronous</button>
+              <button class="code-tab" data-tab="cli">CLI</button>
+            </div>
+            <button class="copy-btn">Copy</button>
+          </div>
+
+          <div class="code-pane" data-pane="async">
+            <pre><code>import asyncio
+from reactive_resume import AsyncRxResumeClient
+from reactive_resume.models import Basics, ResumeImportData
+
+async def main():
+    async with AsyncRxResumeClient(
+        base_url="https://rxresu.me",
+        api_key="your_api_key_here"
+    ) as client:
+        # Check system health
+        health = await client.health()
+        print(f"Connected to Reactive Resume v{health.version}")
+
+        # List resumes
+        resumes = await client.resumes.list(limit=10)
+        for r in resumes:
+            print(f"- {r.name} (ID: {r.id})")
+
+        # Export resume as PDF bytes
+        pdf_bytes = await client.resumes.export(resumes[0].id, format="pdf")
+        with open("resume.pdf", "wb") as f:
+            f.write(pdf_bytes)
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+          </div>
+
+          <div class="code-pane" data-pane="sync" style="display: none;">
+            <pre><code>from reactive_resume import RxResumeClient
+
+with RxResumeClient(
+    base_url="https://rxresu.me",
+    api_key="your_api_key_here"
+) as client:
+    # Check application health
+    health = client.health()
+    print(f"Service status: {health.status} (v{health.version})")
+
+    # Fetch public resume
+    resume = client.resumes.get_public_resume("john_doe", "software-engineer")
+    print(f"Profile: {resume.data.basics.name} - {resume.data.basics.headline}")
+
+    # Global overview stats
+    stats = client.statistics.get_overview()
+    print("Platform statistics:", stats)</code></pre>
+          </div>
+
+          <div class="code-pane" data-pane="cli" style="display: none;">
+            <pre><code># 1. Configure default server & authentication
+rxresume config set-url https://rxresu.me
+rxresume config set-key your_api_key_here
+
+# 2. Check server health
+rxresume health
+
+# 3. List your resumes
+rxresume resumes list --format table
+
+# 4. Download resume in PDF format
+rxresume resumes download res-123 -o my_cv.pdf --format pdf</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- System Health Section -->
+      <section id="system-health" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">System Health API</h2>
+          <p class="section-subtitle">Unauthenticated service and database health checks.</p>
+        </div>
+        <p>In Reactive Resume v6.1.1, the <code>GET /api/health</code> endpoint sits at root level outside the OpenAPI namespace and requires no token or API key.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code># Direct shortcut on client
+health = client.health()
+
+print("Status:", health.status)      # "ok"
+print("Version:", health.version)    # "6.1.1"
+print("Database:", health.database.status)
+print("Storage:", health.storage.status)</code></pre>
+        </div>
+      </section>
+
+      <!-- Resumes API Section -->
+      <section id="resumes" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Resumes API (<code>client.resumes</code>)</h2>
+          <p class="section-subtitle">Full lifecycle management for resume documents.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>HTTP Route</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>list(limit, offset)</code></td>
+                <td><code>GET /resumes</code></td>
+                <td>List user resumes with optional pagination.</td>
+              </tr>
+              <tr>
+                <td><code>get(id)</code></td>
+                <td><code>GET /resumes/{id}</code></td>
+                <td>Retrieve complete resume entity and JSON schema.</td>
+              </tr>
+              <tr>
+                <td><code>export(id, format)</code></td>
+                <td><code>GET /resumes/{id}/exports/{format}</code></td>
+                <td>Export as <code>pdf</code>, <code>docx</code>, <code>md</code>, or <code>json</code>.</td>
+              </tr>
+              <tr>
+                <td><code>file_import(format, bytes)</code></td>
+                <td><code>POST /resumes/file-imports</code></td>
+                <td>Multipart upload for PDF, JSON Resume, LinkedIn imports.</td>
+              </tr>
+              <tr>
+                <td><code>get_checks(id)</code></td>
+                <td><code>GET /resumes/{id}/checks</code></td>
+                <td>Run deterministic ATS and grammar editor checks.</td>
+              </tr>
+              <tr>
+                <td><code>match_job(id, job_desc)</code></td>
+                <td><code>POST /resumes/{id}/job-matches</code></td>
+                <td>Match resume terms to a job description.</td>
+              </tr>
+              <tr>
+                <td><code>get_preview_url(id)</code></td>
+                <td><code>GET /resumes/{id}/web-page/preview</code></td>
+                <td>Generate 15-minute temporary web preview link.</td>
+              </tr>
+              <tr>
+                <td><code>lock(id, is_locked)</code></td>
+                <td><code>POST /resumes/{id}/lock</code></td>
+                <td>Lock or unlock resume against inadvertent changes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Cover Letters Section -->
+      <section id="cover-letters" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Cover Letters API (<code>client.cover_letters</code>)</h2>
+          <p class="section-subtitle">Standalone cover letters introduced in v6 architecture.</p>
+        </div>
+        <p>Cover letters are independent documents with their own versioning and templates.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code>from reactive_resume.models import CoverLetterCreate
+
+# Create a new standalone cover letter
+new_letter = client.cover_letters.create(
+    CoverLetterCreate(
+        name="Google Backend Application",
+        slug="google-backend-2026",
+        content="Dear Hiring Manager,\n\nI am thrilled to apply..."
+    )
+)
+
+# Export cover letter as PDF
+pdf_data = client.cover_letters.export(new_letter.id, format="pdf")</code></pre>
+        </div>
+      </section>
+
+      <!-- Documents & Trash Section -->
+      <section id="documents" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Documents & Trash API (<code>client.documents</code>)</h2>
+          <p class="section-subtitle">30-day soft deletion and restoration management.</p>
+        </div>
+        <p>In Reactive Resume v6, deleting a document moves it to the trash folder for 30 days before permanent deletion.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code># View counts across document types
+counts = client.documents.get_counts()
+print(f"Resumes: {counts['resumes']}, Trash: {counts['trash']}")
+
+# Move resume to trash
+client.documents.trash(type="resume", document_id="res-123")
+
+# Restore document from trash
+client.documents.restore("res-123")
+
+# Permanently purge document
+client.documents.purge("res-123")</code></pre>
+        </div>
+      </section>
+
+      <!-- Job Applications Section -->
+      <section id="applications" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Job Applications (<code>client.applications</code>)</h2>
+          <p class="section-subtitle">Track job search pipelines, Kanban lanes, and status.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code># Fetch lightweight pipeline summary
+summaries = client.applications.summary()
+
+# Close an application with v6 reason semantics
+client.applications.close(
+    app_id="app-456",
+    reason="accepted-other"  # 'not-selected' | 'withdrew' | 'accepted-other' | 'no-response'
+)
+
+# Fetch custom Kanban lanes
+lanes = client.applications.get_lanes()</code></pre>
+        </div>
+      </section>
+
+      <!-- CLI Reference Section -->
+      <section id="cli" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Command-Line Interface (<code>rxresume</code>)</h2>
+          <p class="section-subtitle">Comprehensive terminal CLI with configuration profiles.</p>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Command</th>
+                <th>Action</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>rxresume health</code></td>
+                <td>Server & database health report</td>
+                <td><code>rxresume health</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume resumes list</code></td>
+                <td>List resumes in table or JSON</td>
+                <td><code>rxresume resumes list --format table</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume resumes download</code></td>
+                <td>Download resume (pdf, docx, md, json)</td>
+                <td><code>rxresume resumes download res-1 -o cv.pdf --format pdf</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume cover-letters list</code></td>
+                <td>List standalone cover letters</td>
+                <td><code>rxresume cover-letters list</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume documents trash</code></td>
+                <td>Move a document to 30-day trash</td>
+                <td><code>rxresume documents trash res-1</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume documents restore</code></td>
+                <td>Restore a document from trash</td>
+                <td><code>rxresume documents restore res-1</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume custom-domain get</code></td>
+                <td>View custom domain DNS mapping</td>
+                <td><code>rxresume custom-domain get</code></td>
+              </tr>
+              <tr>
+                <td><code>rxresume agent chat</code></td>
+                <td>Terminal interactive AI chat session</td>
+                <td><code>rxresume agent chat --resume-id res-1</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Error Handling Section -->
+      <section id="error-handling" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Error Handling</h2>
+          <p class="section-subtitle">Explicit exception mapping for reliable integrations.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Python</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code>from reactive_resume import (
+    AuthenticationError,
+    NotFoundError,
+    RateLimitError,
+    ServerError,
+    RxResumeClient
+)
+
+try:
+    with RxResumeClient(base_url="https://rxresu.me", api_key="test") as client:
+        client.resumes.get("unknown-id")
+except AuthenticationError as e:
+    print(f"Auth error (401/403): {e.message}")
+except NotFoundError as e:
+    print(f"Resource not found (404): {e.message}")
+except RateLimitError as e:
+    print(f"Rate limited (429): {e.message}")
+except ServerError as e:
+    print(f"Reactive Resume server error (5xx): {e.message}")</code></pre>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="doc-footer">
+        <div>
+          Licensed under MIT &bull; Reactive Resume Python SDK
+        </div>
+        <div>
+          Maintained by <a href="https://github.com/AtaCanYmc" target="_blank" rel="noopener" style="color: var(--brand-primary); text-decoration: none; font-weight: 600;">Ata Can Yaymacı</a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -23,10 +23,6 @@ Requires-Dist: bandit>=1.7.0; extra == "dev"
 Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
 Requires-Dist: mypy>=1.0.0; extra == "dev"
 Requires-Dist: filelock>=4.2.12; extra == "dev"
-Provides-Extra: docs
-Requires-Dist: mkdocs>=1.5.0; extra == "docs"
-Requires-Dist: mkdocs-material>=9.0.0; extra == "docs"
-Requires-Dist: mkdocstrings[python]>=0.20.0; extra == "docs"
 Provides-Extra: demo
 Requires-Dist: flask>=3.0.0; extra == "demo"
 Dynamic: license-file

@@ -34,11 +34,6 @@ dev = [
     "mypy>=1.0.0",
     "filelock>=4.2.12",
 ]
-docs = [
-    "mkdocs>=1.5.0",
-    "mkdocs-material>=9.0.0",
-    "mkdocstrings[python]>=0.20.0",
-]
 demo = [
     "flask>=3.0.0",
 ]
