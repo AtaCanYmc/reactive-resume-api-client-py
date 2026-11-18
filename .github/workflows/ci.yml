@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip setuptools wheel
           pip install -e ".[dev]"
 
       - name: Lint with Ruff
@@ -43,7 +43,7 @@ jobs:
 
       - name: Dependency Security Audit
         run: |
-          pip install pip-audit
+          pip install --upgrade setuptools pip-audit
           pip-audit
 
       - name: Run Tests with Pytest
