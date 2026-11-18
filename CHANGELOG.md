@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.7.0...v0.8.0) (2026-11-18)
+
+
+### Features
+
+* complete v0.7.0 roadmap features and establish v0.8.0 / v1.0.0 milestones ([e008a93](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/e008a935c9fef291f98896fba0ee07c8d872c6bf))
+
 ## [0.7.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.6.0...v0.7.0) (2026-11-18)
 
 
