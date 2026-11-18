@@ -1,0 +1,51 @@
+name: Bug Report
+description: File a bug report with reproducible steps
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue. Please fill out the form below with factual reproduction details.
+  - type: input
+    id: version
+    attributes:
+      label: SDK Version
+      description: What version of `rxresume-python` are you running? (e.g. 0.6.0)
+      placeholder: "0.6.0"
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: Python runtime version (e.g. 3.10.12, 3.11.8)
+      placeholder: "3.11"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Reproduction Steps
+      description: Code snippet or exact command demonstrating the bug
+      placeholder: |
+        ```python
+        from reactive_resume import RxResumeClient
+        client = RxResumeClient(base_url="https://...")
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior & Error Traceback
+      description: Paste the exact terminal output or traceback
+      render: shell
+    validations:
+      required: true

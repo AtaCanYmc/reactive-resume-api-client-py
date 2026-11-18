@@ -1,0 +1,23 @@
+# Set default behavior to automatically normalize line endings
+* text=auto eol=lf
+
+# Explicitly declare text files
+*.py text diff=python
+*.md text
+*.json text
+*.yml text
+*.yaml text
+*.toml text
+*.txt text
+Makefile text
+
+# Shell scripts must maintain LF
+*.sh text eol=lf
+
+# Exclude documentation and config files from export archives
+.github export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+.editorconfig export-ignore
+.markdownlint.json export-ignore
+tests export-ignore

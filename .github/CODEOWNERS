@@ -1,0 +1,8 @@
+# Global owners for all files
+* @AtaCanYmc
+
+# Security policy
+SECURITY.md @AtaCanYmc
+
+# CI and Automation workflows
+.github/workflows/ @AtaCanYmc

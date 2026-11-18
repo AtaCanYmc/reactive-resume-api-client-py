@@ -1,0 +1,31 @@
+name: Feature Request
+description: Propose a new feature, endpoint mapping, or capability
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the proposed feature and why it is needed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement / Context
+      description: Is your feature request related to a missing API endpoint or a specific use case?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution / API Design
+      description: Describe how the feature should be invoked in the SDK or CLI.
+      placeholder: |
+        ```python
+        client.resumes.export_format(...)
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative implementations or workarounds you considered.

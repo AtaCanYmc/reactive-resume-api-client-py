@@ -1,123 +1,146 @@
 # Reactive Resume Python SDK (`rxresume-python`)
 
+[![CI](https://github.com/AtaCanYmc/reactive-resume-api-client-py/actions/workflows/ci.yml/badge.svg)](https://github.com/AtaCanYmc/reactive-resume-api-client-py/actions/workflows/ci.yml)
+[![PyPI Version](https://img.shields.io/pypi/v/rxresume-python.svg)](https://pypi.org/project/rxresume-python/)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![Pydantic v2](https://img.shields.io/badge/pydantic-v2-red.svg)](https://docs.pydantic.dev/)
-[![HTTPX](https://img.shields.io/badge/http--client-httpx-brightgreen.svg)](https://www.python-httpx.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-An unofficial modern, type-safe Python API Client (SDK) for **Reactive Resume v4**.
+An unofficial, type-safe Python API client and command-line interface (CLI) for **Reactive Resume v4**.
 
-It supports both synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) clients, ensures fully typed request/response schemas using **Pydantic v2**, and maps API errors to clean, descriptive Python exceptions.
+Provides synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) clients with Pydantic v2 schemas, typed exception handling, and a zero-dependency CLI.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Architecture](#architecture)
+- [Capability Matrix](#capability-matrix)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+  - [Docker Fast-Path (Demo Application)](#docker-fast-path-demo-application)
+  - [Asynchronous Client](#asynchronous-client)
+  - [Synchronous Client](#synchronous-client)
+- [Command-Line Interface (CLI)](#command-line-interface-cli)
+- [Error Handling](#error-handling)
+- [Development and Testing](#development-and-testing)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
 ---
 
 ## Features
 
-- **Dual client modes**: Support for both sync and async APIs.
-- **Full API coverage**: Integrated modules for Resume management, Job Applications tracking, AI Agent, AI Providers configurations, Global Statistics, and Feature Flags.
-- **Type safety**: Fully typed models for all entities using Pydantic V2.
-- **Robust error handling**: Raw API status errors are automatically parsed into specific exceptions (`AuthenticationError`, `NotFoundError`, etc.).
-- **Developer Experience (DX)**: Code-completion ready with clear typing and docstrings.
+- **Dual client interfaces**: Complete synchronous and asynchronous API support.
+- **Full API coverage**: Endpoints for Resumes, Job Applications, AI Agent, AI Providers, Global Statistics, and Feature Flags.
+- **Type safety**: Fully typed models for all entities using Pydantic v2.
+- **Structured error handling**: Maps HTTP 401, 403, 404, and 5xx responses to descriptive Python exceptions.
+- **Built-in CLI (`rxresume`)**: Command-line tool for managing profiles, downloading PDFs, analyzing resumes, and chatting with AI agents.
 
 ---
 
 ## Architecture
 
 ```mermaid
-graph TD
-    UserApp[User Application / Script] -->|Instantiates| SyncClient[RxResumeClient]
-    UserApp -->|Instantiates| AsyncClient[AsyncRxResumeClient]
+flowchart TD
+    UserApp["User Application / CLI"] -->|Instantiates| SyncClient["RxResumeClient"]
+    UserApp -->|Instantiates| AsyncClient["AsyncRxResumeClient"]
 
-    subgraph "Service Modules (Sync & Async)"
-        SyncClient --> Auth[auth]
-        SyncClient --> Resumes[resumes]
-        SyncClient --> Stats[statistics]
-        SyncClient --> Agent[agent]
-        SyncClient --> AIProviders[ai_providers]
-        SyncClient --> Flags[flags]
-        SyncClient --> AI[ai]
-        SyncClient --> Applications[applications]
+    subgraph ServiceModules["Service Modules"]
+        SyncClient & AsyncClient --> Auth["auth"]
+        SyncClient & AsyncClient --> Resumes["resumes"]
+        SyncClient & AsyncClient --> Stats["statistics"]
+        SyncClient & AsyncClient --> Agent["agent"]
+        SyncClient & AsyncClient --> AIProviders["ai_providers"]
+        SyncClient & AsyncClient --> Flags["flags"]
+        SyncClient & AsyncClient --> AI["ai"]
+        SyncClient & AsyncClient --> Applications["applications"]
     end
 
-    Auth -->|HTTP/REST Calls| Backend[Reactive Resume v4 API Backend]
-    Resumes -->|HTTP/REST Calls| Backend
-    Stats -->|HTTP/REST Calls| Backend
-    Agent -->|HTTP/REST Calls| Backend
-    AIProviders -->|HTTP/REST Calls| Backend
-    Flags -->|HTTP/REST Calls| Backend
-    AI -->|HTTP/REST Calls| Backend
-    Applications -->|HTTP/REST Calls| Backend
+    Auth & Resumes & Stats & Agent & AIProviders & Flags & AI & Applications -->|HTTP/REST Calls| Backend["Reactive Resume v4 API Backend"]
 ```
 
 ---
 
 ## Capability Matrix
 
-| Service Module | Sync | Async | Key Mapped Endpoints (Postman Collection) |
+| Service Module | Sync | Async | Key Mapped Operations |
 | :--- | :---: | :---: | :--- |
-| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Download PDF, Set/Verify/Remove Password, Duplicate, Lock, Version History, Public Resume, Statistics |
-| **Applications** (`client.applications`) | Yes | Yes | List, Get, Create, Delete, List Tags, Pipeline Stats, Bulk Import |
+| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Download PDF, Lock/Unlock, Password, Versions, Statistics |
+| **Applications** (`client.applications`) | Yes | Yes | List, Get, Create, Delete, List Tags, Pipeline Statistics, Bulk Import |
 | **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
-| **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count (Global Stats) |
-| **Agent** (`client.agent`) | Yes | Yes | List Threads, Create/Get/Delete Threads, Send Message, Stop Active Run, Resume Message Stream, Create/Delete Attachment, Revert Action |
-| **AI Providers** (`client.ai_providers`) | Yes | Yes | List, Create, Update, Delete, Test saved AI providers |
+| **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count |
+| **Agent** (`client.agent`) | Yes | Yes | List/Create/Archive Threads, Send Message, Stop Run, Stream Resume, Revert Actions |
+| **AI Providers** (`client.ai_providers`) | Yes | Yes | List, Create, Update, Delete, Test Provider Connection |
 | **AI Functions** (`client.ai`) | Yes | Yes | Parse PDF, Parse DOCX, Chat, Analyze Resume |
 | **Feature Flags** (`client.flags`) | Yes | Yes | List Server-side Feature Flags |
 
+---
 
 ## Installation
 
-Install the package via `pip` or your favorite package manager:
-
 ```bash
 pip install rxresume-python
+```
+
+For development and demo dependencies:
+
+```bash
+pip install "rxresume-python[dev,demo]"
 ```
 
 ---
 
 ## Quick Start
 
-### 1. Asynchronous Client (FastAPI / Asynchronous Code)
+### Docker Fast-Path (Demo Application)
+
+To run the bundled Flask demo application using Docker Compose:
+
+```bash
+export RX_RESUME_URL="https://rxresu.me"
+export RX_RESUME_API_KEY="your_api_key_here"
+docker compose -f demo/docker-compose.yml up --build
+```
+
+Access the web interface at `http://localhost:5000`.
+
+### Asynchronous Client
 
 ```python
 import asyncio
 from reactive_resume import AsyncRxResumeClient
-from reactive_resume.models import ResumeImportData, Basics
+from reactive_resume.models import Basics, ResumeImportData
 
 
 async def main():
-    # Initialize the async client
-    async with AsyncRxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
-        # Create a new resume
-        import_data = ResumeImportData(
-            title="Ata Can Yaymacı - Backend Engineer",
+    async with AsyncRxResumeClient(
+        base_url="https://rxresu.me",
+        api_key="your_api_key",
+    ) as client:
+        # Import or create a new resume
+        payload = ResumeImportData(
+            title="Software Engineer CV",
             basics=Basics(
-                name="Ata Can Yaymacı",
-                headline="Backend Engineer",
-                email="ata@example.com",
-                phone="+905555555555",
-                website="https://example.com",
+                name="Alex Smith",
+                headline="Software Engineer",
+                email="alex@example.com",
             ),
-            sections={},
         )
+        resume = await client.resumes.import_resume(payload)
+        print(f"Created: {resume.name} (ID: {resume.id})")
 
-        try:
-            # Import/Create a new resume
-            new_resume = await client.resumes.import_resume(import_data)
-            print(f"Created resume: {new_resume.name} (ID: {new_resume.id})")
-
-            # Download the compiled PDF bytes
-            pdf_bytes = await client.resumes.download_pdf(new_resume.id)
-            print(f"Downloaded PDF: {len(pdf_bytes)} bytes")
-
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        # Retrieve PDF download link
+        pdf_url = await client.resumes.get_pdf_url(resume.id)
+        print(f"PDF URL: {pdf_url}")
 
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### 2. Synchronous Client
+### Synchronous Client
 
 ```python
 from reactive_resume import RxResumeClient
@@ -126,90 +149,95 @@ with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as cli
     resumes = client.resumes.list()
     for resume in resumes:
         print(f"Resume: {resume.name} (Slug: {resume.slug})")
-```
 
-### 3. Advanced Features (AI Agent, Statistics, Applications)
-
-```python
-with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
-    # 1. Start a new AI Agent thread and send a message
-    thread = client.agent.create_thread()
-    response = client.agent.send_message(
-        thread["id"], "Suggest a professional summary for a software developer."
-    )
-    print(f"AI Suggestion: {response}")
-
-    # 2. Retrieve global resume platform metrics
-    users_count = client.statistics.get_users_count()
-    print(f"Platform Users: {users_count}")
-
-    # 3. List job applications
-    apps = client.applications.list()
-    for app in apps:
-        print(f"Job application: {app.company} - {app.position} ({app.stage})")
-
-    # 4. Check server-side feature flags
-    flags = client.flags.list()
-    print(f"Signups disabled: {flags.get('isSignupsDisabled')}")
+    stats = client.statistics.get_users_count()
+    print(f"Total Platform Users: {stats}")
 ```
 
 ---
 
-## Demo Web Application & Docker
+## Command-Line Interface (CLI)
 
-A full-fledged Flask web application is included in the `demo/` directory to demonstrate real-world SDK usage:
+The SDK installs a command-line tool named `rxresume`.
 
-- **Local Execution**: `uv sync --extra demo && python demo/app.py`
-- **Docker Compose**: `docker compose -f demo/docker-compose.yml up --build`
+### Configuration Profiles
 
-For detailed setup instructions, check out the [Demo README](demo/README.md) and [Flask Demo Guide](docs/examples/flask_demo.md).
+Configure server connection details to avoid passing flags on every execution:
 
+```bash
+# Set default instance URL and API Key
+rxresume config set-url https://rxresu.me
+rxresume config set-key your_api_key_here
+
+# Create or switch to another profile
+rxresume config use-profile local
+rxresume config set-url http://localhost:3000
+rxresume config set-key local_dev_key
+```
+
+### CLI Command Reference
+
+| Command | Action | Example |
+| :--- | :--- | :--- |
+| `rxresume resumes list` | List resumes (table or json) | `rxresume resumes list --format table` |
+| `rxresume resumes get <id>` | View resume details | `rxresume resumes get res-123` |
+| `rxresume resumes download <id>` | Download resume as PDF file | `rxresume resumes download res-123 -o cv.pdf` |
+| `rxresume resumes import -f <file>` | Import resume from JSON | `rxresume resumes import -f data.json` |
+| `rxresume resumes lock <id>` | Lock resume against changes | `rxresume resumes lock res-123` |
+| `rxresume ai parse-pdf <file>` | Extract resume JSON from PDF | `rxresume ai parse-pdf cv.pdf --provider prov-1` |
+| `rxresume agent chat` | Interactive terminal agent chat | `rxresume agent chat --resume-id res-123` |
+| `rxresume stats users` | Get total registered users | `rxresume stats users` |
 
 ---
-
 
 ## Error Handling
 
-All client API calls map HTTP errors to specific exception classes:
+All client methods translate HTTP error statuses into explicit exception classes:
 
 ```python
-from reactive_resume import RxResumeClient, AuthenticationError, NotFoundError
+from reactive_resume import AuthenticationError, NotFoundError, RxResumeClient
 
 try:
-    with RxResumeClient(base_url="https://rxresu.me", api_key="wrong_key") as client:
+    with RxResumeClient(base_url="https://rxresu.me", api_key="invalid_key") as client:
         client.resumes.list()
 except AuthenticationError as e:
-    print(f"Auth error (Status {e.status_code}): {e}")
+    print(f"Authentication failed ({e.status_code}): {e}")
 except NotFoundError as e:
-    print(f"Not found: {e}")
-except Exception as e:
-    print(f"Generic error: {e}")
+    print(f"Resource not found: {e}")
 ```
 
 ---
 
-## Development & Testing
+## Development and Testing
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/reactive-resume-api-client-py.git
-   cd reactive-resume-api-client-py
-   ```
+The repository provides a `Makefile` for local testing and code verification:
 
-2. Install dependencies:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   pip install -e ".[dev]"
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/AtaCanYmc/reactive-resume-api-client-py.git
+cd reactive-resume-api-client-py
 
-3. Run the tests:
-   ```bash
-   pytest
-   ```
+# Install dependencies using uv
+uv sync --all-extras
+
+# Run verification checks (lint, typecheck, tests)
+make check
+```
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming conventions, Conventional Commit standards, and pull request verification instructions.
+
+---
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for supported versions and instructions on reporting security vulnerabilities privately.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
