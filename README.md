@@ -96,14 +96,32 @@ flowchart TD
 
 ## Installation
 
+### Homebrew (macOS & Linux)
+
+Install the standalone CLI and FastMCP server directly via the official Homebrew tap:
+
 ```bash
-pip install rxresume-python
+brew tap AtaCanYmc/tap
+brew install rxresume
 ```
 
-For development and demo dependencies:
+Alternatively, direct tap without repository registration:
 
 ```bash
-pip install "rxresume-python[dev,demo]"
+brew install AtaCanYmc/tap/rxresume
+```
+
+### PyPI (Python Library & CLI)
+
+```bash
+# Core SDK and CLI
+pip install rxresume-python
+
+# With FastMCP Model Context Protocol server support
+pip install "rxresume-python[mcp]"
+
+# With development and demo dependencies
+pip install "rxresume-python[dev,demo,mcp]"
 ```
 
 ---
