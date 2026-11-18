@@ -151,11 +151,15 @@
             <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Terminal</span>
             <button class="copy-btn">Copy</button>
           </div>
-          <pre><code># Install standard package
+          <pre><code># Install via Homebrew Tap (macOS & Linux)
+brew tap AtaCanYmc/tap
+brew install rxresume
+
+# Or install via PyPI with pip
 pip install rxresume-python
 
-# Or install with uv (recommended)
-uv add rxresume-python
+# FastMCP Model Context Protocol extras
+pip install "rxresume-python[mcp]"
 
 # Include demo & development extras
 pip install "rxresume-python[dev,demo]"</code></pre>
