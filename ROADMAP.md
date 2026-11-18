@@ -11,10 +11,11 @@ This roadmap documents the architectural progression and planned technical miles
 - Full unit test suite with `respx` mock integration.
 
 ### v0.6.0 (Current)
-- Complete API coverage: Resumes, Job Applications, AI Agent, AI Providers, Statistics, and Feature Flags.
+- Complete Reactive Resume v6.1.1 API alignment: Standalone Cover Letters, Document Trash/Restore, Custom Domains, and System Health endpoint (`/api/health`).
+- Enhanced Resumes & Applications APIs with pagination, formats (PDF, DOCX, Markdown, JSON), and v6 closed reason semantics.
 - Flask demo application with Docker and Docker Compose support.
 - Dependency audit and security remediation: zero known vulnerabilities with `pip-audit`.
-- Built-in `rxresume` CLI supporting resume operations, configuration profiles, document parsing, and agent interactions.
+- Built-in `rxresume` CLI supporting resume operations, cover letters, trash lifecycle, health status, configuration profiles, document parsing, and agent interactions.
 - Development automation via `Makefile` and verified GitHub Actions CI workflows.
 
 ### v0.7.0 (Planned)

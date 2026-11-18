@@ -9,9 +9,14 @@ from ..api.ai import AIAPI
 from ..api.ai_providers import AiProvidersAPI
 from ..api.applications import ApplicationsAPI
 from ..api.auth import AuthAPI
+from ..api.cover_letters import CoverLettersAPI
+from ..api.custom_domain import CustomDomainAPI
+from ..api.documents import DocumentsAPI
 from ..api.flags import FlagsAPI
 from ..api.resumes import ResumesAPI
 from ..api.statistics import StatisticsAPI
+from ..api.system import SystemAPI
+from ..models.health import SystemHealth
 from .exceptions import (
     AuthenticationError,
     NotFoundError,
@@ -63,12 +68,20 @@ class RxResumeClient:
 
         self.auth = AuthAPI(self)
         self.resumes = ResumesAPI(self)
+        self.cover_letters = CoverLettersAPI(self)
+        self.documents = DocumentsAPI(self)
+        self.custom_domain = CustomDomainAPI(self)
+        self.system = SystemAPI(self)
         self.statistics = StatisticsAPI(self)
         self.agent = AgentAPI(self)
         self.ai_providers = AiProvidersAPI(self)
         self.flags = FlagsAPI(self)
         self.ai = AIAPI(self)
         self.applications = ApplicationsAPI(self)
+
+    def health(self) -> SystemHealth:
+        """Check application health and version (/api/health)."""
+        return self.system.get_health()
 
     def set_token(self, token: str) -> None:
         """Update client headers with a new Bearer token."""

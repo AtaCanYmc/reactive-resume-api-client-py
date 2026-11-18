@@ -188,8 +188,15 @@ class Resume(BaseModel):
     name: str
     slug: str
     user_id: str | None = Field(None, alias="userId")
+    is_public: bool = Field(False, alias="isPublic")
+    is_locked: bool = Field(False, alias="isLocked")
     visibility: str = "public"
     locked: bool = False
+    tags: list[str] = Field(default_factory=list)
+    show_download_buttons: bool = Field(True, alias="showDownloadButtons")
+    show_in_search_engines: bool = Field(False, alias="showInSearchEngines")
+    hide_contact_details: bool = Field(False, alias="hideContactDetails")
+    is_primary: bool = Field(False, alias="isPrimary")
     data: ResumeData | None = None
     created_at: datetime = Field(..., alias="createdAt")
     updated_at: datetime = Field(..., alias="updatedAt")

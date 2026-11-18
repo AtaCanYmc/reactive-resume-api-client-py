@@ -95,15 +95,11 @@ def handle_resumes(args: Any, client: RxResumeClient) -> int:
         return 0
 
     if action == "download":
-        url = client.resumes.get_pdf_url(args.id)
-        out_path = Path(args.output or f"{args.id}.pdf")
-        import httpx
-
-        with httpx.Client(verify=client.verify) as http_client:
-            resp = http_client.get(url, headers=client.client.headers)
-            resp.raise_for_status()
-            out_path.write_bytes(resp.content)
-        print(f"PDF saved to: {out_path}")
+        fmt = getattr(args, "export_format", "pdf")
+        content_bytes = client.resumes.export(args.id, format=fmt)
+        out_path = Path(args.output or f"{args.id}.{fmt}")
+        out_path.write_bytes(content_bytes)
+        print(f"File saved to: {out_path}")
         return 0
 
     if action == "import":
@@ -368,4 +364,134 @@ def handle_flags(args: Any, client: RxResumeClient) -> int:
     """Handle feature flags commands."""
     flags = client.flags.list()
     print(format_json(flags))
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Health Commands
+# ---------------------------------------------------------------------------
+def handle_health(args: Any, client: RxResumeClient) -> int:
+    """Handle system health and version inspection."""
+    health = client.health()
+    if args.format == "json":
+        print(format_json(health))
+    else:
+        print(f"Service:  {health.service} v{health.version} (Status: {health.status})")
+        print(f"Uptime:   {health.uptime}")
+        print(f"Database: {health.database.status} ({health.database.latency_ms} ms)")
+        print(f"Storage:  {health.storage.status} ({health.storage.latency_ms} ms)")
+        if health.redis:
+            print(f"Redis:    {health.redis.status} ({health.redis.latency_ms} ms)")
+    return 0 if health.status == "healthy" else 1
+
+
+# ---------------------------------------------------------------------------
+# Cover Letters Commands
+# ---------------------------------------------------------------------------
+def handle_cover_letters(args: Any, client: RxResumeClient) -> int:
+    """Handle standalone cover letter operations."""
+    action = args.cover_letters_action
+
+    if action == "list":
+        letters = client.cover_letters.list()
+        if args.format == "json":
+            print(format_json(letters))
+        else:
+            headers = ["ID", "Name", "Slug", "Locked", "Updated At"]
+            rows = [
+                [
+                    c.id,
+                    c.name,
+                    c.slug,
+                    str(c.is_locked),
+                    c.updated_at.strftime("%Y-%m-%d %H:%M") if c.updated_at else "",
+                ]
+                for c in letters
+            ]
+            print_table(headers, rows)
+        return 0
+
+    if action == "get":
+        letter = client.cover_letters.get(args.id)
+        if args.format == "json":
+            print(format_json(letter))
+        else:
+            print(f"Cover Letter: {letter.name} (ID: {letter.id})")
+            print(f"Slug: {letter.slug}")
+            print(f"Content:\n{letter.content}")
+        return 0
+
+    if action == "export":
+        fmt = getattr(args, "export_format", "pdf")
+        content_bytes = client.cover_letters.export(args.id, format=fmt)
+        out_path = Path(args.output or f"{args.id}.{fmt}")
+        out_path.write_bytes(content_bytes)
+        print(f"File saved to: {out_path}")
+        return 0
+
+    if action == "delete":
+        client.cover_letters.delete(args.id)
+        print(f"Cover letter '{args.id}' deleted (moved to Trash).")
+        return 0
+
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Documents & Trash Commands
+# ---------------------------------------------------------------------------
+def handle_documents(args: Any, client: RxResumeClient) -> int:
+    """Handle document lifecycle and trash commands."""
+    action = args.documents_action
+
+    if action == "counts":
+        counts = client.documents.get_counts()
+        print(format_json(counts))
+        return 0
+
+    if action == "trash":
+        client.documents.trash(args.type, args.id)
+        print(f"Moved {args.type} '{args.id}' to Trash.")
+        return 0
+
+    if action == "restore":
+        client.documents.restore(args.id, doc_type=args.type)
+        print(f"Restored {args.type} '{args.id}' from Trash.")
+        return 0
+
+    if action == "purge":
+        client.documents.purge(args.id, doc_type=args.type)
+        print(f"Permanently purged {args.type} '{args.id}'.")
+        return 0
+
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Custom Domain Commands
+# ---------------------------------------------------------------------------
+def handle_custom_domain(args: Any, client: RxResumeClient) -> int:
+    """Handle custom domain commands."""
+    action = args.custom_domain_action
+
+    if action == "get":
+        info = client.custom_domain.get()
+        print(format_json(info))
+        return 0
+
+    if action == "set":
+        res = client.custom_domain.set(args.hostname)
+        print(format_json(res))
+        return 0
+
+    if action == "verify":
+        res = client.custom_domain.verify()
+        print(format_json(res))
+        return 0
+
+    if action == "delete":
+        client.custom_domain.delete()
+        print("Custom domain removed.")
+        return 0
+
     return 0

@@ -11,7 +11,11 @@ from .commands import (
     handle_applications,
     handle_auth,
     handle_config,
+    handle_cover_letters,
+    handle_custom_domain,
+    handle_documents,
     handle_flags,
+    handle_health,
     handle_resumes,
     handle_stats,
 )
@@ -57,9 +61,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_r_get = resumes_sub.add_parser("get", help="Get resume details by ID")
     p_r_get.add_argument("id", help="Resume ID")
 
-    p_r_dl = resumes_sub.add_parser("download", help="Download resume PDF")
+    p_r_dl = resumes_sub.add_parser("download", help="Download resume file")
     p_r_dl.add_argument("id", help="Resume ID")
-    p_r_dl.add_argument("-o", "--output", help="Output file path (default: <id>.pdf)")
+    p_r_dl.add_argument("-o", "--output", help="Output file path (default: <id>.<format>)")
+    p_r_dl.add_argument(
+        "--format",
+        dest="export_format",
+        choices=["pdf", "docx", "md", "json"],
+        default="pdf",
+        help="Export format (pdf, docx, md, json - default: pdf)",
+    )
 
     p_r_imp = resumes_sub.add_parser("import", help="Import a resume from JSON file")
     p_r_imp.add_argument("-f", "--file", required=True, help="Path to JSON file")
@@ -164,6 +175,51 @@ def build_parser() -> argparse.ArgumentParser:
     # 8. Flags
     subparsers.add_parser("flags", help="List feature flags")
 
+    # 9. Health
+    subparsers.add_parser("health", help="Check application health and version (/api/health)")
+
+    # 10. Cover Letters
+    p_cl = subparsers.add_parser("cover-letters", help="Cover letters management commands")
+    cl_sub = p_cl.add_subparsers(dest="cover_letters_action", required=True)
+    cl_sub.add_parser("list", help="List all cover letters")
+    p_cl_get = cl_sub.add_parser("get", help="Get cover letter details")
+    p_cl_get.add_argument("id", help="Cover letter ID")
+    p_cl_exp = cl_sub.add_parser("export", help="Export cover letter")
+    p_cl_exp.add_argument("id", help="Cover letter ID")
+    p_cl_exp.add_argument("-o", "--output", help="Output file path")
+    p_cl_exp.add_argument(
+        "--format",
+        dest="export_format",
+        choices=["pdf", "docx", "md", "json"],
+        default="pdf",
+        help="Export format (default: pdf)",
+    )
+    p_cl_del = cl_sub.add_parser("delete", help="Delete cover letter (moves to Trash)")
+    p_cl_del.add_argument("id", help="Cover letter ID")
+
+    # 11. Documents & Trash
+    p_docs = subparsers.add_parser("documents", help="Document lifecycle and trash commands")
+    docs_sub = p_docs.add_subparsers(dest="documents_action", required=True)
+    docs_sub.add_parser("counts", help="Get counts of active and trashed documents")
+    p_d_trash = docs_sub.add_parser("trash", help="Move document to Trash")
+    p_d_trash.add_argument("type", choices=["resume", "cover-letter"], help="Document type")
+    p_d_trash.add_argument("id", help="Document ID")
+    p_d_rest = docs_sub.add_parser("restore", help="Restore document from Trash")
+    p_d_rest.add_argument("id", help="Document ID")
+    p_d_rest.add_argument("--type", choices=["resume", "cover-letter"], default="resume")
+    p_d_purge = docs_sub.add_parser("purge", help="Permanently purge document from Trash")
+    p_d_purge.add_argument("id", help="Document ID")
+    p_d_purge.add_argument("--type", choices=["resume", "cover-letter"], default="resume")
+
+    # 12. Custom Domain
+    p_dom = subparsers.add_parser("custom-domain", help="Custom domain management commands")
+    dom_sub = p_dom.add_subparsers(dest="custom_domain_action", required=True)
+    dom_sub.add_parser("get", help="Get custom domain configuration and verification status")
+    p_dom_set = dom_sub.add_parser("set", help="Set custom domain hostname")
+    p_dom_set.add_argument("hostname", help="Domain hostname (e.g. cv.example.com)")
+    dom_sub.add_parser("verify", help="Trigger custom domain DNS verification")
+    dom_sub.add_parser("delete", help="Remove custom domain configuration")
+
     return parser
 
 
@@ -192,6 +248,10 @@ def main(argv: list[str] | None = None) -> int:
             "auth": handle_auth,
             "stats": handle_stats,
             "flags": handle_flags,
+            "health": handle_health,
+            "cover-letters": handle_cover_letters,
+            "documents": handle_documents,
+            "custom-domain": handle_custom_domain,
         }
 
         handler = handlers.get(args.command)

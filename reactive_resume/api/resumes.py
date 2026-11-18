@@ -13,9 +13,15 @@ class ResumesAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    def list(self) -> list[Resume]:
+    def list(self, limit: int | None = None, offset: int | None = None) -> builtins.list[Resume]:
         """List all resumes for the authenticated user."""
-        response = self._client._request("GET", "/api/openapi/resumes")
+        params: dict[str, Any] = {}
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = self._client._request("GET", "/api/openapi/resumes", params=params or None)
         if isinstance(response, dict) and "data" in response:
             items = response["data"]
         else:
@@ -56,6 +62,37 @@ class ResumesAPI:
     def get_pdf_url(self, resume_id: str) -> str:
         """Get the URL to download the PDF for a specific resume."""
         return f"{self._client.base_url}/api/openapi/resumes/{resume_id}/pdf"
+
+    def export(self, resume_id: str, format: str = "pdf") -> bytes:
+        """Export resume to a specific format (pdf, docx, md, json)."""
+        response = self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/exports/{format}"
+        )
+        return response if isinstance(response, bytes) else str(response).encode()
+
+    def update_metadata(self, resume_id: str, metadata: dict[str, Any]) -> Resume:
+        """Update resume public sharing and metadata settings."""
+        response = self._client._request(
+            "PATCH", f"/api/openapi/resumes/{resume_id}/metadata", json=metadata
+        )
+        return Resume.model_validate(response)
+
+    def get_preview_url(self, resume_id: str) -> dict[str, Any]:
+        """Get temporary 15-minute preview link for web page."""
+        response = self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/web-page/preview"
+        )
+        return dict(response)
+
+    def file_import(self, format: str, file_bytes: bytes, filename: str = "resume") -> Resume:
+        """Import resume via multipart file upload (PDF, JSON_RESUME, REACTIVE_RESUME, LINKEDIN)."""
+        response = self._client._request(
+            "POST",
+            "/api/openapi/resumes/file-imports",
+            files={"file": (filename, file_bytes)},
+            data={"format": format},
+        )
+        return Resume.model_validate(response)
 
     def tags(self) -> builtins.list[str]:
         """List all unique tags among user's resumes."""
@@ -133,9 +170,17 @@ class AsyncResumesAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    async def list(self) -> list[Resume]:
+    async def list(
+        self, limit: int | None = None, offset: int | None = None
+    ) -> builtins.list[Resume]:
         """List all resumes asynchronously."""
-        response = await self._client._request("GET", "/api/openapi/resumes")
+        params: dict[str, Any] = {}
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = await self._client._request("GET", "/api/openapi/resumes", params=params or None)
         if isinstance(response, dict) and "data" in response:
             items = response["data"]
         else:
@@ -180,6 +225,37 @@ class AsyncResumesAPI:
     async def get_pdf_url(self, resume_id: str) -> str:
         """Get the URL to download the PDF asynchronously."""
         return f"{self._client.base_url}/api/openapi/resumes/{resume_id}/pdf"
+
+    async def export(self, resume_id: str, format: str = "pdf") -> bytes:
+        """Export resume asynchronously to a specific format (pdf, docx, md, json)."""
+        response = await self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/exports/{format}"
+        )
+        return response if isinstance(response, bytes) else str(response).encode()
+
+    async def update_metadata(self, resume_id: str, metadata: dict[str, Any]) -> Resume:
+        """Update resume public sharing and metadata settings asynchronously."""
+        response = await self._client._request(
+            "PATCH", f"/api/openapi/resumes/{resume_id}/metadata", json=metadata
+        )
+        return Resume.model_validate(response)
+
+    async def get_preview_url(self, resume_id: str) -> dict[str, Any]:
+        """Get temporary 15-minute preview link asynchronously."""
+        response = await self._client._request(
+            "GET", f"/api/openapi/resumes/{resume_id}/web-page/preview"
+        )
+        return dict(response)
+
+    async def file_import(self, format: str, file_bytes: bytes, filename: str = "resume") -> Resume:
+        """Import resume via multipart file upload asynchronously."""
+        response = await self._client._request(
+            "POST",
+            "/api/openapi/resumes/file-imports",
+            files={"file": (filename, file_bytes)},
+            data={"format": format},
+        )
+        return Resume.model_validate(response)
 
     async def tags(self) -> builtins.list[str]:
         """List all unique tags among user's resumes asynchronously."""

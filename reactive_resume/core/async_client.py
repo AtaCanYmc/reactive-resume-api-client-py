@@ -9,9 +9,14 @@ from ..api.ai import AsyncAIAPI
 from ..api.ai_providers import AsyncAiProvidersAPI
 from ..api.applications import AsyncApplicationsAPI
 from ..api.auth import AsyncAuthAPI
+from ..api.cover_letters import AsyncCoverLettersAPI
+from ..api.custom_domain import AsyncCustomDomainAPI
+from ..api.documents import AsyncDocumentsAPI
 from ..api.flags import AsyncFlagsAPI
 from ..api.resumes import AsyncResumesAPI
 from ..api.statistics import AsyncStatisticsAPI
+from ..api.system import AsyncSystemAPI
+from ..models.health import SystemHealth
 from .exceptions import (
     AuthenticationError,
     NotFoundError,
@@ -63,12 +68,20 @@ class AsyncRxResumeClient:
 
         self.auth = AsyncAuthAPI(self)
         self.resumes = AsyncResumesAPI(self)
+        self.cover_letters = AsyncCoverLettersAPI(self)
+        self.documents = AsyncDocumentsAPI(self)
+        self.custom_domain = AsyncCustomDomainAPI(self)
+        self.system = AsyncSystemAPI(self)
         self.statistics = AsyncStatisticsAPI(self)
         self.agent = AsyncAgentAPI(self)
         self.ai_providers = AsyncAiProvidersAPI(self)
         self.flags = AsyncFlagsAPI(self)
         self.ai = AsyncAIAPI(self)
         self.applications = AsyncApplicationsAPI(self)
+
+    async def health(self) -> SystemHealth:
+        """Check application health and version asynchronously (/api/health)."""
+        return await self.system.get_health()
 
     def set_token(self, token: str) -> None:
         """Update client headers with a new Bearer token."""

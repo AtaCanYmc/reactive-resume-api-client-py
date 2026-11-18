@@ -3,7 +3,7 @@
 import builtins
 from typing import Any
 
-from ..models.application import Application, ApplicationCreate
+from ..models.application import Application, ApplicationCreate, ApplicationSummary
 
 
 class ApplicationsAPI:
@@ -12,14 +12,65 @@ class ApplicationsAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    def list(self) -> list[Application]:
+    def list(
+        self,
+        status: str | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> builtins.list[Application]:
         """List all job applications."""
-        response = self._client._request("GET", "/api/openapi/applications")
+        params: dict[str, Any] = {}
+        if status:
+            params["status"] = status
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = self._client._request("GET", "/api/openapi/applications", params=params or None)
         if isinstance(response, dict) and "data" in response:
             items = response["data"]
         else:
             items = response
         return [Application.model_validate(item) for item in items]
+
+    def summary(
+        self,
+        status: str | None = None,
+        tags: builtins.list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> builtins.list[ApplicationSummary]:
+        """Retrieve lightweight application summaries without heavy descriptions."""
+        params: dict[str, Any] = {}
+        if status:
+            params["status"] = status
+        if tags:
+            params["tags"] = ",".join(tags)
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = self._client._request(
+            "GET", "/api/openapi/applications/summary", params=params or None
+        )
+        if isinstance(response, dict) and "data" in response:
+            items = response["data"]
+        elif isinstance(response, list):
+            items = response
+        else:
+            items = []
+        return [ApplicationSummary.model_validate(item) for item in items]
+
+    def close(self, app_id: str, reason: str = "not-selected") -> Application:
+        """Close an application with a closedReason (not-selected, withdrew, accepted-other, no-response)."""
+        response = self._client._request(
+            "PATCH",
+            f"/api/openapi/applications/{app_id}",
+            json={"stage": "closed", "closedReason": reason},
+        )
+        return Application.model_validate(response)
 
     def get(self, app_id: str) -> Application:
         """Retrieve a specific job application by ID."""
@@ -59,14 +110,67 @@ class AsyncApplicationsAPI:
     def __init__(self, client) -> None:
         self._client = client
 
-    async def list(self) -> list[Application]:
+    async def list(
+        self,
+        status: str | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> builtins.list[Application]:
         """List all job applications asynchronously."""
-        response = await self._client._request("GET", "/api/openapi/applications")
+        params: dict[str, Any] = {}
+        if status:
+            params["status"] = status
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = await self._client._request(
+            "GET", "/api/openapi/applications", params=params or None
+        )
         if isinstance(response, dict) and "data" in response:
             items = response["data"]
         else:
             items = response
         return [Application.model_validate(item) for item in items]
+
+    async def summary(
+        self,
+        status: str | None = None,
+        tags: builtins.list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> builtins.list[ApplicationSummary]:
+        """Retrieve lightweight application summaries asynchronously."""
+        params: dict[str, Any] = {}
+        if status:
+            params["status"] = status
+        if tags:
+            params["tags"] = ",".join(tags)
+        if limit is not None:
+            params["limit"] = limit
+        if offset is not None:
+            params["offset"] = offset
+
+        response = await self._client._request(
+            "GET", "/api/openapi/applications/summary", params=params or None
+        )
+        if isinstance(response, dict) and "data" in response:
+            items = response["data"]
+        elif isinstance(response, list):
+            items = response
+        else:
+            items = []
+        return [ApplicationSummary.model_validate(item) for item in items]
+
+    async def close(self, app_id: str, reason: str = "not-selected") -> Application:
+        """Close an application asynchronously with a closedReason."""
+        response = await self._client._request(
+            "PATCH",
+            f"/api/openapi/applications/{app_id}",
+            json={"stage": "closed", "closedReason": reason},
+        )
+        return Application.model_validate(response)
 
     async def get(self, app_id: str) -> Application:
         """Retrieve a specific job application by ID asynchronously."""

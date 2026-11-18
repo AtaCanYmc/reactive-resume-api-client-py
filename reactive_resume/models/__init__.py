@@ -1,6 +1,8 @@
 """Models module for Pydantic schema validation."""
 
-from .application import Application, ApplicationCreate
+from .application import Application, ApplicationCreate, ApplicationSummary
+from .cover_letter import CoverLetter, CoverLetterCreate
+from .health import DependencyHealth, SystemHealth
 from .resume import (
     AwardItem,
     Basics,
@@ -29,10 +31,14 @@ from .user import User
 __all__ = [
     "Application",
     "ApplicationCreate",
+    "ApplicationSummary",
     "AwardItem",
     "Basics",
     "CertificationItem",
+    "CoverLetter",
+    "CoverLetterCreate",
     "CustomItem",
+    "DependencyHealth",
     "EducationItem",
     "InterestItem",
     "Item",
@@ -47,6 +53,7 @@ __all__ = [
     "ResumeStats",
     "Section",
     "SkillItem",
+    "SystemHealth",
     "URLModel",
     "User",
     "VolunteerItem",

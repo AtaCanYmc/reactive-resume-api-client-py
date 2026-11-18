@@ -187,3 +187,55 @@ def test_cli_error_handling(capsys):
     assert ret == 1
     captured = capsys.readouterr()
     assert "Error:" in captured.err
+
+
+@respx.mock
+def test_cli_v6_commands(capsys):
+    # Health
+    respx.get(f"{BASE_URL}/api/health").mock(
+        return_value=Response(
+            200,
+            json={
+                "service": "reactive-resume",
+                "version": "6.1.1",
+                "status": "healthy",
+                "timestamp": "2026-11-18T18:00:00Z",
+                "uptime": "10d",
+                "database": {"status": "healthy", "latencyMs": 1.0},
+                "storage": {"status": "healthy", "latencyMs": 1.2},
+            },
+        )
+    )
+    assert main(["--url", BASE_URL, "health"]) == 0
+    captured = capsys.readouterr()
+    assert "reactive-resume v6.1.1" in captured.out
+
+    # Cover letters
+    respx.get(f"{BASE_URL}/api/openapi/cover-letters").mock(
+        return_value=Response(
+            200,
+            json=[
+                {
+                    "id": "cl-1",
+                    "name": "CL 1",
+                    "slug": "cl-1",
+                    "isLocked": False,
+                    "createdAt": "2026-01-01T00:00:00Z",
+                    "updatedAt": "2026-01-01T00:00:00Z",
+                }
+            ],
+        )
+    )
+    assert main(["--url", BASE_URL, "--api-key", "test", "cover-letters", "list"]) == 0
+
+    # Documents counts
+    respx.get(f"{BASE_URL}/api/openapi/documents/counts").mock(
+        return_value=Response(200, json={"resumes": 2, "coverLetters": 1, "trash": 0})
+    )
+    assert main(["--url", BASE_URL, "--api-key", "test", "documents", "counts"]) == 0
+
+    # Custom domain
+    respx.get(f"{BASE_URL}/api/openapi/custom-domain").mock(
+        return_value=Response(200, json={"hostname": "cv.test.com"})
+    )
+    assert main(["--url", BASE_URL, "--api-key", "test", "custom-domain", "get"]) == 0

@@ -1,6 +1,6 @@
 """Reactive Resume API Python SDK.
 
-An unofficial client for programmatically interacting with Reactive Resume v4 API.
+An unofficial client for programmatically interacting with Reactive Resume v6 API.
 """
 
 from .core.async_client import AsyncRxResumeClient
@@ -13,7 +13,7 @@ from .core.exceptions import (
     ValidationError,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.6.0"
 
 __all__ = [
     "AsyncRxResumeClient",

@@ -33,10 +33,10 @@ Provides synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) cli
 ## Features
 
 - **Dual client interfaces**: Complete synchronous and asynchronous API support.
-- **Full API coverage**: Endpoints for Resumes, Job Applications, AI Agent, AI Providers, Global Statistics, and Feature Flags.
+- **Reactive Resume v6.1.1 alignment**: Endpoints for Resumes, Standalone Cover Letters, Job Applications, Document Trash/Restore, Custom Domains, System Health check (`/api/health`), AI Agent, AI Providers, Global Statistics, and Feature Flags.
 - **Type safety**: Fully typed models for all entities using Pydantic v2.
 - **Structured error handling**: Maps HTTP 401, 403, 404, and 5xx responses to descriptive Python exceptions.
-- **Built-in CLI (`rxresume`)**: Command-line tool for managing profiles, downloading PDFs, analyzing resumes, and chatting with AI agents.
+- **Built-in CLI (`rxresume`)**: Command-line tool for managing profiles, downloading resumes, managing cover letters and trash, inspecting server health, and interacting with AI agents.
 
 ---
 
@@ -48,17 +48,22 @@ flowchart TD
     UserApp -->|Instantiates| AsyncClient["AsyncRxResumeClient"]
 
     subgraph ServiceModules["Service Modules"]
+        SyncClient & AsyncClient --> System["system (/api/health)"]
         SyncClient & AsyncClient --> Auth["auth"]
         SyncClient & AsyncClient --> Resumes["resumes"]
+        SyncClient & AsyncClient --> CoverLetters["cover_letters"]
+        SyncClient & AsyncClient --> Documents["documents (trash)"]
+        SyncClient & AsyncClient --> CustomDomain["custom_domain"]
+        SyncClient & AsyncClient --> Applications["applications"]
         SyncClient & AsyncClient --> Stats["statistics"]
         SyncClient & AsyncClient --> Agent["agent"]
         SyncClient & AsyncClient --> AIProviders["ai_providers"]
         SyncClient & AsyncClient --> Flags["flags"]
         SyncClient & AsyncClient --> AI["ai"]
-        SyncClient & AsyncClient --> Applications["applications"]
     end
 
-    Auth & Resumes & Stats & Agent & AIProviders & Flags & AI & Applications -->|HTTP/REST Calls| Backend["Reactive Resume v4 API Backend"]
+    System -->|GET /api/health| Backend["Reactive Resume v6.1.1 API Backend"]
+    Auth & Resumes & CoverLetters & Documents & CustomDomain & Applications & Stats & Agent & AIProviders & Flags & AI -->|HTTP/REST /api/openapi/| Backend
 ```
 
 ---
@@ -67,8 +72,12 @@ flowchart TD
 
 | Service Module | Sync | Async | Key Mapped Operations |
 | :--- | :---: | :---: | :--- |
-| **Resumes** (`client.resumes`) | Yes | Yes | List, Get, Create, Update, Delete, Import, Download PDF, Lock/Unlock, Password, Versions, Statistics |
-| **Applications** (`client.applications`) | Yes | Yes | List, Get, Create, Delete, List Tags, Pipeline Statistics, Bulk Import |
+| **System** (`client.system` / `client.health()`) | Yes | Yes | Unauthenticated health check (`/api/health`), service version, database, redis, and storage statuses |
+| **Resumes** (`client.resumes`) | Yes | Yes | List (paginated), Get, Create, Update, Delete, Import, Export (PDF/DOCX/MD/JSON), Lock/Unlock, Password, Versions, Statistics |
+| **Cover Letters** (`client.cover_letters`) | Yes | Yes | List, Get, Create, Update, Delete, Export (v6 standalone document architecture) |
+| **Documents** (`client.documents`) | Yes | Yes | Document counts, Move to Trash, Restore from Trash, Permanent Purge |
+| **Custom Domain** (`client.custom_domain`) | Yes | Yes | Get, Set, Verify, and Delete custom domain mapping |
+| **Applications** (`client.applications`) | Yes | Yes | List (paginated), Get, Create, Delete, Close with reason, Stage Summary, List Tags, Bulk Import |
 | **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
 | **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count |
 | **Agent** (`client.agent`) | Yes | Yes | List/Create/Archive Threads, Send Message, Stop Run, Stream Resume, Revert Actions |
@@ -179,11 +188,16 @@ rxresume config set-key local_dev_key
 
 | Command | Action | Example |
 | :--- | :--- | :--- |
+| `rxresume health` | Check server health, dependencies, and version | `rxresume health` |
 | `rxresume resumes list` | List resumes (table or json) | `rxresume resumes list --format table` |
 | `rxresume resumes get <id>` | View resume details | `rxresume resumes get res-123` |
-| `rxresume resumes download <id>` | Download resume as PDF file | `rxresume resumes download res-123 -o cv.pdf` |
+| `rxresume resumes download <id>` | Download resume file (pdf, docx, md, json) | `rxresume resumes download res-123 -o cv.pdf --format pdf` |
 | `rxresume resumes import -f <file>` | Import resume from JSON | `rxresume resumes import -f data.json` |
 | `rxresume resumes lock <id>` | Lock resume against changes | `rxresume resumes lock res-123` |
+| `rxresume cover-letters list` | List standalone cover letters | `rxresume cover-letters list` |
+| `rxresume documents trash <id>` | Move a document to 30-day trash | `rxresume documents trash res-123` |
+| `rxresume documents restore <id>` | Restore a document from trash | `rxresume documents restore res-123` |
+| `rxresume custom-domain get` | View custom domain configuration | `rxresume custom-domain get` |
 | `rxresume ai parse-pdf <file>` | Extract resume JSON from PDF | `rxresume ai parse-pdf cv.pdf --provider prov-1` |
 | `rxresume agent chat` | Interactive terminal agent chat | `rxresume agent chat --resume-id res-123` |
 | `rxresume stats users` | Get total registered users | `rxresume stats users` |
