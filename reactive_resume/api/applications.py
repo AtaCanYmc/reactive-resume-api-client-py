@@ -103,6 +103,18 @@ class ApplicationsAPI:
         response = self._client._request("POST", "/api/openapi/applications/import", json=payload)
         return dict(response)
 
+    def get_lanes(self) -> builtins.list[dict[str, Any]]:
+        """Retrieve custom Kanban lanes/stages for applications."""
+        response = self._client._request("GET", "/api/openapi/applications/lanes")
+        return list(response)
+
+    def update_lanes(self, lanes: builtins.list[dict[str, Any]]) -> builtins.list[dict[str, Any]]:
+        """Create or update application Kanban lanes."""
+        response = self._client._request(
+            "POST", "/api/openapi/applications/lanes", json={"lanes": lanes}
+        )
+        return list(response)
+
 
 class AsyncApplicationsAPI:
     """Asynchronous Job Applications operations."""
@@ -204,3 +216,17 @@ class AsyncApplicationsAPI:
             "POST", "/api/openapi/applications/import", json=payload
         )
         return dict(response)
+
+    async def get_lanes(self) -> builtins.list[dict[str, Any]]:
+        """Retrieve custom Kanban lanes/stages for applications asynchronously."""
+        response = await self._client._request("GET", "/api/openapi/applications/lanes")
+        return list(response)
+
+    async def update_lanes(
+        self, lanes: builtins.list[dict[str, Any]]
+    ) -> builtins.list[dict[str, Any]]:
+        """Create or update application Kanban lanes asynchronously."""
+        response = await self._client._request(
+            "POST", "/api/openapi/applications/lanes", json={"lanes": lanes}
+        )
+        return list(response)

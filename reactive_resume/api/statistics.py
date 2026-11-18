@@ -21,6 +21,11 @@ class StatisticsAPI:
         """Retrieve total number of resumes."""
         return self._client._request("GET", "/api/openapi/statistics/resumes")
 
+    def get_overview(self) -> dict[str, Any]:
+        """Retrieve complete global platform statistics."""
+        response = self._client._request("GET", "/api/openapi/statistics")
+        return dict(response)
+
 
 class AsyncStatisticsAPI:
     """Asynchronous Statistics operations."""
@@ -39,3 +44,8 @@ class AsyncStatisticsAPI:
     async def get_resumes_count(self) -> Any:
         """Retrieve total number of resumes asynchronously."""
         return await self._client._request("GET", "/api/openapi/statistics/resumes")
+
+    async def get_overview(self) -> dict[str, Any]:
+        """Retrieve complete global platform statistics asynchronously."""
+        response = await self._client._request("GET", "/api/openapi/statistics")
+        return dict(response)

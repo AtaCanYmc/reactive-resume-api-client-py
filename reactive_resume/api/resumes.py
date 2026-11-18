@@ -163,6 +163,29 @@ class ResumesAPI:
         )
         return ResumeStats.model_validate(response)
 
+    def get_checks(self, resume_id: str) -> dict[str, Any]:
+        """Run editor ATS and content checks on a resume."""
+        response = self._client._request("GET", f"/api/openapi/resumes/{resume_id}/checks")
+        return dict(response)
+
+    def match_job(self, resume_id: str, job_description: str) -> dict[str, Any]:
+        """Match resume terms to a job posting without requiring an AI provider."""
+        response = self._client._request(
+            "POST",
+            f"/api/openapi/resumes/{resume_id}/job-matches",
+            json={"jobDescription": job_description},
+        )
+        return dict(response)
+
+    def check_slug(self, resume_id: str, slug: str) -> dict[str, Any]:
+        """Check if a slug is available for a resume."""
+        response = self._client._request(
+            "POST",
+            f"/api/openapi/resumes/{resume_id}/slug-check",
+            json={"slug": slug},
+        )
+        return dict(response)
+
 
 class AsyncResumesAPI:
     """Asynchronous Resume operations."""
@@ -327,3 +350,26 @@ class AsyncResumesAPI:
             "GET", f"/api/openapi/resumes/{resume_id}/statistics/daily?day={day}"
         )
         return ResumeStats.model_validate(response)
+
+    async def get_checks(self, resume_id: str) -> dict[str, Any]:
+        """Run editor ATS and content checks on a resume asynchronously."""
+        response = await self._client._request("GET", f"/api/openapi/resumes/{resume_id}/checks")
+        return dict(response)
+
+    async def match_job(self, resume_id: str, job_description: str) -> dict[str, Any]:
+        """Match resume terms to a job posting without requiring an AI provider asynchronously."""
+        response = await self._client._request(
+            "POST",
+            f"/api/openapi/resumes/{resume_id}/job-matches",
+            json={"jobDescription": job_description},
+        )
+        return dict(response)
+
+    async def check_slug(self, resume_id: str, slug: str) -> dict[str, Any]:
+        """Check if a slug is available for a resume asynchronously."""
+        response = await self._client._request(
+            "POST",
+            f"/api/openapi/resumes/{resume_id}/slug-check",
+            json={"slug": slug},
+        )
+        return dict(response)

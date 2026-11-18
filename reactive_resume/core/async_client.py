@@ -9,9 +9,11 @@ from ..api.ai import AsyncAIAPI
 from ..api.ai_providers import AsyncAiProvidersAPI
 from ..api.applications import AsyncApplicationsAPI
 from ..api.auth import AsyncAuthAPI
+from ..api.career import AsyncCareerAPI
 from ..api.cover_letters import AsyncCoverLettersAPI
 from ..api.custom_domain import AsyncCustomDomainAPI
 from ..api.documents import AsyncDocumentsAPI
+from ..api.files import AsyncFilesAPI
 from ..api.flags import AsyncFlagsAPI
 from ..api.resumes import AsyncResumesAPI
 from ..api.statistics import AsyncStatisticsAPI
@@ -78,6 +80,8 @@ class AsyncRxResumeClient:
         self.flags = AsyncFlagsAPI(self)
         self.ai = AsyncAIAPI(self)
         self.applications = AsyncApplicationsAPI(self)
+        self.files = AsyncFilesAPI(self)
+        self.career = AsyncCareerAPI(self)
 
     async def health(self) -> SystemHealth:
         """Check application health and version asynchronously (/api/health)."""

@@ -55,6 +55,8 @@ flowchart TD
         SyncClient & AsyncClient --> Documents["documents (trash)"]
         SyncClient & AsyncClient --> CustomDomain["custom_domain"]
         SyncClient & AsyncClient --> Applications["applications"]
+        SyncClient & AsyncClient --> Files["files"]
+        SyncClient & AsyncClient --> Career["career"]
         SyncClient & AsyncClient --> Stats["statistics"]
         SyncClient & AsyncClient --> Agent["agent"]
         SyncClient & AsyncClient --> AIProviders["ai_providers"]
@@ -63,7 +65,7 @@ flowchart TD
     end
 
     System -->|GET /api/health| Backend["Reactive Resume v6.1.1 API Backend"]
-    Auth & Resumes & CoverLetters & Documents & CustomDomain & Applications & Stats & Agent & AIProviders & Flags & AI -->|HTTP/REST /api/openapi/| Backend
+    Auth & Resumes & CoverLetters & Documents & CustomDomain & Applications & Files & Career & Stats & Agent & AIProviders & Flags & AI -->|HTTP/REST /api/openapi/| Backend
 ```
 
 ---
@@ -73,11 +75,15 @@ flowchart TD
 | Service Module | Sync | Async | Key Mapped Operations |
 | :--- | :---: | :---: | :--- |
 | **System** (`client.system` / `client.health()`) | Yes | Yes | Unauthenticated health check (`/api/health`), service version, database, redis, and storage statuses |
-| **Resumes** (`client.resumes`) | Yes | Yes | List (paginated), Get, Create, Update, Delete, Import, Export (PDF/DOCX/MD/JSON), Lock/Unlock, Password, Versions, Statistics |
+| **Resumes** (`client.resumes`) | Yes | Yes | List (paginated), Get, Create, Update, Delete, Import, Export (PDF/DOCX/MD/JSON), Lock/Unlock, Password, Versions, ATS Checks, Job Matches, Slug Check, Statistics |
 | **Cover Letters** (`client.cover_letters`) | Yes | Yes | List, Get, Create, Update, Delete, Export (v6 standalone document architecture) |
 | **Documents** (`client.documents`) | Yes | Yes | Document counts, Move to Trash, Restore from Trash, Permanent Purge |
 | **Custom Domain** (`client.custom_domain`) | Yes | Yes | Get, Set, Verify, and Delete custom domain mapping |
-| **Applications** (`client.applications`) | Yes | Yes | List (paginated), Get, Create, Delete, Close with reason, Stage Summary, List Tags, Bulk Import |
+| **Applications** (`client.applications`) | Yes | Yes | List (paginated), Get, Create, Delete, Close with reason, Stage Summary, Kanban Lanes, List Tags, Bulk Import |
+| **Files** (`client.files`) | Yes | Yes | Upload user assets (avatars, attachments up to 10MB), Delete file from storage |
+| **Career** (`client.career`) | Yes | Yes | User career profile, Career facts list/create/delete for AI assistant |
+| **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
+| **Statistics** (`client.statistics`) | Yes | Yes | Complete Overview, Users Count, GitHub Stars, Resumes Count |
 | **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
 | **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count |
 | **Agent** (`client.agent`) | Yes | Yes | List/Create/Archive Threads, Send Message, Stop Run, Stream Resume, Revert Actions |

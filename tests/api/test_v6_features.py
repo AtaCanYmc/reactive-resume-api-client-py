@@ -157,3 +157,82 @@ def test_application_summary_and_close(sync_client):
     app = sync_client.applications.close("app-1", reason="withdrew")
     assert app.stage == "closed"
     assert app.closed_reason == "withdrew"
+
+
+@respx.mock
+def test_resume_checks_and_job_matches(sync_client):
+    respx.get(f"{BASE_URL}/api/openapi/resumes/res-1/checks").mock(
+        return_value=Response(200, json={"score": 95, "issues": []})
+    )
+    respx.post(f"{BASE_URL}/api/openapi/resumes/res-1/job-matches").mock(
+        return_value=Response(200, json={"matchScore": 88, "matchedKeywords": ["python", "api"]})
+    )
+    respx.post(f"{BASE_URL}/api/openapi/resumes/res-1/slug-check").mock(
+        return_value=Response(200, json={"available": True})
+    )
+
+    checks = sync_client.resumes.get_checks("res-1")
+    assert checks["score"] == 95
+
+    matches = sync_client.resumes.match_job("res-1", "Python API Developer")
+    assert matches["matchScore"] == 88
+
+    slug_info = sync_client.resumes.check_slug("res-1", "my-slug")
+    assert slug_info["available"] is True
+
+
+@respx.mock
+def test_files_and_career_and_lanes(sync_client):
+    respx.get(f"{BASE_URL}/api/openapi/statistics").mock(
+        return_value=Response(200, json={"totalUsers": 100, "totalResumes": 250})
+    )
+    respx.post(f"{BASE_URL}/api/openapi/files").mock(
+        return_value=Response(200, json={"url": "https://rxresu.me/uploads/avatar.png"})
+    )
+    respx.delete(f"{BASE_URL}/api/openapi/files").mock(
+        return_value=Response(200, json={"success": True})
+    )
+    respx.get(f"{BASE_URL}/api/openapi/applications/lanes").mock(
+        return_value=Response(200, json=[{"id": "lane-1", "name": "Applied"}])
+    )
+    respx.post(f"{BASE_URL}/api/openapi/applications/lanes").mock(
+        return_value=Response(200, json=[{"id": "lane-1", "name": "Applied"}])
+    )
+    respx.get(f"{BASE_URL}/api/openapi/career/profile").mock(
+        return_value=Response(200, json={"bio": "Software Engineer"})
+    )
+    respx.get(f"{BASE_URL}/api/openapi/career/facts").mock(
+        return_value=Response(200, json=[{"id": "f-1", "fact": "Led backend migration"}])
+    )
+
+    overview = sync_client.statistics.get_overview()
+    assert overview["totalUsers"] == 100
+
+    upload_res = sync_client.files.upload(b"fake-image-bytes", filename="avatar.png")
+    assert "url" in upload_res
+    sync_client.files.delete("avatar.png")
+
+    lanes = sync_client.applications.get_lanes()
+    assert len(lanes) == 1
+    updated_lanes = sync_client.applications.update_lanes(lanes)
+    assert len(updated_lanes) == 1
+
+    profile = sync_client.career.get_profile()
+    assert profile["bio"] == "Software Engineer"
+    facts = sync_client.career.list_facts()
+    assert len(facts) == 1
+
+
+def test_structured_dates_model():
+    from reactive_resume.models import ResumeItemDates, WorkItem
+
+    item = WorkItem(
+        id="w-1",
+        company="Acme Corp",
+        position="Senior Developer",
+        date="2022 - Present",
+        dates=ResumeItemDates(start="2022-01-01", end="", present=True),
+    )
+    assert item.dates is not None
+    assert item.dates.present is True
+    assert item.dates.start == "2022-01-01"

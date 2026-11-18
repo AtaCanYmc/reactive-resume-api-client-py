@@ -9,9 +9,11 @@ from ..api.ai import AIAPI
 from ..api.ai_providers import AiProvidersAPI
 from ..api.applications import ApplicationsAPI
 from ..api.auth import AuthAPI
+from ..api.career import CareerAPI
 from ..api.cover_letters import CoverLettersAPI
 from ..api.custom_domain import CustomDomainAPI
 from ..api.documents import DocumentsAPI
+from ..api.files import FilesAPI
 from ..api.flags import FlagsAPI
 from ..api.resumes import ResumesAPI
 from ..api.statistics import StatisticsAPI
@@ -78,6 +80,8 @@ class RxResumeClient:
         self.flags = FlagsAPI(self)
         self.ai = AIAPI(self)
         self.applications = ApplicationsAPI(self)
+        self.files = FilesAPI(self)
+        self.career = CareerAPI(self)
 
     def health(self) -> SystemHealth:
         """Check application health and version (/api/health)."""

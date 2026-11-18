@@ -43,6 +43,14 @@ class Item(BaseModel):
     visible: bool = True
 
 
+class ResumeItemDates(BaseModel):
+    """Represents structured date range in v6."""
+
+    start: str = ""
+    end: str = ""
+    present: bool = False
+
+
 class WorkItem(Item):
     """Represents a work experience entry."""
 
@@ -50,6 +58,7 @@ class WorkItem(Item):
     position: str = ""
     location: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -62,6 +71,7 @@ class EducationItem(Item):
     area: str = ""
     score: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -74,6 +84,7 @@ class ProjectItem(Item):
     name: str = ""
     description: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     keywords: list[str] = Field(default_factory=list)
     url: URLModel | str = ""
@@ -102,6 +113,7 @@ class CertificationItem(Item):
     name: str = ""
     issuer: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -112,6 +124,7 @@ class AwardItem(Item):
     title: str = ""
     awarder: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -138,6 +151,7 @@ class PublicationItem(Item):
     name: str = ""
     publisher: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -149,6 +163,7 @@ class VolunteerItem(Item):
     position: str = ""
     location: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 
@@ -159,6 +174,7 @@ class CustomItem(Item):
     title: str = ""
     subtitle: str = ""
     date: str = ""
+    dates: ResumeItemDates | None = None
     summary: str = ""
     url: URLModel | str = ""
 

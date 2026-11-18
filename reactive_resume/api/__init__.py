@@ -5,9 +5,11 @@ from .ai import AIAPI, AsyncAIAPI
 from .ai_providers import AiProvidersAPI, AsyncAiProvidersAPI
 from .applications import ApplicationsAPI, AsyncApplicationsAPI
 from .auth import AsyncAuthAPI, AuthAPI
+from .career import AsyncCareerAPI, CareerAPI
 from .cover_letters import AsyncCoverLettersAPI, CoverLettersAPI
 from .custom_domain import AsyncCustomDomainAPI, CustomDomainAPI
 from .documents import AsyncDocumentsAPI, DocumentsAPI
+from .files import AsyncFilesAPI, FilesAPI
 from .flags import AsyncFlagsAPI, FlagsAPI
 from .resumes import AsyncResumesAPI, ResumesAPI
 from .statistics import AsyncStatisticsAPI, StatisticsAPI
@@ -23,17 +25,21 @@ __all__ = [
     "AsyncAiProvidersAPI",
     "AsyncApplicationsAPI",
     "AsyncAuthAPI",
+    "AsyncCareerAPI",
     "AsyncCoverLettersAPI",
     "AsyncCustomDomainAPI",
     "AsyncDocumentsAPI",
+    "AsyncFilesAPI",
     "AsyncFlagsAPI",
     "AsyncResumesAPI",
     "AsyncStatisticsAPI",
     "AsyncSystemAPI",
     "AuthAPI",
+    "CareerAPI",
     "CoverLettersAPI",
     "CustomDomainAPI",
     "DocumentsAPI",
+    "FilesAPI",
     "FlagsAPI",
     "ResumesAPI",
     "StatisticsAPI",
