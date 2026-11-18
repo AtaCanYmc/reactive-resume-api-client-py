@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/AtaCanYmc/reactive-resume-api-client-py/actions/workflows/ci.yml/badge.svg)](https://github.com/AtaCanYmc/reactive-resume-api-client-py/actions/workflows/ci.yml)
 [![PyPI Version](https://img.shields.io/pypi/v/rxresume-python.svg)](https://pypi.org/project/rxresume-python/)
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-An unofficial, type-safe Python API client and command-line interface (CLI) for **Reactive Resume v4**.
+An unofficial, type-safe Python API client and command-line interface (CLI) for **Reactive Resume v6.1.1**.
 
 Provides synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) clients with Pydantic v2 schemas, typed exception handling, and a zero-dependency CLI.
 
@@ -22,7 +22,12 @@ Provides synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) cli
   - [Asynchronous Client](#asynchronous-client)
   - [Synchronous Client](#synchronous-client)
 - [Command-Line Interface (CLI)](#command-line-interface-cli)
+- [Model Context Protocol (MCP) Server](#model-context-protocol-mcp-server)
+- [JSON Resume Interoperability](#json-resume-interoperability)
+- [Real-Time Agent Streaming](#real-time-agent-streaming)
+- [Offline Testing (MockRxResumeClient)](#offline-testing-mockrxresumeclient)
 - [Error Handling](#error-handling)
+- [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 - [Development and Testing](#development-and-testing)
 - [Contributing](#contributing)
 - [Security](#security)
@@ -85,8 +90,6 @@ flowchart TD
 | **Career** (`client.career`) | Yes | Yes | User career profile, Career facts list/create/delete for AI assistant |
 | **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
 | **Statistics** (`client.statistics`) | Yes | Yes | Complete Overview, Users Count, GitHub Stars, Resumes Count |
-| **Auth** (`client.auth`) | Yes | Yes | List Providers, Export Account, Delete Account |
-| **Statistics** (`client.statistics`) | Yes | Yes | Users Count, GitHub Stars, Resumes Count |
 | **Agent** (`client.agent`) | Yes | Yes | List/Create/Archive Threads, Send Message, Stop Run, Stream Resume, Revert Actions |
 | **AI Providers** (`client.ai_providers`) | Yes | Yes | List, Create, Update, Delete, Test Provider Connection |
 | **AI Functions** (`client.ai`) | Yes | Yes | Parse PDF, Parse DOCX, Chat, Analyze Resume |
@@ -358,6 +361,26 @@ except AuthenticationError as e:
 except NotFoundError as e:
     print(f"Resource not found: {e}")
 ```
+
+---
+
+## Frequently Asked Questions (FAQ)
+
+### Which Reactive Resume server versions are supported?
+
+The SDK is built for Reactive Resume v6.1.1 API specifications. This includes standalone Cover Letters, Document Trash lifecycle, Custom Domains, and root-level Health checks (`/api/health`). For legacy v4 JSON export files, use `reactive_resume.utils.json_resume.from_json_resume` to transform them into v6 import schemas.
+
+### How do I run unit tests without a live server?
+
+Import `MockRxResumeClient` or `AsyncMockRxResumeClient` from `reactive_resume.testing`. They provide an in-memory, stateful mock of all Reactive Resume endpoints without establishing network connections.
+
+### How does the FastMCP server connect to LLM clients?
+
+The FastMCP server runs over standard input/output (`stdio`) via `rxresume-mcp` or `rxresume mcp`. It exposes 15 tools, 2 resources, and 2 prompt templates directly to Claude Desktop, Cursor, and Antigravity without requiring intermediate proxy services.
+
+### Where are CLI connection profiles stored?
+
+CLI configuration profiles are saved in `~/.config/rxresume/config.json` on Linux/macOS using standard user configuration directory conventions. Environment variables (`RX_RESUME_URL`, `RX_RESUME_API_KEY`) override profile values when present.
 
 ---
 

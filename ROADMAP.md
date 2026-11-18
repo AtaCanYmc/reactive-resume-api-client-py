@@ -7,7 +7,7 @@ This roadmap documents the architectural progression and planned technical miles
 ### v0.5.0 (Released)
 - Core client implementation: Synchronous (`RxResumeClient`) and Asynchronous (`AsyncRxResumeClient`).
 - Pydantic v2 typed schema validation across all Reactive Resume v4 entities.
-- Comprehensive exception hierarchy mapping HTTP 401, 403, 404, and 5xx responses.
+- Typed exception hierarchy mapping HTTP 401, 403, 404, and 5xx responses.
 - Full unit test suite with `respx` mock integration.
 
 ### v0.6.0 (Released)

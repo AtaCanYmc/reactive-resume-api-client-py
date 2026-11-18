@@ -20,7 +20,7 @@ Thank you for your interest in contributing to `rxresume-python`. This document 
    # Or using standard pip
    python3 -m venv .venv
    source .venv/bin/activate
-   pip install -e ".[dev,docs,demo]"
+   pip install -e ".[dev,demo,mcp]"
    ```
 
 3. Install pre-commit hooks:

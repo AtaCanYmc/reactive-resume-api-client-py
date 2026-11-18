@@ -2,11 +2,11 @@
 
 ## Supported Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.6.x   | :white_check_mark: |
-| 0.5.x   | :white_check_mark: |
-| < 0.5.0 | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 0.7.x   | Yes       |
+| 0.6.x   | Yes       |
+| < 0.6.0 | No        |
 
 ## Reporting a Vulnerability
 
@@ -26,5 +26,5 @@ If you discover a security vulnerability within `rxresume-python`, please report
 ### What to Expect
 
 - **Acknowledgment**: You will receive an acknowledgment within 48 hours.
-- **Assessment**: We will evaluate the report, verify the impact, and keep you informed of progress.
+- **Assessment**: Maintainers will evaluate the report, verify the impact, and keep you informed of progress.
 - **Fix & Disclosure**: Once resolved, an update will be published to PyPI and GitHub with credit given to the reporter (unless anonymity is requested).
