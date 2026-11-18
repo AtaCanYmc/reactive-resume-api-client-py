@@ -39,7 +39,12 @@ jobs:
 
       - name: Security Scan with Bandit
         run: |
-          bandit -r reactive_resume/ -ll
+          bandit -r reactive_resume/ demo/ -ll
+
+      - name: Dependency Security Audit
+        run: |
+          pip install pip-audit
+          pip-audit
 
       - name: Run Tests with Pytest
         run: |

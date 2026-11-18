@@ -6,7 +6,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=5000 \
-    FLASK_DEBUG=1
+    FLASK_HOST=0.0.0.0 \
+    FLASK_DEBUG=0
 
 # Copy package root files required for installation
 COPY pyproject.toml README.md LICENSE ./
@@ -19,7 +20,14 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy demo application files
 COPY demo ./demo
 
+# Run as non-root user for container security
+RUN groupadd --gid 1001 appgroup && \
+    useradd --uid 1001 --gid appgroup --shell /bin/bash --create-home appuser && \
+    chown -R appuser:appgroup /app
+
 WORKDIR /app/demo
+
+USER appuser
 
 EXPOSE 5000
 

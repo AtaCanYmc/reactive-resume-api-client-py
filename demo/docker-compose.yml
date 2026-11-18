@@ -9,6 +9,8 @@ services:
     environment:
       - RX_RESUME_URL=${RX_RESUME_URL:-https://rxresu.me}
       - RX_RESUME_API_KEY=${RX_RESUME_API_KEY:-}
-      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-reactive-resume-demo-secret-key}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-}
+      - FLASK_HOST=0.0.0.0
+      - FLASK_DEBUG=0
       - PORT=5000
     restart: unless-stopped

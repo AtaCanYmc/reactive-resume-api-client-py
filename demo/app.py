@@ -1,6 +1,7 @@
 """Flask web application demonstrating the usage of rxresume-python SDK."""
 
 import os
+import secrets
 from typing import Any
 
 from flask import Flask, flash, redirect, render_template, request, url_for
@@ -9,7 +10,7 @@ from reactive_resume import ReactiveResumeError, RxResumeClient
 from reactive_resume.models import Basics, ResumeImportData
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "reactive-resume-demo-secret-key")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32)
 
 # Configuration from Environment
 RX_RESUME_URL = os.environ.get("RX_RESUME_URL", "https://rxresu.me")
@@ -115,5 +116,6 @@ def import_resume() -> Any:
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
-    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
-    app.run(host="0.0.0.0", port=port, debug=debug)
+    host = os.environ.get("FLASK_HOST", "127.0.0.1")
+    debug = os.environ.get("FLASK_DEBUG", "0").lower() in ("1", "true", "yes")
+    app.run(host=host, port=port, debug=debug)
