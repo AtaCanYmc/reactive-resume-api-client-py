@@ -43,6 +43,9 @@ demo = [
 ]
 
 
+[project.scripts]
+rxresume = "reactive_resume.cli.main:main"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["reactive_resume*"]
