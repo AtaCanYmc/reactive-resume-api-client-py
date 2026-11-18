@@ -1,6 +1,117 @@
 """Agent API endpoints implementation."""
 
+from __future__ import annotations
+
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
+
+from ..models.agent import AgentStreamEvent
+
+
+def _parse_sse_events(lines: Iterator[str]) -> Iterator[AgentStreamEvent]:
+    """Parse raw line stream into structured Server-Sent Events."""
+    current_event = "message"
+    current_data: list[str] = []
+    current_id: str | None = None
+    current_retry: int | None = None
+
+    for line in lines:
+        line = line.rstrip("\r\n")
+        if not line:
+            if current_data:
+                yield AgentStreamEvent(
+                    event=current_event,
+                    data="\n".join(current_data),
+                    id=current_id,
+                    retry=current_retry,
+                )
+                current_event = "message"
+                current_data = []
+                current_id = None
+                current_retry = None
+            continue
+
+        if line.startswith(":"):
+            continue
+
+        if ":" in line:
+            field, _, val = line.partition(":")
+            val = val.lstrip(" ")
+            if field == "event":
+                current_event = val
+            elif field == "data":
+                current_data.append(val)
+            elif field == "id":
+                current_id = val
+            elif field == "retry":
+                try:
+                    current_retry = int(val)
+                except ValueError:
+                    pass
+        else:
+            if line == "data":
+                current_data.append("")
+
+    if current_data:
+        yield AgentStreamEvent(
+            event=current_event,
+            data="\n".join(current_data),
+            id=current_id,
+            retry=current_retry,
+        )
+
+
+async def _async_parse_sse_events(lines: AsyncIterator[str]) -> AsyncIterator[AgentStreamEvent]:
+    """Parse asynchronous raw line stream into structured Server-Sent Events."""
+    current_event = "message"
+    current_data: list[str] = []
+    current_id: str | None = None
+    current_retry: int | None = None
+
+    async for line in lines:
+        line = line.rstrip("\r\n")
+        if not line:
+            if current_data:
+                yield AgentStreamEvent(
+                    event=current_event,
+                    data="\n".join(current_data),
+                    id=current_id,
+                    retry=current_retry,
+                )
+                current_event = "message"
+                current_data = []
+                current_id = None
+                current_retry = None
+            continue
+
+        if line.startswith(":"):
+            continue
+
+        if ":" in line:
+            field, _, val = line.partition(":")
+            val = val.lstrip(" ")
+            if field == "event":
+                current_event = val
+            elif field == "data":
+                current_data.append(val)
+            elif field == "id":
+                current_id = val
+            elif field == "retry":
+                try:
+                    current_retry = int(val)
+                except ValueError:
+                    pass
+        else:
+            if line == "data":
+                current_data.append("")
+
+    if current_data:
+        yield AgentStreamEvent(
+            event=current_event,
+            data="\n".join(current_data),
+            id=current_id,
+            retry=current_retry,
+        )
 
 
 class AgentAPI:
@@ -89,11 +200,28 @@ class AgentAPI:
         response = self._client._request("POST", "/api/openapi/agent/messages/stop", json=payload)
         return dict(response)
 
-    def resume_message_stream(self, thread_id: str) -> Any:
-        """Resume agent message stream."""
-        return self._client._request(
-            "GET", f"/api/openapi/agent/messages/resume?threadId={thread_id}"
+    def resume_message_stream(
+        self, thread_id: str, raw: bool = False
+    ) -> Iterator[AgentStreamEvent] | Iterator[str]:
+        """Resume agent message stream.
+
+        Args:
+            thread_id: The ID of the agent thread.
+            raw: If True, yields raw text lines from the HTTP stream.
+                 If False (default), yields parsed AgentStreamEvent objects.
+
+        Yields:
+            AgentStreamEvent instances or raw text lines.
+        """
+        line_stream = self._client._stream_request(
+            "GET",
+            "/api/openapi/agent/messages/resume",
+            params={"threadId": thread_id},
+            headers={"Accept": "text/event-stream"},
         )
+        if raw:
+            return line_stream
+        return _parse_sse_events(line_stream)
 
     def create_attachment(
         self, thread_id: str, filename: str, media_type: str, data: str
@@ -208,11 +336,28 @@ class AsyncAgentAPI:
         )
         return dict(response)
 
-    async def resume_message_stream(self, thread_id: str) -> Any:
-        """Resume agent message stream asynchronously."""
-        return await self._client._request(
-            "GET", f"/api/openapi/agent/messages/resume?threadId={thread_id}"
+    def resume_message_stream(
+        self, thread_id: str, raw: bool = False
+    ) -> AsyncIterator[AgentStreamEvent] | AsyncIterator[str]:
+        """Resume agent message stream asynchronously.
+
+        Args:
+            thread_id: The ID of the agent thread.
+            raw: If True, yields raw text lines from the HTTP stream.
+                 If False (default), yields parsed AgentStreamEvent objects.
+
+        Yields:
+            AgentStreamEvent instances or raw text lines asynchronously.
+        """
+        line_stream = self._client._stream_request(
+            "GET",
+            "/api/openapi/agent/messages/resume",
+            params={"threadId": thread_id},
+            headers={"Accept": "text/event-stream"},
         )
+        if raw:
+            return line_stream
+        return _async_parse_sse_events(line_stream)
 
     async def create_attachment(
         self, thread_id: str, filename: str, media_type: str, data: str

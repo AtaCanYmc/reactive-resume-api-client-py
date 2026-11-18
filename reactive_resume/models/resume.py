@@ -183,8 +183,8 @@ class CustomItem(Item):
 class Section(BaseModel):
     """Base schema for a resume section."""
 
-    id: str
-    name: str
+    id: str = ""
+    name: str = ""
     columns: int = 1
     visible: bool = True
     items: list[Any] = Field(default_factory=list)

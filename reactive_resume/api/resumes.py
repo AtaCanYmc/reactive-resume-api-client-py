@@ -186,6 +186,13 @@ class ResumesAPI:
         )
         return dict(response)
 
+    def export_json_resume(self, resume_id: str) -> dict[str, Any]:
+        """Retrieve resume and convert it to official JSON Resume schema format."""
+        from ..utils.json_resume import to_json_resume
+
+        resume = self.get(resume_id)
+        return to_json_resume(resume)
+
 
 class AsyncResumesAPI:
     """Asynchronous Resume operations."""
@@ -373,3 +380,10 @@ class AsyncResumesAPI:
             json={"slug": slug},
         )
         return dict(response)
+
+    async def export_json_resume(self, resume_id: str) -> dict[str, Any]:
+        """Retrieve resume asynchronously and convert it to official JSON Resume schema format."""
+        from ..utils.json_resume import to_json_resume
+
+        resume = await self.get(resume_id)
+        return to_json_resume(resume)

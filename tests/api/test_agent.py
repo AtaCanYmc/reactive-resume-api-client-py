@@ -78,10 +78,22 @@ def test_sync_agent(sync_client):
 
     # resume_message_stream
     respx.get(f"{BASE_URL}/api/openapi/agent/messages/resume?threadId=thread-1").mock(
-        return_value=Response(200, content=b"stream-data")
+        return_value=Response(
+            200,
+            headers={"Content-Type": "text/event-stream"},
+            content=b'event: delta\ndata: {"text": "hello"}\n\nevent: done\ndata: {"done": true}\n\n',
+        )
     )
-    stream = sync_client.agent.resume_message_stream("thread-1")
-    assert stream == b"stream-data"
+    events = list(sync_client.agent.resume_message_stream("thread-1"))
+    assert len(events) == 2
+    assert events[0].event == "delta"
+    assert events[0].json_data() == {"text": "hello"}
+    assert events[1].event == "done"
+    assert events[1].json_data() == {"done": True}
+
+    # resume_message_stream (raw)
+    raw_lines = list(sync_client.agent.resume_message_stream("thread-1", raw=True))
+    assert len(raw_lines) >= 2
 
     # create_attachment
     respx.post(f"{BASE_URL}/api/openapi/agent/attachments").mock(
@@ -163,10 +175,16 @@ async def test_async_agent(async_client):
 
     # resume_message_stream
     respx.get(f"{BASE_URL}/api/openapi/agent/messages/resume?threadId=thread-1").mock(
-        return_value=Response(200, content=b"stream-data")
+        return_value=Response(
+            200,
+            headers={"Content-Type": "text/event-stream"},
+            content=b'event: delta\ndata: {"text": "async hello"}\n\n',
+        )
     )
-    stream = await async_client.agent.resume_message_stream("thread-1")
-    assert stream == b"stream-data"
+    events = [ev async for ev in async_client.agent.resume_message_stream("thread-1")]
+    assert len(events) == 1
+    assert events[0].event == "delta"
+    assert events[0].json_data() == {"text": "async hello"}
 
     # create_attachment
     respx.post(f"{BASE_URL}/api/openapi/agent/attachments").mock(

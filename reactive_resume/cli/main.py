@@ -106,6 +106,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_r_pub.add_argument("username", help="Author username")
     p_r_pub.add_argument("slug", help="Resume slug")
 
+    p_r_batch = resumes_sub.add_parser("batch-import", help="Batch import resumes from a directory")
+    p_r_batch.add_argument("path", help="Directory or file path containing resumes to import")
+    p_r_batch.add_argument(
+        "--import-format",
+        choices=["auto", "json", "json_resume", "pdf"],
+        default="auto",
+        help="Input file format filter (default: auto)",
+    )
+    p_r_batch.add_argument(
+        "--dry-run", action="store_true", help="Validate files without uploading"
+    )
+
     # 3. AI
     p_ai = subparsers.add_parser("ai", help="AI and document parsing commands")
     ai_sub = p_ai.add_subparsers(dest="ai_action", required=True)

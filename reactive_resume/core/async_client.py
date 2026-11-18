@@ -1,5 +1,6 @@
 """Asynchronous API Client implementation."""
 
+from collections.abc import AsyncIterator
 from typing import Any
 
 import httpx
@@ -118,6 +119,34 @@ class AsyncRxResumeClient:
         try:
             response = await self.client.request(method, url, **kwargs)
             return self._handle_response(response)
+        except httpx.HTTPError as e:
+            if not isinstance(e, httpx.HTTPStatusError):
+                raise ReactiveResumeError(f"Network or connection error occurred: {e}") from e
+            raise
+
+    async def _stream_request(
+        self,
+        method: str,
+        url: str,
+        **kwargs: Any,
+    ) -> AsyncIterator[str]:
+        """Perform an asynchronous streaming HTTP request and yield response lines.
+
+        Args:
+            method: HTTP method (GET, POST, etc.).
+            url: Target URL path.
+            **kwargs: Extra arguments for httpx request.
+
+        Yields:
+            Decoded text lines from the HTTP response stream.
+        """
+        try:
+            async with self.client.stream(method, url, **kwargs) as response:
+                if response.is_error:
+                    await response.aread()
+                    self._handle_response(response)
+                async for line in response.aiter_lines():
+                    yield line
         except httpx.HTTPError as e:
             if not isinstance(e, httpx.HTTPStatusError):
                 raise ReactiveResumeError(f"Network or connection error occurred: {e}") from e

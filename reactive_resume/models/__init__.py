@@ -1,5 +1,6 @@
 """Models module for Pydantic schema validation."""
 
+from .agent import AgentStreamEvent
 from .application import Application, ApplicationCreate, ApplicationSummary
 from .cover_letter import CoverLetter, CoverLetterCreate
 from .health import DependencyHealth, SystemHealth
@@ -30,6 +31,7 @@ from .statistics import ResumeStats
 from .user import User
 
 __all__ = [
+    "AgentStreamEvent",
     "Application",
     "ApplicationCreate",
     "ApplicationSummary",

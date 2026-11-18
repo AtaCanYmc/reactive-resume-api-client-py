@@ -218,6 +218,7 @@ rxresume config set-key local_dev_key
 | `rxresume resumes get <id>` | View resume details | `rxresume resumes get res-123` |
 | `rxresume resumes download <id>` | Download resume file (pdf, docx, md, json) | `rxresume resumes download res-123 -o cv.pdf --format pdf` |
 | `rxresume resumes import -f <file>` | Import resume from JSON | `rxresume resumes import -f data.json` |
+| `rxresume resumes batch-import <dir>` | Mass import JSON Resume, Reactive Resume, and PDF files | `rxresume resumes batch-import ./resumes --dry-run` |
 | `rxresume resumes lock <id>` | Lock resume against changes | `rxresume resumes lock res-123` |
 | `rxresume cover-letters list` | List standalone cover letters | `rxresume cover-letters list` |
 | `rxresume documents trash <id>` | Move a document to 30-day trash | `rxresume documents trash res-123` |
@@ -278,6 +279,67 @@ Add the following to your `claude_desktop_config.json`:
 - **Tools (15)**: `check_health`, `list_resumes`, `get_resume`, `export_resume`, `get_resume_checks`, `match_job_description`, `list_cover_letters`, `create_cover_letter`, `list_job_applications`, `close_job_application`, `get_document_counts`, `trash_document`, `restore_document`, `list_career_facts`, `create_career_fact`.
 - **Resources**: `rxresume://health`, `rxresume://resumes/{resume_id}`.
 - **Prompts**: `tailor_resume_for_job`, `write_cover_letter_for_job`.
+
+---
+
+## JSON Resume Interoperability
+
+Convert between Reactive Resume models and standard [JSON Resume](https://jsonresume.org/) format, or export directly from the client:
+
+```python
+from reactive_resume import RxResumeClient
+from reactive_resume.utils.json_resume import from_json_resume, to_json_resume, validate_json_resume
+
+# Direct export to JSON Resume format
+with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
+    json_resume_data = client.resumes.export_json_resume("resume-id")
+
+# Validate standard schema compliance
+is_valid, errors = validate_json_resume(json_resume_data)
+
+# Transform back into a Reactive Resume import payload
+import_payload = from_json_resume(json_resume_data, title="Imported Profile")
+```
+
+---
+
+## Real-Time Agent Streaming
+
+Consume Server-Sent Events (SSE) from the AI career assistant in real time:
+
+```python
+from reactive_resume import RxResumeClient
+
+with RxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
+    for event in client.agent.resume_message_stream(thread_id="thread-xyz"):
+        print(f"[{event.event}] {event.data}")
+```
+
+Async streaming is also natively supported:
+
+```python
+from reactive_resume import AsyncRxResumeClient
+
+async with AsyncRxResumeClient(base_url="https://rxresu.me", api_key="your_api_key") as client:
+    async for event in client.agent.resume_message_stream(thread_id="thread-xyz"):
+        print(f"[{event.event}] {event.data}")
+```
+
+---
+
+## Offline Testing (`MockRxResumeClient`)
+
+Test your application, bots, and agents without requiring a live Reactive Resume server or network connection:
+
+```python
+from reactive_resume.testing import MockRxResumeClient, AsyncMockRxResumeClient
+from reactive_resume.models import ResumeImportData
+
+with MockRxResumeClient() as client:
+    created = client.resumes.create(ResumeImportData(title="Dev Resume", slug="dev-resume"))
+    pdf_bytes = client.resumes.export(created.id, format="pdf")
+    assert b"%PDF" in pdf_bytes
+```
 
 ---
 

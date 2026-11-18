@@ -239,3 +239,89 @@ def test_cli_v6_commands(capsys):
         return_value=Response(200, json={"hostname": "cv.test.com"})
     )
     assert main(["--url", BASE_URL, "--api-key", "test", "custom-domain", "get"]) == 0
+
+
+@respx.mock
+def test_cli_batch_import(tmp_path, capsys):
+    # 1. Create a json resume file
+    cv1 = tmp_path / "resume1.json"
+    cv1.write_text(
+        json.dumps(
+            {
+                "basics": {"name": "Alice", "email": "alice@test.com"},
+                "work": [{"name": "Company A", "position": "Dev"}],
+            }
+        )
+    )
+
+    # 2. Create a reactive resume file
+    cv2 = tmp_path / "resume2.json"
+    cv2.write_text(
+        json.dumps(
+            {
+                "title": "Bob CV",
+                "slug": "bob-cv",
+                "data": {"basics": {"name": "Bob", "headline": "Engineer"}},
+            }
+        )
+    )
+
+    # 3. Create a dummy pdf file
+    cv3 = tmp_path / "resume3.pdf"
+    cv3.write_bytes(b"%PDF-1.4 mock pdf content")
+
+    # Dry-run
+    res = main(
+        [
+            "--url",
+            BASE_URL,
+            "--api-key",
+            "test",
+            "resumes",
+            "batch-import",
+            str(tmp_path),
+            "--dry-run",
+        ]
+    )
+    assert res == 0
+    captured = capsys.readouterr()
+    assert "DRY RUN" in captured.out
+    assert "Total Files Scanned: 3" in captured.out
+    assert "Succeeded / Valid:   3" in captured.out
+
+    # Execute
+    respx.post(f"{BASE_URL}/api/openapi/resumes/import").mock(
+        return_value=Response(
+            201,
+            json={
+                "id": "res-imp-1",
+                "title": "Imported CV",
+                "name": "Imported CV",
+                "slug": "imp-cv",
+                "data": {},
+                "createdAt": "2026-01-01T00:00:00Z",
+                "updatedAt": "2026-01-01T00:00:00Z",
+            },
+        )
+    )
+    respx.post(f"{BASE_URL}/api/openapi/resumes/file-imports").mock(
+        return_value=Response(
+            201,
+            json={
+                "id": "res-imp-pdf",
+                "name": "Imported PDF CV",
+                "slug": "imp-pdf-cv",
+                "data": {},
+                "createdAt": "2026-01-01T00:00:00Z",
+                "updatedAt": "2026-01-01T00:00:00Z",
+            },
+        )
+    )
+    res_exec = main(
+        ["--url", BASE_URL, "--api-key", "test", "resumes", "batch-import", str(tmp_path)]
+    )
+    assert res_exec == 0
+    captured_exec = capsys.readouterr()
+    assert "EXECUTED" in captured_exec.out
+    assert "res-imp-1" in captured_exec.out
+    assert "res-imp-pdf" in captured_exec.out

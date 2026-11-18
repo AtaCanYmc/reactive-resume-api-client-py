@@ -12,15 +12,22 @@ from .core.exceptions import (
     ReactiveResumeError,
     ValidationError,
 )
+from .testing import AsyncMockRxResumeClient, MockRxResumeClient
+from .utils.json_resume import from_json_resume, to_json_resume, validate_json_resume
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__ = [
+    "AsyncMockRxResumeClient",
     "AsyncRxResumeClient",
     "AuthenticationError",
+    "MockRxResumeClient",
     "NotFoundError",
     "ReactiveResumeAPIError",
     "ReactiveResumeError",
     "RxResumeClient",
     "ValidationError",
+    "from_json_resume",
+    "to_json_resume",
+    "validate_json_resume",
 ]

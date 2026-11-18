@@ -110,6 +110,9 @@ def handle_resumes(args: Any, client: RxResumeClient) -> int:
         print(f"Resume imported successfully: {created.name} (ID: {created.id})")
         return 0
 
+    if action == "batch-import":
+        return _handle_batch_import(args, client)
+
     if action == "duplicate":
         new_resume = client.resumes.duplicate(
             resume_id=args.id,
@@ -161,6 +164,118 @@ def handle_resumes(args: Any, client: RxResumeClient) -> int:
         return 0
 
     return 0
+
+
+def _handle_batch_import(args: Any, client: RxResumeClient) -> int:
+    """Handle batch importing multiple resumes from a directory."""
+    target_dir = Path(args.path)
+    if not target_dir.exists():
+        print(f"Error: Path '{args.path}' does not exist.")
+        return 1
+
+    files: list[Path] = []
+    if target_dir.is_file():
+        files.append(target_dir)
+    else:
+        file_fmt = getattr(args, "import_format", "auto")
+        if file_fmt in ("auto", "json", "json_resume"):
+            files.extend(sorted(target_dir.glob("*.json")))
+        if file_fmt in ("auto", "pdf"):
+            files.extend(sorted(target_dir.glob("*.pdf")))
+
+    if not files:
+        print(f"No matching resume files found in '{args.path}'.")
+        return 0
+
+    dry_run = getattr(args, "dry_run", False)
+    results: list[dict[str, Any]] = []
+
+    for file_path in files:
+        file_res: dict[str, Any] = {"file": file_path.name, "status": "PENDING"}
+        try:
+            if file_path.suffix.lower() == ".json":
+                with open(file_path, encoding="utf-8") as f:
+                    raw_data = json.load(f)
+
+                is_json_resume = (
+                    isinstance(raw_data, dict)
+                    and (
+                        "basics" in raw_data or raw_data.get("$schema", "").find("jsonresume") != -1
+                    )
+                    and "sections" not in raw_data
+                )
+
+                if is_json_resume:
+                    from ..utils.json_resume import from_json_resume, validate_json_resume
+
+                    is_valid, errors = validate_json_resume(raw_data)
+                    if not is_valid:
+                        file_res["status"] = "INVALID"
+                        file_res["error"] = "; ".join(errors[:2])
+                        results.append(file_res)
+                        continue
+
+                    resume_data = from_json_resume(raw_data)
+                    import_payload = ResumeImportData(
+                        title=file_path.stem.replace("-", " ").replace("_", " ").title(),
+                        slug=file_path.stem.lower(),
+                        data=resume_data,
+                    )
+                else:
+                    import_payload = ResumeImportData.model_validate(raw_data)
+
+                if dry_run:
+                    file_res["status"] = "VALID"
+                    file_res["title"] = import_payload.title
+                else:
+                    created = client.resumes.import_resume(import_payload)
+                    file_res["status"] = "IMPORTED"
+                    file_res["id"] = created.id
+                    file_res["title"] = created.name
+
+            elif file_path.suffix.lower() == ".pdf":
+                if dry_run:
+                    file_res["status"] = "VALID_PDF"
+                else:
+                    imported = client.resumes.file_import(
+                        format="PDF",
+                        file_bytes=file_path.read_bytes(),
+                        filename=file_path.name,
+                    )
+                    file_res["status"] = "IMPORTED"
+                    file_res["id"] = imported.id
+            else:
+                file_res["status"] = "SKIPPED"
+                file_res["error"] = "Unsupported file format"
+
+        except Exception as exc:  # noqa: BLE001
+            file_res["status"] = "FAILED"
+            file_res["error"] = str(exc)
+
+        results.append(file_res)
+
+    if getattr(args, "format", "table") == "json":
+        print(format_json(results))
+    else:
+        success_count = sum(1 for r in results if r["status"] in ("IMPORTED", "VALID", "VALID_PDF"))
+        print(f"\nBatch Import Summary ({'DRY RUN' if dry_run else 'EXECUTED'}):")
+        print(f"Total Files Scanned: {len(results)}")
+        print(f"Succeeded / Valid:   {success_count}")
+        print(f"Failed / Invalid:    {len(results) - success_count}\n")
+        headers = ["File", "Status", "ID", "Title", "Error"]
+        rows = [
+            [
+                r.get("file", ""),
+                r.get("status", ""),
+                r.get("id", ""),
+                r.get("title", ""),
+                r.get("error", ""),
+            ]
+            for r in results
+        ]
+        print_table(headers, rows)
+
+    return 0 if all(r["status"] in ("IMPORTED", "VALID", "VALID_PDF") for r in results) else 1
 
 
 # ---------------------------------------------------------------------------
