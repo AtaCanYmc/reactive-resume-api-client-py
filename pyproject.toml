@@ -37,10 +37,14 @@ dev = [
 demo = [
     "flask>=3.0.0",
 ]
+mcp = [
+    "fastmcp>=0.4.1",
+]
 
 
 [project.scripts]
 rxresume = "reactive_resume.cli.main:main"
+rxresume-mcp = "reactive_resume.mcp.server:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -67,3 +71,7 @@ disallow_untyped_decorators = true
 disallow_any_generics = true
 plugins = ["pydantic.mypy"]
 exclude = ["^site/"]
+
+[[tool.mypy.overrides]]
+module = "reactive_resume.mcp.*"
+disallow_untyped_decorators = false

@@ -87,6 +87,7 @@
         <div class="nav-title">CLI & Tooling</div>
         <ul class="nav-list">
           <li><a href="#cli" class="nav-link">CLI Reference (rxresume)</a></li>
+          <li><a href="#mcp" class="nav-link">FastMCP Server <span class="nav-badge">AI</span></a></li>
           <li><a href="#error-handling" class="nav-link">Error Handling</a></li>
           <li><a href="#recipes" class="nav-link">Integration Recipes</a></li>
         </ul>
@@ -469,6 +470,55 @@ lanes = client.applications.get_lanes()</code></pre>
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- FastMCP Server Section -->
+      <section id="mcp" class="doc-section">
+        <div class="section-header">
+          <h2 class="section-title">Model Context Protocol (FastMCP Server)</h2>
+          <p class="section-subtitle">Expose Reactive Resume tools directly to Claude, Cursor, and AI assistants.</p>
+        </div>
+
+        <p>The SDK bundles a FastMCP server that turns Reactive Resume into a first-class AI capability suite with 15 tools, 2 prompt templates, and direct document resources.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">Terminal</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code># Install MCP extras
+pip install "rxresume-python[mcp]"
+
+# Run standalone MCP server over stdio
+rxresume-mcp
+
+# Or through the rxresume CLI
+rxresume mcp --transport stdio
+
+# Run with SSE transport on port 8000
+rxresume mcp --transport sse --port 8000</code></pre>
+        </div>
+
+        <h3 style="font-size: 1.1rem; margin: 1.5rem 0 0.5rem 0;">Claude Desktop Configuration</h3>
+        <p>Add to your <code>claude_desktop_config.json</code>:</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #cbd5e1;">JSON</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code>{
+  "mcpServers": {
+    "reactive-resume": {
+      "command": "rxresume-mcp",
+      "env": {
+        "RX_RESUME_URL": "https://rxresu.me",
+        "RX_RESUME_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}</code></pre>
         </div>
       </section>
 

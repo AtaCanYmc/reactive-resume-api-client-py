@@ -16,6 +16,7 @@ from .commands import (
     handle_documents,
     handle_flags,
     handle_health,
+    handle_mcp,
     handle_resumes,
     handle_stats,
 )
@@ -220,6 +221,21 @@ def build_parser() -> argparse.ArgumentParser:
     dom_sub.add_parser("verify", help="Trigger custom domain DNS verification")
     dom_sub.add_parser("delete", help="Remove custom domain configuration")
 
+    # 13. FastMCP Server
+    p_mcp = subparsers.add_parser("mcp", help="Run the FastMCP Model Context Protocol server")
+    p_mcp.add_argument(
+        "--transport",
+        choices=["stdio", "sse"],
+        default="stdio",
+        help="MCP transport protocol (default: stdio)",
+    )
+    p_mcp.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        help="Port for SSE transport (default: 8000)",
+    )
+
     return parser
 
 
@@ -252,6 +268,7 @@ def main(argv: list[str] | None = None) -> int:
             "cover-letters": handle_cover_letters,
             "documents": handle_documents,
             "custom-domain": handle_custom_domain,
+            "mcp": handle_mcp,
         }
 
         handler = handlers.get(args.command)

@@ -37,6 +37,7 @@ Provides synchronous (`httpx.Client`) and asynchronous (`httpx.AsyncClient`) cli
 - **Type safety**: Fully typed models for all entities using Pydantic v2.
 - **Structured error handling**: Maps HTTP 401, 403, 404, and 5xx responses to descriptive Python exceptions.
 - **Built-in CLI (`rxresume`)**: Command-line tool for managing profiles, downloading resumes, managing cover letters and trash, inspecting server health, and interacting with AI agents.
+- **FastMCP Server**: Built-in Model Context Protocol server exposing resume inspection, tailoring, cover letter creation, and ATS checks to Claude, Cursor, and AI coding assistants.
 
 ---
 
@@ -207,6 +208,58 @@ rxresume config set-key local_dev_key
 | `rxresume ai parse-pdf <file>` | Extract resume JSON from PDF | `rxresume ai parse-pdf cv.pdf --provider prov-1` |
 | `rxresume agent chat` | Interactive terminal agent chat | `rxresume agent chat --resume-id res-123` |
 | `rxresume stats users` | Get total registered users | `rxresume stats users` |
+| `rxresume mcp` | Launch FastMCP Model Context Protocol server | `rxresume mcp --transport stdio` |
+
+---
+
+## Model Context Protocol (MCP) Server
+
+The SDK bundles a FastMCP server that connects LLM clients (such as Claude Desktop, Cursor, and Antigravity) directly to your Reactive Resume instance.
+
+### Installation
+
+Install the MCP extra:
+
+```bash
+pip install "rxresume-python[mcp]"
+```
+
+### Running the Server
+
+```bash
+# Run over stdio (default for AI assistants)
+rxresume-mcp
+
+# Or via the CLI
+rxresume mcp --transport stdio
+
+# Run as SSE server on a custom port
+rxresume-mcp --transport sse --port 8080
+```
+
+### Claude Desktop Configuration
+
+Add the following to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "reactive-resume": {
+      "command": "rxresume-mcp",
+      "env": {
+        "RX_RESUME_URL": "https://rxresu.me",
+        "RX_RESUME_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+### Provided MCP Capabilities
+
+- **Tools (15)**: `check_health`, `list_resumes`, `get_resume`, `export_resume`, `get_resume_checks`, `match_job_description`, `list_cover_letters`, `create_cover_letter`, `list_job_applications`, `close_job_application`, `get_document_counts`, `trash_document`, `restore_document`, `list_career_facts`, `create_career_fact`.
+- **Resources**: `rxresume://health`, `rxresume://resumes/{resume_id}`.
+- **Prompts**: `tailor_resume_for_job`, `write_cover_letter_for_job`.
 
 ---
 

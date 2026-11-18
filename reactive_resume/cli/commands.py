@@ -495,3 +495,31 @@ def handle_custom_domain(args: Any, client: RxResumeClient) -> int:
         return 0
 
     return 0
+
+
+# ---------------------------------------------------------------------------
+# MCP Commands
+# ---------------------------------------------------------------------------
+def handle_mcp(args: Any, _client: RxResumeClient) -> int:
+    """Handle running the FastMCP Model Context Protocol server."""
+    try:
+        import sys
+
+        from reactive_resume.mcp.server import create_mcp_server
+
+        mcp = create_mcp_server(
+            url=getattr(args, "url", None),
+            api_key=getattr(args, "api_key", None),
+            token=getattr(args, "token", None),
+            profile=getattr(args, "profile", None),
+        )
+        if getattr(args, "transport", "stdio") == "sse":
+            port = getattr(args, "port", 8000)
+            print(f"Starting Reactive Resume FastMCP server on SSE port {port}...", file=sys.stderr)
+            mcp.run(transport="sse", port=port)
+        else:
+            mcp.run(transport="stdio")
+        return 0
+    except ImportError:
+        print("Error: FastMCP is not installed. Install with: pip install 'rxresume-python[mcp]'")
+        return 1
