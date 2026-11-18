@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-conventions](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.7.0...v0.8.0) (2026-11-18)
+
+
+### Features
+
+* complete v0.7.0 roadmap features and establish v0.8.0 / v1.0.0 milestones ([e008a93](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/e008a935c9fef291f98896fba0ee07c8d872c6bf))
+
+
+### Bug Fixes
+
+* **ci:** disable component tag prefix in release-please config to resolve pr conflict ([81dd06a](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/81dd06ab1582b081cb10386c0d7ce156ba71bbcc))
+
+
+### Documentation
+
+* audit and fix repository documentation against anti-slop gates ([14a964d](https://github.com/AtaCanYmc/reactive-resume-api-client-py/commit/14a964d6a4a4f708a8cf6802844893bfa892a9df))
+
 ## [0.7.0](https://github.com/AtaCanYmc/reactive-resume-api-client-py/compare/v0.6.0...v0.7.0) (2026-11-18)
 
 
