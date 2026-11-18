@@ -15,7 +15,7 @@ from .core.exceptions import (
 from .testing import AsyncMockRxResumeClient, MockRxResumeClient
 from .utils.json_resume import from_json_resume, to_json_resume, validate_json_resume
 
-__version__ = "0.7.0"  # x-release-please-version
+__version__ = "0.8.0"  # x-release-please-version
 
 __all__ = [
     "AsyncMockRxResumeClient",
